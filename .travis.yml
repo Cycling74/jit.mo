@@ -1,0 +1,49 @@
+language:
+- objective-c
+- c++
+
+compiler:
+- clang
+
+sudo: false
+os: osx
+osx_image: xcode7.3
+
+script:
+- mkdir build
+- cd build
+- cmake -G Xcode ..
+- cmake --build . --config Release
+- ctest -C Release . -V
+- cd ..
+- PACKAGE_NAME=`echo $TRAVIS_REPO_SLUG | sed 's/.*\///g'`
+- PACKAGE_REV=`echo $TRAVIS_COMMIT | sed -e 's/^[[:alnum:]]\{6\}/&-/g' | sed 's/-.*//'`
+- mkdir $PACKAGE_NAME
+- if [ -e *.json ]; then cp *.json $PACKAGE_NAME; fi
+- if [ -e *.md ]; then cp *.json $PACKAGE_NAME; fi
+- if [ -e *.png ]; then cp *.json $PACKAGE_NAME; fi
+- if [ -d docs ]; then cp -r docs $PACKAGE_NAME; fi
+- if [ -d extensions ]; then cp -r extensions $PACKAGE_NAME; fi
+- if [ -d externals ]; then cp -r externals $PACKAGE_NAME; fi
+- if [ -d extras ]; then cp -r extras $PACKAGE_NAME; fi
+- if [ -d help ]; then cp -r help $PACKAGE_NAME; fi
+- if [ -d init ]; then cp -r init $PACKAGE_NAME; fi
+- if [ -d javascript ]; then cp -r javascript $PACKAGE_NAME; fi
+- if [ -d media ]; then cp -r media $PACKAGE_NAME; fi
+- if [ -d misc ]; then cp -r misc $PACKAGE_NAME; fi
+- if [ -d patchers ]; then cp -r help $PACKAGE_NAME; fi
+- mkdir dist
+- zip -r dist/$PACKAGE_NAME-$PACKAGE_REV.zip $PACKAGE_NAME
+
+deploy:
+  provider: s3
+  access_key_id: AKIAIWE3SI2TMXC5AJBA
+  secret_access_key:
+    secure: nT5q+qibu71HuieYTUGGRJhjwW7MUXRzPObtND87PeDnnZCMil0ISW8/iHBCPRDiaHDiaP8zezfxHtncQwC4Ubance5jbzWT3Xclfhdpt8UsHX0arMabborrw3yTPuRTHHkTvjn1WS8//w1rKIvJnCvLkXvj9IElqkgH6M4YOEBGKZrofiiRuuGGLu/bYKtBHJb4XwKe/9GLlEV1x7M0mu6/KfbKUoWwyq726f9tn8gzOvLOU0UMy6IAlATuM+sMkVWmDo+6ZdZCN1pxeToqziX0OFshBweqclAtkXYT73NcIgBhDs0xGSrSUHvabOEaDPhRgd/0nypslaiJXCl1FWT5/YXyIHKOM0O24n6yW6XFZZFXUR2437NGRsVSqKXJkpwiBdr57NioP3GvviK5GWSMy5j4O4jMdVVZCUoRfyg+3l3/ygN+A4J4EyJhKQWRO25XPq/BoU6OxmEJ+hY7hfpRQfPUjbnYpN8kJbruy27KY8bW54DNtXIp4o2XSetb5EaNpLrsLqoPSyuSVrUJZjzeMngajQF/CerLsSeVJbIs791Lcoun4k/6grIgMAyRO34op6JIqPKamMK18mSUBUNuXJL3wWq6NqoJuQzHpUKHFnLgJ5vB1rBuhiFksPk/Q8Xduwhtparz7CCBZUzw/+84Qz/MY9s93/64ciffFAo=
+  bucket: cycling74-ci
+  skip_cleanup: true
+  local-dir: dist
+  upload-dir: min-devkit
+  acl: public_read
+  on:
+    repo: Cycling74/min-devkit
