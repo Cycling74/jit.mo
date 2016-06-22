@@ -149,7 +149,7 @@
 					"outlettype" : [ "jit_matrix", "" ],
 					"patching_rect" : [ 229.0, 634.0, 134.0, 22.0 ],
 					"style" : "",
-					"text" : "jit.mo.pack 3 float32 10"
+					"text" : "jit.mo.join 3 float32 10"
 				}
 
 			}
@@ -752,7 +752,7 @@
 				"type" : "iLaX"
 			}
 , 			{
-				"name" : "jit.mo.pack.mxo",
+				"name" : "jit.mo.join.mxo",
 				"type" : "iLaX"
 			}
  ],
