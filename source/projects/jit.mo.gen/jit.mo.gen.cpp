@@ -52,49 +52,71 @@ public:
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
 		cell<matrix_type,planecount> output;
-		double snorm = (double)position.x() / (double)info.out_info->dim[0];
-        snorm = snorm*2. - 1.;
-        double val = snorm * freq + phase;
-        val *= M_PI;
-        output[0] = sin(val) * amp;
+		double norm = (double)position.x() / (double)info.out_info->dim[0];
+        double snorm = norm*2. - 1.;
+        
+        if(gentype == s_sin) {
+            double val = snorm * freq + phase;
+            val *= M_PI;
+            output[0] = sin(val) * amp;
+        }
+        else if (gentype == s_spread) {
+            output[0] = (snorm * freq + phase) * amp;
+        }
+        else if (gentype == s_saw) {
+            double val = norm * freq * 2.0 + phase;
+            val = foldit(val, 0., 1.);
+            output[0] = val *2.0 - 1.0;
+        }
 		return output;
 	}
 	
 	
 private:
-    typedef enum _patchline_updatetype {
-        JPATCHLINE_DISCONNECT=0,
-        JPATCHLINE_CONNECT=1,
-        JPATCHLINE_ORDER=2
-    } t_patchline_updatetype;
-    
-    METHOD(patchlineupdate) {
-        /*t_object *x = args[0];
-        t_object *patchline = args[1];
-        long updatetype = args[2];
-        t_object *src = args[3];
-        long srcout = args[4];
-        t_object *dst = args[5];
-        long dstin = args[6];
+
+    double foldit(double x, double lo, double hi)
+    {
+        long di;
+        double m,d,tmp;
         
-        if (x==src && srcout==0)
-        {
-            t_symbol *srcname = object_attr_getsym(x, _jit_sym_name);
-            t_symbol *dstname = object_attr_getsym(dst, _jit_sym_name);
-
-            switch (updatetype)
-            {
-            case JPATCHLINE_CONNECT:
-                break;
-            case JPATCHLINE_DISCONNECT:
-                break;
-            case JPATCHLINE_ORDER:
-                break;
-            }
-        }*/
-
-    }END
-
+        if (lo > hi) {
+            tmp = lo;
+            lo  = hi;
+            hi  = tmp;
+        }
+        if (lo)
+            x -= lo;
+        m = hi-lo;
+        if (m) {			
+            if (x < 0.) 
+                x = -x;
+            if (x>m) {
+                if (x>(m*2.)) {
+                    d = x / m;
+                    di = (long) d;
+                    d = d - (double) di;
+                    if (di%2) {
+                        if (d < 0) {
+                            d = -1. - d;
+                        } else {				
+                            d = 1. - d;
+                        }
+                    }
+                    x = d * m;
+                    if (x < 0.) 
+                        x = m+x;
+                } else {
+                    x = m-(x-m);
+                }
+            }			
+        } else x = 0.; //don't divide by zero
+        
+        return x + lo; 
+    }
+    
+    const symbol s_sin = "sin";
+    const symbol s_spread = "spread";
+    const symbol s_saw = "saw";
 
 };
 

@@ -17,17 +17,29 @@ public:
     
 	jit_mo_join(const atoms& args = {}) {
         name = symbol_unique();
-        //attributes["name"]->label = gensym("Name");
     }
 	~jit_mo_join() {}
     
+    void update_mop_props(void *mob) {
+        t_jit_matrix_info info;
+        void *mop=max_jit_obex_adornment_get(mob,_jit_sym_jit_mop);
+        void *p=object_method((t_object*)mop,_jit_sym_getoutput,(void*)1);
+        void *m=object_method((t_object*)p,_jit_sym_getmatrix);
+        object_method((t_object*)m,_jit_sym_getinfo,&info);
+        count = info.dim[0];
+        type = info.type;
+    }
+    
 	ATTRIBUTE (name, symbol, _jit_sym_nothing) {
-		
 	}
 	END
 
 	ATTRIBUTE (inletct, int, 1) {
-		
+	}
+	END
+    
+    ATTRIBUTE (count, int, 1) {
+        update_attached();
 	}
 	END
     
@@ -36,7 +48,6 @@ public:
 		cell<matrix_type,planecount> output;
 		return output;
 	}
-	
 	
 private:
     typedef enum _patchline_updatetype {
@@ -54,31 +65,22 @@ private:
         t_object *dst = args[5];
         //long dstin = args[6];
         
-        if (x==dst && srcout==0)
+        if (x==dst && srcout==0 && object_classname_compare(src, gensym("jit.mo.gen")))
         {
+            std::stringstream ss;
+            ss << src;
+            std::string name = ss.str();
+
             switch (updatetype)
             {
             case JPATCHLINE_CONNECT:
-                {
-                    void *mop=NULL;
-                    if((mop=max_jit_obex_adornment_get(dst,_jit_sym_jit_mop))) {
-                        t_jit_matrix_info info;
-                        void *p=object_method((t_object*)mop,_jit_sym_getoutput,(void*)1);
-                        void *m=object_method((t_object*)p,_jit_sym_getmatrix);
-						object_method((t_object*)m,_jit_sym_getinfo,&info);
-                        //object_post(NULL, "src dim: %ld %ld", info.dim[0], info.dim[1]);
-                        object_attr_setlong(src, _jit_sym_dim, info.dim[0]);
-                        object_attr_setlong(src, _jit_sym_planecount, 1);
-                        object_attr_setsym(src, _jit_sym_type, info.type);
-                    }
-                    
-                    //void *job = object_findregistered(gensym("jitter"), srcname);
-                    //object_attr_getlong_array(job, _jit_sym_dim, 2, dim);
-                    
-                }
-
+                m_attached.insert({name, src});
+                object_attr_setlong(src, _jit_sym_planecount, 1);
+                object_attr_setsym(src, _jit_sym_type, type);
+                object_attr_setlong(src, _jit_sym_dim, count);
                 break;
             case JPATCHLINE_DISCONNECT:
+                m_attached.erase(name);
                 break;
             case JPATCHLINE_ORDER:
                 break;
@@ -86,13 +88,21 @@ private:
         }
 
     }END
+    
+    void update_attached() {
+        for( const auto& n : m_attached )
+            object_attr_setlong(n.second, _jit_sym_dim, count);
+    }
+    
+    std::unordered_map<std::string, t_object*> m_attached;
+    t_symbol *type = _jit_sym_float32;
 
 };
 
 void *max_jit_mo_join_new(t_symbol *s, long argc, t_atom *argv)
 {
     max_jit_wrapper* x;
-    void *o,*m,*mop;
+    void *o=NULL,*m,*mop;
     t_jit_matrix_info info;
     long i,n;
     
@@ -139,6 +149,12 @@ void *max_jit_mo_join_new(t_symbol *s, long argc, t_atom *argv)
             x = NULL;
         }
     }
+    
+    if(o) {
+        minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)o;
+        job->obj.update_mop_props(x);
+    }
+    
     return (x);
 }
 
@@ -154,14 +170,25 @@ t_jit_err jit_mo_join_matrix_calc(void *job, void *inputs, void *outputs)
     return 0;
 }
 
-t_jit_err max_jit_mo_join_jit_matrix(void *mob, t_symbol *s, long argc, t_atom *argv)
+t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *mob, t_symbol *s, long argc, t_atom *argv)
 {
     return 0;
 }
 
+t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t_atom *argv)
+{
+    if(argv && argc) {
+        void* job = max_jit_obex_jitob_get(mob);
+        object_attr_setlong(job, gensym("count"), atom_getlong(argv));
+        max_jit_mop_dim(mob, attr, argc, argv);
+	}
+
+	return JIT_ERR_NONE;
+}
+
 void ext_main (void* resources) {
     const char* cppname = "jit_mo_join";
-	std::string		maxname = c74::min::deduce_maxclassname(__FILE__);
+	std::string	maxname = c74::min::deduce_maxclassname(__FILE__);
     
 	// 1. Boxless Jit Class
 	t_class *c = (t_class*)jit_class_new(cppname,(c74::max::method)jit_new<jit_mo_join>, (c74::max::method)jit_free<jit_mo_join>, sizeof( c74::min::minwrap<jit_mo_join> ), 0);
@@ -175,9 +202,12 @@ void ext_main (void* resources) {
 	//add methods
 	jit_class_addmethod(c, (c74::max::method)jit_mo_join_matrix_calc, "matrix_calc", c74::max::A_CANT, 0);
     
-    auto attr = jit_object_new(_jit_sym_jit_attr_offset, "inletct", gensym("long"),ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
-                                (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
+    auto attr = jit_object_new(_jit_sym_jit_attr_offset, "inletct", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
+                              (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
+    jit_class_addattr(c, attr);
     
+    attr = jit_object_new(_jit_sym_jit_attr_offset, "count", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
+                              (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
     jit_class_addattr(c, attr);
     
     jit_class_register(c);
@@ -188,8 +218,12 @@ void ext_main (void* resources) {
 	c = class_new(maxname.c_str(),(c74::max::method)max_jit_mo_join_new,(c74::max::method)max_jit_mo_join_free, sizeof(max_jit_wrapper), nullptr, A_GIMME, 0);
 	max_jit_class_obex_setup(c, calcoffset(max_jit_wrapper, obex));
 	
-	max_jit_class_mop_wrap(c, _jit_mo_join_class, MAX_JIT_MOP_FLAGS_OWN_JIT_MATRIX);
+	max_jit_class_mop_wrap(c, _jit_mo_join_class, MAX_JIT_MOP_FLAGS_OWN_JIT_MATRIX|MAX_JIT_MOP_FLAGS_OWN_DIM);
 	max_jit_class_wrap_standard(c, _jit_mo_join_class, 0);
+    
+	attr = jit_object_new(_jit_sym_jit_attr_offset_array,"dim",_jit_sym_long,JIT_MATRIX_MAX_DIMCOUNT, ATTR_GET_DEFER_LOW|ATTR_SET_USURP_LOW,
+                         (c74::max::method)max_jit_mop_getdim,(c74::max::method)max_jit_mo_join_dim,0);
+	max_jit_class_addattr(c,attr);
 	
 	class_addmethod(c, (c74::max::method)max_jit_mop_assist, "assist", A_CANT, 0);
     class_addmethod(c, (c74::max::method)min_jit_mop_method_patchlineupdate<jit_mo_join>, "patchlineupdate", A_CANT, 0);
