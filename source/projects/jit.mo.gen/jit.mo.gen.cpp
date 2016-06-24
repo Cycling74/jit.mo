@@ -14,8 +14,7 @@ public:
 	
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 	
-	
-	jit_mo_gen(atoms args) {
+	jit_mo_gen(const atoms& args = {}) {
         name = symbol_unique();
         //attributes["name"]->label = gensym("Name");
     }
