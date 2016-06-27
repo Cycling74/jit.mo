@@ -39,7 +39,7 @@ public:
 	END
     
     ATTRIBUTE (count, int, 1) {
-        update_attached();
+        update_attached(atom_getlong(&args[0]));
 	}
 	END
     
@@ -48,7 +48,32 @@ public:
 		cell<matrix_type,planecount> output;
 		return output;
 	}
-	
+    
+    template<typename U>
+    void calculate_vector(const matrix_info& info, long n, t_jit_op_info* inop, t_jit_op_info* outop) {
+        auto in = (U*)inop->p;
+        auto out = (U*)outop->p;
+        const auto instep = info.in_info->planecount;
+        const auto outstep = info.out_info->planecount;
+        
+        for (auto j=0; j<n; ++j) {
+            for (auto k=0; k<instep && k<outstep; ++k)
+                out[plane] = *(in+instep*k);
+            
+            in += instep;
+            out += outstep;
+        }
+    }
+    
+    void update(t_atom *av) {
+        float deltatime = atom_getfloat(av);
+        object_post(NULL, "delta %f", deltatime);
+
+    }
+    
+	int plane;
+    t_object *animator;
+    
 private:
     typedef enum _patchline_updatetype {
         JPATCHLINE_DISCONNECT=0,
@@ -89,9 +114,9 @@ private:
 
     }END
     
-    void update_attached() {
+    void update_attached(long dim) {
         for( const auto& n : m_attached )
-            object_attr_setlong(n.second, _jit_sym_dim, count);
+            object_attr_setlong(n.second, _jit_sym_dim, dim);
     }
     
     std::unordered_map<std::string, t_object*> m_attached;
@@ -165,14 +190,71 @@ void max_jit_mo_join_free(max_jit_wrapper *x)
     max_jit_object_free(x);
 }
 
-t_jit_err jit_mo_join_matrix_calc(void *job, void *inputs, void *outputs)
-{
-    return 0;
-}
 
-t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *mob, t_symbol *s, long argc, t_atom *argv)
+t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv)
 {
-    return 0;
+	void *mop;
+	long err=JIT_ERR_NONE;
+
+	if (!(mop=max_jit_obex_adornment_get(x,_jit_sym_jit_mop)))
+		return JIT_ERR_GENERIC;
+
+	if (argc&&argv) {
+		t_symbol *matrixname = atom_getsym(argv);
+		void *matrix = object_findregistered(_jit_sym_jitter, matrixname);
+		if (matrix && object_method((t_object*)matrix, _jit_sym_class_jit_matrix)) {
+            void *p = object_method((t_object*)mop,_jit_sym_getinput,(void*)1);
+            object_method((t_object*)p,_jit_sym_matrix,matrix);
+            jit_attr_setsym(p,_jit_sym_matrixname,matrixname);
+            
+            auto in_mop_io = (t_object*)object_method((t_object*)object_method((t_object*)mop,_jit_sym_getinputlist), _jit_sym_getindex, 0);
+            auto out_mop_io = (t_object*)object_method((t_object*)object_method((t_object*)mop,_jit_sym_getoutputlist), _jit_sym_getindex, 0);
+            auto in_matrix = (t_object*)object_method(in_mop_io, k_sym_getmatrix);
+            auto out_matrix = (t_object*)object_method(out_mop_io, k_sym_getmatrix);
+            
+            if (!in_matrix || !out_matrix)
+                return JIT_ERR_INVALID_PTR;
+		
+			auto in_savelock = object_method(in_matrix, _jit_sym_lock, (void*)1);
+			auto out_savelock = object_method(out_matrix, _jit_sym_lock, (void*)1);
+			
+			t_jit_matrix_info in_minfo;
+			t_jit_matrix_info out_minfo;
+			object_method(in_matrix, _jit_sym_getinfo, &in_minfo);
+			object_method(out_matrix, _jit_sym_getinfo, &out_minfo);
+			
+            t_jit_op_info	in_opinfo;
+            t_jit_op_info	out_opinfo;
+            
+            auto n = out_minfo.dim[0];
+			object_method(in_matrix, _jit_sym_getdata, &in_opinfo.p);
+			object_method(out_matrix, _jit_sym_getdata, &out_opinfo.p);
+            
+            matrix_info info(&in_minfo, (char*)in_opinfo.p, &out_minfo, (char*)out_opinfo.p);
+            minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)max_jit_obex_jitob_get(x);
+            job->obj.plane = max_jit_obex_inletnumber_get(x);
+
+            if (in_minfo.type == _jit_sym_char)
+                job->obj.calculate_vector<uchar>(info, n, &in_opinfo, &out_opinfo);
+            else if (in_minfo.type == _jit_sym_long)
+                job->obj.calculate_vector<int>(info, n, &in_opinfo, &out_opinfo);
+            else if (in_minfo.type == _jit_sym_float32)
+                job->obj.calculate_vector<float>(info, n, &in_opinfo, &out_opinfo);
+            else if (in_minfo.type == _jit_sym_float64)
+                job->obj.calculate_vector<double>(info, n, &in_opinfo, &out_opinfo);
+            
+
+			object_method(out_matrix, _jit_sym_lock, out_savelock);
+			object_method(in_matrix, _jit_sym_lock, in_savelock);
+            
+            if (job->obj.plane==0)
+                max_jit_mop_outputmatrix(x);
+		} else {
+			jit_error_code(x,JIT_ERR_MATRIX_UNKNOWN);
+		}
+	}
+
+	return err;
 }
 
 t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t_atom *argv)
@@ -200,7 +282,6 @@ void ext_main (void* resources) {
     jit_class_addadornment(c, mop);
     
 	//add methods
-	jit_class_addmethod(c, (c74::max::method)jit_mo_join_matrix_calc, "matrix_calc", c74::max::A_CANT, 0);
     
     auto attr = jit_object_new(_jit_sym_jit_attr_offset, "inletct", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
                               (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);

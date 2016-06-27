@@ -49,10 +49,15 @@ public:
 	}
 	END
     
+    ATTRIBUTE (offset, double, 0.0) {
+		
+	}
+	END
+    
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
 		cell<matrix_type,planecount> output;
-		double norm = (double)position.x() / (double)info.out_info->dim[0];
+		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
         double snorm = norm*2. - 1.;
         
         if(gentype == s_sin) {
@@ -60,14 +65,16 @@ public:
             val *= M_PI;
             output[0] = sin(val) * amp;
         }
-        else if (gentype == s_spread) {
-            output[0] = (snorm * freq + phase) * amp;
-        }
         else if (gentype == s_saw) {
             double val = norm * freq * 2.0 + phase;
             val = foldit(val, 0., 1.);
-            output[0] = val *2.0 - 1.0;
+            output[0] = (val * 2.0 - 1.0) * amp;
         }
+        else {  // line
+            output[0] = snorm * amp;
+        }
+        
+        output[0] += offset;
 		return output;
 	}
 	
@@ -115,7 +122,7 @@ private:
     }
     
     const symbol s_sin = "sin";
-    const symbol s_spread = "spread";
+    const symbol s_line = "line";
     const symbol s_saw = "saw";
 
 };
