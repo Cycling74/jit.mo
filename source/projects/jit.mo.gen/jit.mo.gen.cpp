@@ -40,19 +40,19 @@ public:
         return args;
     }};
     
-    attribute<double> phase = { this, "phase", 1, MIN_FUNCTION {
+    attribute<double> phase = { this, "phase", 0, MIN_FUNCTION {
         return args;
     }};
     
-    attribute<double> speed = { this, "speed", 1, MIN_FUNCTION {
+    attribute<double> speed = { this, "speed", 0, MIN_FUNCTION {
         return args;
     }};
     
-    attribute<double> offset = { this, "offset", 1, MIN_FUNCTION {
+    attribute<double> offset = { this, "offset", 0, MIN_FUNCTION {
         return args;
     }};
     
-    attribute<double> delta = { this, "delta", 1, MIN_FUNCTION {
+    attribute<double> delta = { this, "delta", 0, MIN_FUNCTION {
         return args;
     }};
     
