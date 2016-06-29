@@ -24,38 +24,37 @@ public:
         object_register(gensym("jitter"), (symbol)name, args[0]);
     }
 
-	ATTRIBUTE (name, symbol, _jit_sym_nothing) {
-		//void *job = max_jit_obex_jitob_get(maxobj);
-	}
-	END
+    attribute<symbol> name = { this, "name", _jit_sym_nothing, MIN_FUNCTION {
+        return args;
+    }};
     
-    ATTRIBUTE (gentype, symbol, gensym("sin")) {
-	}
-	END
+    attribute<symbol> gentype = { this, "gentype", gensym("sin"), MIN_FUNCTION {
+        return args;
+    }};
     
-    ATTRIBUTE (amp, double, 1.0) {
-	}
-	END
+    attribute<double> amp = { this, "amp", 1, MIN_FUNCTION {
+        return args;
+    }};
 	
-    ATTRIBUTE (freq, double, 1.0) {
-	}
-	END
+    attribute<double> freq = { this, "freq", 1, MIN_FUNCTION {
+        return args;
+    }};
     
-    ATTRIBUTE (phase, double, 0.0) {
-	}
-	END
+    attribute<double> phase = { this, "phase", 1, MIN_FUNCTION {
+        return args;
+    }};
     
-    ATTRIBUTE (speed, double, 0.0) {
-	}
-	END
+    attribute<double> speed = { this, "speed", 1, MIN_FUNCTION {
+        return args;
+    }};
     
-    ATTRIBUTE (offset, double, 0.0) {
-	}
-	END
+    attribute<double> offset = { this, "offset", 1, MIN_FUNCTION {
+        return args;
+    }};
     
-    ATTRIBUTE (delta, double, 0.0) {
-	}
-	END
+    attribute<double> delta = { this, "delta", 1, MIN_FUNCTION {
+        return args;
+    }};
     
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {

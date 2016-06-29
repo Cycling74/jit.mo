@@ -34,14 +34,14 @@ public:
         type = info.type;
     }
     
-	ATTRIBUTE (inletct, int, 1) {
-	}
-	END
+    attribute<int> inletct = { this, "inletct", 1, MIN_FUNCTION {
+        return args;
+    }};
     
-    ATTRIBUTE (count, int, 1) {
+    attribute<int> count = { this, "count", 1, MIN_FUNCTION {
         update_attached_dim(atom_getlong(&args[0]));
-	}
-	END
+        return args;
+    }};
     
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
@@ -76,13 +76,16 @@ public:
     t_object *animator;
     
 private:
+    typedef c74::min::method method;
+    
     typedef enum _patchline_updatetype {
         JPATCHLINE_DISCONNECT=0,
         JPATCHLINE_CONNECT=1,
         JPATCHLINE_ORDER=2
     } t_patchline_updatetype;
-
-    METHOD(patchlineupdate) {
+    
+    
+    method patchlineupdate = { this, "patchlineupdate", MIN_FUNCTION {
         t_object *x = args[0];
        // t_object *patchline = args[1];
         long updatetype = args[2];
@@ -112,8 +115,8 @@ private:
                 break;
             }
         }
-
-    }END
+        return {};
+    }};
     
     void update_attached_dim(long dim) {
         for( const auto& n : m_attached )
