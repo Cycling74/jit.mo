@@ -15,10 +15,14 @@ static t_class *_max_jit_mo_join_class = NULL;
 class jit_mo_join : public object<jit_mo_join>, matrix_operator {
 public:
     
-	jit_mo_join(const atoms& args = {}) {
-        name = symbol_unique();
+	jit_mo_join(const atoms& args = {}) {}
+	~jit_mo_join() {
+        jit_object_free(animator);
     }
-	~jit_mo_join() {}
+    
+    void setup(t_object *job) {
+        animator = jit_object_new(gensym("jit_anim_animator"), job);
+    }
     
     void update_mop_props(void *mob) {
         t_jit_matrix_info info;
@@ -30,16 +34,12 @@ public:
         type = info.type;
     }
     
-	ATTRIBUTE (name, symbol, _jit_sym_nothing) {
-	}
-	END
-
 	ATTRIBUTE (inletct, int, 1) {
 	}
 	END
     
     ATTRIBUTE (count, int, 1) {
-        update_attached(atom_getlong(&args[0]));
+        update_attached_dim(atom_getlong(&args[0]));
 	}
 	END
     
@@ -66,9 +66,10 @@ public:
     }
     
     void update(t_atom *av) {
-        float deltatime = atom_getfloat(av);
-        object_post(NULL, "delta %f", deltatime);
-
+        for( const auto& n : m_attached ) {
+            object_attr_setfloat(n.second, sym_delta, atom_getfloat(av));
+            object_method(n.second, sym_bang);
+        }
     }
     
 	int plane;
@@ -114,13 +115,15 @@ private:
 
     }END
     
-    void update_attached(long dim) {
+    void update_attached_dim(long dim) {
         for( const auto& n : m_attached )
             object_attr_setlong(n.second, _jit_sym_dim, dim);
     }
     
     std::unordered_map<std::string, t_object*> m_attached;
     t_symbol *type = _jit_sym_float32;
+    symbol sym_bang = "bang";
+    symbol sym_delta = "delta";
 
 };
 
@@ -147,8 +150,6 @@ void *max_jit_mo_join_new(t_symbol *s, long argc, t_atom *argv)
             }
             
             jit_attr_setlong(o, gensym("inletct"), n);
-
-            //inlets = n;
 
             for (i=n; i>1; i--) {
                 max_jit_obex_proxy_new(x,i-1); //right to left
@@ -268,6 +269,18 @@ t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t
 	return JIT_ERR_NONE;
 }
 
+void jit_mo_join_update_anim(t_object *job, t_atom *a)
+{
+    minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
+    self->obj.update(a);
+}
+
+void jit_mo_join_setup(t_object *job)
+{
+    minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
+    self->obj.setup(job);
+}
+
 void ext_main (void* resources) {
     const char* cppname = "jit_mo_join";
 	std::string	maxname = c74::min::deduce_maxclassname(__FILE__);
@@ -282,6 +295,8 @@ void ext_main (void* resources) {
     jit_class_addadornment(c, mop);
     
 	//add methods
+	jit_class_addmethod(c, (c74::max::method)jit_mo_join_update_anim, "update_anim", A_CANT, 0);
+    jit_class_addmethod(c, (c74::max::method)jit_mo_join_setup, "setup", A_CANT, 0);
     
     auto attr = jit_object_new(_jit_sym_jit_attr_offset, "inletct", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
                               (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
@@ -291,6 +306,8 @@ void ext_main (void* resources) {
                               (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
     jit_class_addattr(c, attr);
     
+    jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_join>, obj) + calcoffset(jit_mo_join, animator), 0);
+
     jit_class_register(c);
     _jit_mo_join_class = c;
 
