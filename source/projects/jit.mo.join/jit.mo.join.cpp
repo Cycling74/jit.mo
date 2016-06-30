@@ -59,7 +59,7 @@ public:
         // TODO: allow multiplane input
         for (auto j=0; j<n; ++j) {
             for (auto k=0; k<instep && k<outstep; ++k)
-                out[plane] = *(in+instep*k);
+                out[plane] += *(in+instep*k);
             
             in += instep;
             out += outstep;
@@ -71,10 +71,15 @@ public:
             object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*speed);
             object_method(n.second, sym_bang);
         }
+        
+        max_jit_mop_outputmatrix(mob);
+        request_clear = true;
     }
     
-	int plane;
-    t_object *animator;
+	int plane = 0;
+    bool request_clear = true;
+    t_object *animator = nullptr;
+    t_object *mob = nullptr;
     
 private:
     typedef c74::min::method method;
@@ -126,6 +131,7 @@ private:
     
     std::unordered_map<std::string, t_object*> m_attached;
     t_symbol *type = _jit_sym_float32;
+    
     const symbol sym_bang = "bang";
     const symbol sym_delta = "delta";
 
@@ -219,10 +225,7 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
             
             if (!in_matrix || !out_matrix)
                 return JIT_ERR_INVALID_PTR;
-		
-			auto in_savelock = object_method(in_matrix, _jit_sym_lock, (void*)1);
-			auto out_savelock = object_method(out_matrix, _jit_sym_lock, (void*)1);
-			
+					
 			t_jit_matrix_info in_minfo;
 			t_jit_matrix_info out_minfo;
 			object_method(in_matrix, _jit_sym_getinfo, &in_minfo);
@@ -237,7 +240,16 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
             
             matrix_info info(&in_minfo, (char*)in_opinfo.p, &out_minfo, (char*)out_opinfo.p);
             minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)max_jit_obex_jitob_get(x);
+            job->obj.mob = (t_object*)x;
             job->obj.plane = max_jit_obex_inletnumber_get(x);
+            
+            if(job->obj.request_clear) {
+                object_method(out_matrix, _jit_sym_clear);
+                job->obj.request_clear = false;
+            }
+
+			auto in_savelock = object_method(in_matrix, _jit_sym_lock, (void*)1);
+			auto out_savelock = object_method(out_matrix, _jit_sym_lock, (void*)1);
 
             if (in_minfo.type == _jit_sym_char)
                 job->obj.calculate_vector<uchar>(info, n, &in_opinfo, &out_opinfo);
@@ -252,8 +264,8 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
 			object_method(out_matrix, _jit_sym_lock, out_savelock);
 			object_method(in_matrix, _jit_sym_lock, in_savelock);
             
-            if (job->obj.plane==0)
-                max_jit_mop_outputmatrix(x);
+            //if (job->obj.plane==0)
+                //max_jit_mop_outputmatrix(x);
 		} else {
 			jit_error_code(x,JIT_ERR_MATRIX_UNKNOWN);
 		}

@@ -40,6 +40,10 @@ public:
     
     attribute<double> delta = { this, "delta", 0 };
     
+    attribute<double> start = { this, "start", -1. };
+    
+    attribute<double> end = { this, "end", 1. };
+    
 	c74::min::method jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
 		c74::max::t_class* c = args[0];
 		
@@ -53,7 +57,9 @@ public:
         CLASS_ATTR_LABEL(c,	"speed", 0, "Speed");
         CLASS_ATTR_LABEL(c,	"offset", 0, "Offset");
         CLASS_ATTR_LABEL(c,	"delta", 0, "Delta");
-		
+        CLASS_ATTR_LABEL(c,	"start", 0, "Start Line");
+		CLASS_ATTR_LABEL(c,	"end", 0, "End Line");
+        
 		return {};
 	}};
     
@@ -61,12 +67,11 @@ public:
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
 		cell<matrix_type,planecount> output;
 		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
-        double snorm = norm*2. - 1.;
         phase = phase + (delta * speed);
         phase = mod_float64(phase, 2.0);
         
         if(gentype == s_sin) {
-            double val = snorm * freq + phase;
+            double val = (norm * 2. - 1.) * freq + phase;
             val *= M_PI;
             output[0] = sin(val) * amp;
         }
@@ -76,7 +81,13 @@ public:
             output[0] = (val * 2.0 - 1.0) * amp;
         }
         else {  // line
-            output[0] = snorm * amp;
+            //output[0] = snorm * amp;
+            if(norm == 0.)
+                output[0] = start * amp;
+            else if(norm == 1.)
+                output[0] = end * amp;
+            else
+                output[0] = (start*(1.-norm) + end*norm) * amp;
         }
         
         output[0] += offset;
