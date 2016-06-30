@@ -21,40 +21,41 @@ public:
 	~jit_mo_gen() {}
 	
     void setup(atoms args) {
-        object_register(gensym("jitter"), (symbol)name, args[0]);
+        object_register(_jit_sym_jitter, (symbol)name, args[0]);
     }
 
-    attribute<symbol> name = { this, "name", _jit_sym_nothing, MIN_FUNCTION {
-        return args;
-    }};
+    attribute<symbol> name = { this, "name", _jit_sym_nothing };
     
-    attribute<symbol> gentype = { this, "gentype", gensym("sin"), MIN_FUNCTION {
-        return args;
-    }};
+    attribute<symbol> gentype = { this, "gentype", gensym("sin") };
     
-    attribute<double> amp = { this, "amp", 1, MIN_FUNCTION {
-        return args;
-    }};
+    attribute<double> amp = { this, "amp", 1 };
 	
-    attribute<double> freq = { this, "freq", 1, MIN_FUNCTION {
-        return args;
-    }};
+    attribute<double> freq = { this, "freq", 1 };
     
-    attribute<double> phase = { this, "phase", 0, MIN_FUNCTION {
-        return args;
-    }};
+    attribute<double> phase = { this, "phase", 0 };
     
-    attribute<double> speed = { this, "speed", 0, MIN_FUNCTION {
-        return args;
-    }};
+    attribute<double> speed = { this, "speed", 0 };
     
-    attribute<double> offset = { this, "offset", 0, MIN_FUNCTION {
-        return args;
-    }};
+    attribute<double> offset = { this, "offset", 0 };
     
-    attribute<double> delta = { this, "delta", 0, MIN_FUNCTION {
-        return args;
-    }};
+    attribute<double> delta = { this, "delta", 0 };
+    
+	c74::min::method jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
+		c74::max::t_class* c = args[0];
+		
+		CLASS_ATTR_ENUM(c,	"gentype", 0, "line sin saw");
+		CLASS_ATTR_LABEL(c,	"gentype", 0, "Generator Type");
+        
+        CLASS_ATTR_LABEL(c,	"name", 0, "Name");
+        CLASS_ATTR_LABEL(c,	"amp", 0, "Amplitude");
+        CLASS_ATTR_LABEL(c,	"freq", 0, "Frequency");
+        CLASS_ATTR_LABEL(c,	"phase", 0, "Phase");
+        CLASS_ATTR_LABEL(c,	"speed", 0, "Speed");
+        CLASS_ATTR_LABEL(c,	"offset", 0, "Offset");
+        CLASS_ATTR_LABEL(c,	"delta", 0, "Delta");
+		
+		return {};
+	}};
     
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {

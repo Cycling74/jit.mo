@@ -34,9 +34,9 @@ public:
         type = info.type;
     }
     
-    attribute<int> inletct = { this, "inletct", 1, MIN_FUNCTION {
-        return args;
-    }};
+    attribute<double> speed = { this, "speed", 1.0 };
+    
+    attribute<int> inletct = { this, "inletct", 1 };
     
     attribute<int> count = { this, "count", 1, MIN_FUNCTION {
         update_attached_dim(atom_getlong(&args[0]));
@@ -56,6 +56,7 @@ public:
         const auto instep = info.in_info->planecount;
         const auto outstep = info.out_info->planecount;
         
+        // TODO: allow multiplane input
         for (auto j=0; j<n; ++j) {
             for (auto k=0; k<instep && k<outstep; ++k)
                 out[plane] = *(in+instep*k);
@@ -67,7 +68,7 @@ public:
     
     void update(t_atom *av) {
         for( const auto& n : m_attached ) {
-            object_attr_setfloat(n.second, sym_delta, atom_getfloat(av));
+            object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*speed);
             object_method(n.second, sym_bang);
         }
     }
@@ -125,8 +126,8 @@ private:
     
     std::unordered_map<std::string, t_object*> m_attached;
     t_symbol *type = _jit_sym_float32;
-    symbol sym_bang = "bang";
-    symbol sym_delta = "delta";
+    const symbol sym_bang = "bang";
+    const symbol sym_delta = "delta";
 
 };
 
@@ -306,8 +307,13 @@ void ext_main (void* resources) {
     jit_class_addattr(c, attr);
     
     attr = jit_object_new(_jit_sym_jit_attr_offset, "count", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
-                              (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
+                         (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
     jit_class_addattr(c, attr);
+    
+    attr = jit_object_new(_jit_sym_jit_attr_offset, "speed", _jit_sym_float32,ATTR_GET_DEFER_LOW|ATTR_SET_DEFER_LOW,
+                         (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
+    jit_class_addattr(c, attr);
+    CLASS_ATTR_LABEL(c,	"speed", 0, "Speed");
     
     jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_join>, obj) + calcoffset(jit_mo_join, animator), 0);
 
