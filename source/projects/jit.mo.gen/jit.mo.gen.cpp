@@ -14,7 +14,15 @@ public:
 	
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 	
-	jit_mo_gen(const atoms& args = {}) {}
+    jit_mo_gen() { }
+	jit_mo_gen(const atoms& args) {
+        const t_symbol *s = args[0];
+        if(s == gensym("jit.mo.line"))
+            gentype = s_line;
+        else if(s == gensym("jit.mo.saw"))
+            gentype = s_saw;
+        
+    }
 	~jit_mo_gen() {}
     
     attribute<symbol> gentype = { this, "gentype", gensym("sin") };
