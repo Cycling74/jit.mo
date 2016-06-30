@@ -20,10 +20,6 @@ public:
         jit_object_free(animator);
     }
     
-    void setup(t_object *job) {
-        animator = jit_object_new(gensym("jit_anim_animator"), job);
-    }
-    
     void update_mop_props(void *mob) {
         t_jit_matrix_info info;
         void *mop=max_jit_obex_adornment_get(mob,_jit_sym_jit_mop);
@@ -72,7 +68,9 @@ public:
             object_method(n.second, sym_bang);
         }
         
-        max_jit_mop_outputmatrix(mob);
+        if(mob)
+            max_jit_mop_outputmatrix(mob);
+        
         request_clear = true;
     }
     
@@ -84,12 +82,16 @@ public:
 private:
     typedef c74::min::method method;
     
+    method setup = { this, "setup", MIN_FUNCTION {
+        animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
+        return {};
+    }};
+    
     typedef enum _patchline_updatetype {
         JPATCHLINE_DISCONNECT=0,
         JPATCHLINE_CONNECT=1,
         JPATCHLINE_ORDER=2
     } t_patchline_updatetype;
-    
     
     method patchlineupdate = { this, "patchlineupdate", MIN_FUNCTION {
         t_object *x = args[0];
@@ -201,7 +203,6 @@ void max_jit_mo_join_free(max_jit_wrapper *x)
     max_jit_object_free(x);
 }
 
-
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv)
 {
 	void *mop;
@@ -291,12 +292,6 @@ void jit_mo_join_update_anim(t_object *job, t_atom *a)
     self->obj.update(a);
 }
 
-void jit_mo_join_setup(t_object *job)
-{
-    minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-    self->obj.setup(job);
-}
-
 void ext_main (void* resources) {
     const char* cppname = "jit_mo_join";
 	std::string	maxname = c74::min::deduce_maxclassname(__FILE__);
@@ -312,7 +307,6 @@ void ext_main (void* resources) {
     
 	//add methods
 	jit_class_addmethod(c, (c74::max::method)jit_mo_join_update_anim, "update_anim", A_CANT, 0);
-    jit_class_addmethod(c, (c74::max::method)jit_mo_join_setup, "setup", A_CANT, 0);
     
     auto attr = jit_object_new(_jit_sym_jit_attr_offset, "inletct", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
                               (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);

@@ -14,17 +14,8 @@ public:
 	
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 	
-	jit_mo_gen(const atoms& args = {}) {
-        name = symbol_unique();
-        //attributes["name"]->label = gensym("Name");
-    }
+	jit_mo_gen(const atoms& args = {}) {}
 	~jit_mo_gen() {}
-	
-    void setup(atoms args) {
-        object_register(_jit_sym_jitter, (symbol)name, args[0]);
-    }
-
-    attribute<symbol> name = { this, "name", _jit_sym_nothing };
     
     attribute<symbol> gentype = { this, "gentype", gensym("sin") };
     
@@ -50,7 +41,6 @@ public:
 		CLASS_ATTR_ENUM(c,	"gentype", 0, "line sin saw");
 		CLASS_ATTR_LABEL(c,	"gentype", 0, "Generator Type");
         
-        CLASS_ATTR_LABEL(c,	"name", 0, "Name");
         CLASS_ATTR_LABEL(c,	"amp", 0, "Amplitude");
         CLASS_ATTR_LABEL(c,	"freq", 0, "Frequency");
         CLASS_ATTR_LABEL(c,	"phase", 0, "Phase");
