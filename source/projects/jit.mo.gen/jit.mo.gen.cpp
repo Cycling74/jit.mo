@@ -14,49 +14,37 @@ public:
 	
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 	
-    jit_mo_gen() { }
-	jit_mo_gen(const atoms& args) {
-        const t_symbol *s = args[0];
+	jit_mo_gen(const atoms& args = {}) {}
+	~jit_mo_gen() {}
+    
+    c74::min::method setup = { this, "setup", MIN_FUNCTION {
+        const t_symbol *s = classname();
         if(s == gensym("jit.mo.line"))
             gentype = s_line;
         else if(s == gensym("jit.mo.saw"))
             gentype = s_saw;
         
-    }
-	~jit_mo_gen() {}
+        return {};
+    }};
     
-    attribute<symbol> gentype = { this, "gentype", gensym("sin") };
+    attribute<symbol> gentype = { this, "gentype", gensym("sin"), title {"\"Generator Type\""}, range {"line", "sin","saw"} };
     
-    attribute<double> amp = { this, "amp", 1 };
+    attribute<double> amp = { this, "amp", 1, title {"Amplitude"} };
 	
-    attribute<double> freq = { this, "freq", 1 };
+    attribute<double> freq = { this, "freq", 1, title {"Frequency"} };
     
-    attribute<double> phase = { this, "phase", 0 };
+    attribute<double> phase = { this, "phase", 0, title {"Phase"} };
     
-    attribute<double> speed = { this, "speed", 0 };
+    attribute<double> speed = { this, "speed", 0, title {"Speed"} };
     
-    attribute<double> offset = { this, "offset", 0 };
+    attribute<double> offset = { this, "offset", 0, title {"Offset"} };
     
-    attribute<double> delta = { this, "delta", 0 };
+    attribute<double> delta = { this, "delta", 0, title {"\"Delta Time\""} };
     
-    attribute<double> start = { this, "start", -1. };
+    attribute<double> start = { this, "start", -1., title {"\"Start Line\""} };
     
-    attribute<double> end = { this, "end", 1. };
+    attribute<double> end = { this, "end", 1., title {"\"End Line\""} };
     
-	c74::min::method jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
-		c74::max::t_class* c = args[0];
-		
-		CLASS_ATTR_ENUM(c,	"gentype", 0, "line sin saw");
-		CLASS_ATTR_LABEL(c,	"gentype", 0, "Generator Type");
-        
-        CLASS_ATTR_LABEL(c,	"amp", 0, "Amplitude");
-        CLASS_ATTR_LABEL(c,	"freq", 0, "Frequency");
-        CLASS_ATTR_LABEL(c,	"phase", 0, "Phase");
-        CLASS_ATTR_LABEL(c,	"speed", 0, "Speed");
-        CLASS_ATTR_LABEL(c,	"offset", 0, "Offset");
-        CLASS_ATTR_LABEL(c,	"delta", 0, "Delta");
-        CLASS_ATTR_LABEL(c,	"start", 0, "Start Line");
-		CLASS_ATTR_LABEL(c,	"end", 0, "End Line");
         
 		return {};
 	}};

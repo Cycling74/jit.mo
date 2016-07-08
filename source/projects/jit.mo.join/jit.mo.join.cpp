@@ -34,10 +34,12 @@ public:
     
     attribute<int> inletct = { this, "inletct", 1 };
     
-    attribute<int> count = { this, "count", 1, MIN_FUNCTION {
-        update_attached_dim(atom_getlong(&args[0]));
-        return args;
-    }};
+    attribute<int> count = { this, "count", 1,
+		setter { MIN_FUNCTION {
+            update_attached_dim(atom_getlong(&args[0]));
+            return args;
+		}}
+	};
     
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
