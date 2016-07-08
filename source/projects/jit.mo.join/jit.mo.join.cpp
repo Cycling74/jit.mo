@@ -144,7 +144,7 @@ private:
 void *max_jit_mo_join_new(t_symbol *s, long argc, t_atom *argv)
 {
     max_jit_wrapper* x;
-    void *o=NULL,*m,*mop;
+    void *o=NULL,*m;//,*mop;
     t_jit_matrix_info info;
     long i,n;
     
@@ -153,6 +153,7 @@ void *max_jit_mo_join_new(t_symbol *s, long argc, t_atom *argv)
     
     if ((x=(max_jit_wrapper *)max_jit_object_alloc(_max_jit_mo_join_class,gensym("jit_mo_join")))) {
         if ((o=jit_object_new(gensym("jit_mo_join")))) {
+            long attroffset = max_jit_attr_args_offset(argc,argv);
             max_jit_obex_jitob_set(x,o);
             max_jit_obex_dumpout_set(x,outlet_new(x,NULL));
             max_jit_mop_setup(x);
@@ -160,7 +161,7 @@ void *max_jit_mo_join_new(t_symbol *s, long argc, t_atom *argv)
             if (argc&&(n=atom_getlong(argv))) {
                 n = clamp<int>(n, 1, JIT_MATRIX_MAX_PLANECOUNT);
             } else {
-                n=4;
+                n=3;
             }
             
             jit_attr_setlong(o, gensym("inletct"), n);
@@ -171,16 +172,22 @@ void *max_jit_mo_join_new(t_symbol *s, long argc, t_atom *argv)
             max_jit_mop_variable_addinputs(x,1);//only used to fake out the matrix calc method
             max_jit_mop_inputs(x);
             max_jit_mop_outputs(x);
-            max_jit_mop_matrix_args(x,argc,argv);
+            
+            jit_attr_setsym(x, _jit_sym_type, _jit_sym_float32);
+            
             //set planecount since it is not linked.
             m = max_jit_mop_getoutput(x,1);
             jit_attr_setlong(m,_jit_sym_planecount,n);
-            //set adapt true if only plane argument(should come after matrix_args call)
-            if ((max_jit_attr_args_offset(argc,argv)<=1) &&
-                    (mop=max_jit_obex_adornment_get(x,_jit_sym_jit_mop)))
-            {
-                jit_attr_setlong(mop,_jit_sym_adapt,1);
-            }
+            
+            if(attroffset == 3)
+                max_jit_mop_matrix_args(x,argc,argv);
+            else if (attroffset == 2)
+                jit_attr_setlong(x, _jit_sym_dim, atom_getlong(argv+1));
+            else
+                jit_attr_setlong(x, _jit_sym_dim, 1);
+            
+            //else if ((max_jit_attr_args_offset(argc,argv)<=1) && (mop=max_jit_obex_adornment_get(x,_jit_sym_jit_mop)))
+            //    jit_attr_setlong(mop,_jit_sym_adapt,1);
 
             max_jit_attr_args(x,argc,argv);
         } else {

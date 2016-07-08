@@ -45,9 +45,24 @@ public:
     
     attribute<double> end = { this, "end", 1., title {"\"End Line\""} };
     
+    c74::min::method maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
+        t_object *mob=NULL;
+		object_obex_lookup(m_maxobj, gensym("maxwrapper"), &mob);
+        if(args.size() < 2) {
+            object_attr_setlong(mob, _jit_sym_dim, args.size()>0 ? (long)args[0] : 1);
+            object_attr_setlong(mob, _jit_sym_planecount, 1);
+            object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
+        }
+        /*if(args.size() < 1)
+            object_attr_setlong(mob, _jit_sym_planecount, 1);
+        if(args.size() < 2)
+            object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
+        if(args.size() < 3)
+            object_attr_setlong(mob, _jit_sym_dim, 10);*/
         
-		return {};
-	}};
+        return {};
+    }};
+
     
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
