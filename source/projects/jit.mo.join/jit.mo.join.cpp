@@ -206,7 +206,7 @@ void *max_jit_mo_join_new(t_symbol *s, long argc, t_atom *argv)
     
     if(o) {
         minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)o;
-        job->obj.update_mop_props(x);
+        job->min_object.update_mop_props(x);
     }
     
     return (x);
@@ -257,25 +257,25 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
             
             matrix_info info(&in_minfo, (char*)in_opinfo.p, &out_minfo, (char*)out_opinfo.p);
             minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)max_jit_obex_jitob_get(x);
-            job->obj.mob = (t_object*)x;
-            job->obj.plane = max_jit_obex_inletnumber_get(x);
+            job->min_object.mob = (t_object*)x;
+            job->min_object.plane = max_jit_obex_inletnumber_get(x);
             
-            if(job->obj.request_clear) {
+            if(job->min_object.request_clear) {
                 object_method(out_matrix, _jit_sym_clear);
-                job->obj.request_clear = false;
+                job->min_object.request_clear = false;
             }
 
 			auto in_savelock = object_method(in_matrix, _jit_sym_lock, (void*)1);
 			auto out_savelock = object_method(out_matrix, _jit_sym_lock, (void*)1);
 
             if (in_minfo.type == _jit_sym_char)
-                job->obj.calculate_vector<uchar>(info, n, &in_opinfo, &out_opinfo);
+                job->min_object.calculate_vector<uchar>(info, n, &in_opinfo, &out_opinfo);
             else if (in_minfo.type == _jit_sym_long)
-                job->obj.calculate_vector<int>(info, n, &in_opinfo, &out_opinfo);
+                job->min_object.calculate_vector<int>(info, n, &in_opinfo, &out_opinfo);
             else if (in_minfo.type == _jit_sym_float32)
-                job->obj.calculate_vector<float>(info, n, &in_opinfo, &out_opinfo);
+                job->min_object.calculate_vector<float>(info, n, &in_opinfo, &out_opinfo);
             else if (in_minfo.type == _jit_sym_float64)
-                job->obj.calculate_vector<double>(info, n, &in_opinfo, &out_opinfo);
+                job->min_object.calculate_vector<double>(info, n, &in_opinfo, &out_opinfo);
             
 
 			object_method(out_matrix, _jit_sym_lock, out_savelock);
@@ -306,13 +306,13 @@ void max_jit_mo_join_int(max_jit_wrapper *mob, long v)
 {
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-    self->obj.do_int(v);
+    self->min_object.do_int(v);
 }
 
 void jit_mo_join_update_anim(t_object *job, t_atom *a)
 {
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-    self->obj.update(a);
+    self->min_object.update(a);
 }
 
 void ext_main (void* resources) {
@@ -344,7 +344,7 @@ void ext_main (void* resources) {
     jit_class_addattr(c, attr);
     CLASS_ATTR_LABEL(c,	"speed", 0, "Speed");
     
-    jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_join>, obj) + calcoffset(jit_mo_join, animator), 0);
+    jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_join>, min_object) + calcoffset(jit_mo_join, animator), 0);
 
     jit_class_register(c);
     _jit_mo_join_class = c;
