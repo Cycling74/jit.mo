@@ -65,17 +65,24 @@ public:
     }
     
     void update(t_atom *av) {
-        for( const auto& n : m_attached ) {
-            object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*speed);
-            object_method(n.second, sym_bang);
+        if(enable) {
+            for( const auto& n : m_attached ) {
+                object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*speed);
+                object_method(n.second, sym_bang);
+            }
+            
+            if(mob)
+                max_jit_mop_outputmatrix(mob);
+            
+            request_clear = true;
         }
-        
-        if(mob)
-            max_jit_mop_outputmatrix(mob);
-        
-        request_clear = true;
     }
     
+    void do_int(long v) {
+        enable = (bool)v;
+    }
+    
+    bool enable = true;
 	int plane = 0;
     bool request_clear = true;
     t_object *animator = nullptr;
@@ -295,6 +302,13 @@ t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t
 	return JIT_ERR_NONE;
 }
 
+void max_jit_mo_join_int(max_jit_wrapper *mob, long v)
+{
+    void* job = max_jit_obex_jitob_get(mob);
+    minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
+    self->obj.do_int(v);
+}
+
 void jit_mo_join_update_anim(t_object *job, t_atom *a)
 {
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
@@ -350,6 +364,7 @@ void ext_main (void* resources) {
 	class_addmethod(c, (c74::max::method)max_jit_mop_assist, "assist", A_CANT, 0);
     class_addmethod(c, (c74::max::method)min_jit_mop_method_patchlineupdate<jit_mo_join>, "patchlineupdate", A_CANT, 0);
 	class_addmethod(c, (c74::max::method)max_jit_mo_join_jit_matrix, "jit_matrix", A_GIMME, 0);
+    class_addmethod(c, (c74::max::method)max_jit_mo_join_int, "int", A_LONG, 0);
     
 	c->c_menufun = (c74::max::method)c74::max::gensym(cppname);
 	

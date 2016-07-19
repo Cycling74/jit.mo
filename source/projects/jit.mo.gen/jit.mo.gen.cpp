@@ -8,26 +8,41 @@
 
 using namespace c74::min;
 using namespace c74::max;
+using namespace std;
+
+namespace gentypes {
+    static const symbol sin = "sin";
+    static const symbol line = "line";
+    static const symbol saw = "saw";
+};
 
 class jit_mo_gen : public object<jit_mo_gen>, matrix_operator {
 public:
 	
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 	
-	jit_mo_gen(const atoms& args = {}) {}
+	jit_mo_gen(const atoms& args = {}) {
+        randval = math::random(-1., 1.);
+    }
 	~jit_mo_gen() {}
     
     c74::min::method setup = { this, "setup", MIN_FUNCTION {
         const t_symbol *s = classname();
         if(s == gensym("jit.mo.line"))
-            gentype = s_line;
+            gentype = gentypes::line;
         else if(s == gensym("jit.mo.saw"))
-            gentype = s_saw;
+            gentype = gentypes::saw;
         
         return {};
     }};
     
-    attribute<symbol> gentype = { this, "gentype", gensym("sin"), title {"\"Generator Type\""}, range {"line", "sin","saw"} };
+	attribute<symbol> gentype = {
+		this,
+		"gentype",
+		gentypes::sin,
+		title {"Generator Type"},
+		range {gentypes::line, gentypes::sin, gentypes::saw}
+	};
     
     attribute<double> amp = { this, "amp", 1, title {"Amplitude"} };
 	
@@ -39,20 +54,28 @@ public:
     
     attribute<double> offset = { this, "offset", 0, title {"Offset"} };
     
-    attribute<double> delta = { this, "delta", 0, title {"\"Delta Time\""} };
+    attribute<double> delta = { this, "delta", 0, title {"Delta Time"} };
     
-    attribute<double> start = { this, "start", -1., title {"\"Start Line\""} };
+    attribute<double> start = { this, "start", -1., title {"Start Line"} };
     
-    attribute<double> end = { this, "end", 1., title {"\"End Line\""} };
+    attribute<double> end = { this, "end", 1., title {"End Line"} };
+    
+    attribute<double> rand_amt = { this, "rand_amt", 0, title {"Random Amount"} };
+    
+    c74::min::method rand = { this, "rand", MIN_FUNCTION {
+        reseed = true;
+        return {};
+    }};
     
     c74::min::method maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
         t_object *mob=NULL;
 		object_obex_lookup(m_maxobj, gensym("maxwrapper"), &mob);
-        if(args.size() < 2) {
-            object_attr_setlong(mob, _jit_sym_dim, args.size()>0 ? (long)args[0] : 1);
-            object_attr_setlong(mob, _jit_sym_planecount, 1);
+        if(args.size() < 3) {
+            object_attr_setlong(mob, _jit_sym_dim, args.size()>1 ? (long)args[1] : 1);
+            object_attr_setlong(mob, _jit_sym_planecount, args.size()>0 ? (long)args[0] : 1);
             object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
         }
+        
         /*if(args.size() < 1)
             object_attr_setlong(mob, _jit_sym_planecount, 1);
         if(args.size() < 2)
@@ -71,12 +94,12 @@ public:
         phase = phase + (delta * speed);
         phase = mod_float64(phase, 2.0);
         
-        if(gentype == s_sin) {
+        if(gentype == gentypes::sin) {
             double val = (norm * 2. - 1.) * freq + phase;
             val *= M_PI;
             output[0] = sin(val) * amp;
         }
-        else if (gentype == s_saw) {
+        else if (gentype == gentypes::saw) {
             double val = norm * freq * 2.0 + phase;
             val = foldit(val, 0., 1.);
             output[0] = (val * 2.0 - 1.0) * amp;
@@ -89,6 +112,18 @@ public:
                 output[0] = end * amp;
             else
                 output[0] = (start*(1.-norm) + end*norm) * amp;
+        }
+        
+        if(rand_amt) {
+            if(position.x() >= randvals.size())
+                randvals.push_back(math::random(-1., 1.));
+            else if(reseed)
+                randvals[position.x()] = math::random(-1., 1.);
+            
+            output[0] += randvals[position.x()]*rand_amt;
+            
+            if(position.x() == info.out_info->dim[0]-1)
+                reseed = false;
         }
         
         output[0] += offset;
@@ -147,10 +182,10 @@ private:
         return a;
     }
     
-    const symbol s_sin = "sin";
-    const symbol s_line = "line";
-    const symbol s_saw = "saw";
-
+    vector<double>randvals;
+    bool reseed = true;
+    double randval;
+    
 };
 
 MIN_EXTERNAL(jit_mo_gen);
