@@ -7,7 +7,6 @@
 
 using namespace c74::min;
 using namespace c74::max;
-using namespace std;
 
 namespace gentypes {
     static const symbol sin = "sin";
@@ -180,8 +179,8 @@ private:
             return a + b;
         return a;
     }
-    
-    vector<double>randvals;
+
+	std::vector<double>	randvals;
     bool reseed = true;
     double randval;
     
