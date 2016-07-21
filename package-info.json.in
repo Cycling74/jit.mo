@@ -1,24 +1,38 @@
 {
 	"author" : "Cycling '74",
-	"description" : "Lightweight reference implementation of a package built using the Min-API.",
-	"homepatcher" : "min-devkit.maxpat",
+	"authors" : [  ],
+	"description" : "Easy motion graphics",
+	"displayname" : "",
+	"extends" : "",
+	"extensible" : 0,
+	"homepatcher" : "jit.mo.join.maxhelp",
+	"max_version_max" : "none",
 	"max_version_min" : "7.1",
 	"name" : "jit.mograph",
-	"os" : {
-		"macintosh" : {
-			"platform" : [ "ia32", "x64" ],
-			"min_version" : "none"
-		},
-		"windows" : {
+	"os" : 	{
+		"macintosh" : 		{
 			"platform" : [ "ia32", "x64" ],
 			"min_version" : "none"
 		}
-	},
-	"package_extra" : { 
+,
+		"windows" : 		{
+			"platform" : [ "ia32", "x64" ],
+			"min_version" : "none"
+		}
+
+	}
+,
+	"package_extra" : 	{
 		"reverse_domain" : "com.cycling74",
 		"copyright" : "Copyright (c) 2016 Cycling '74"
-	},
-	"tags" : [ ],
-	"version" : "@GIT_VERSION_MAJ@.@GIT_VERSION_MIN@.@GIT_VERSION_SUB@",
-	"website" : "http://www.github.com/Cycling74/min-devkit"
+	}
+,
+	"tags" : [  ],
+	"version" : "0.0.1",
+	"website" : "http://www.github.com/Cycling74/min-devkit",
+	"filelist" : 	{
+		"externals" : [ "jit.mo.field.mxe", "jit.mo.field.mxe64", "jit.mo.field.mxo", "jit.mo.gen.mxe", "jit.mo.gen.mxe64", "jit.mo.gen.mxo", "jit.mo.join.mxe", "jit.mo.join.mxe64", "jit.mo.join.mxo" ],
+		"help" : [ "jit.mo.gen.maxhelp", "jit.mo.join.maxhelp" ]
+	}
+
 }
