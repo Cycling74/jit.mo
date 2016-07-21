@@ -20,12 +20,10 @@ public:
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 	
     c74::min::method setup = { this, "setup", MIN_FUNCTION {
-        const t_symbol *s = classname();
-        if(s == gensym("jit.mo.line"))
+        if (classname() == "jit.mo.line")
             gentype = gentypes::line;
-        else if(s == gensym("jit.mo.saw"))
+        else if (classname() == "jit.mo.saw")
             gentype = gentypes::saw;
-        
         return {};
     }};
     
