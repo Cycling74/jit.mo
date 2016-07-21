@@ -19,11 +19,6 @@ public:
 	
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 	
-	jit_mo_gen(const atoms& args = {}) {
-        randval = math::random(-1., 1.);
-    }
-	~jit_mo_gen() {}
-    
     c74::min::method setup = { this, "setup", MIN_FUNCTION {
         const t_symbol *s = classname();
         if(s == gensym("jit.mo.line"))
@@ -182,9 +177,7 @@ private:
 
 	std::vector<double>	randvals;
     bool reseed = true;
-    double randval;
-    
+
 };
 
 MIN_EXTERNAL(jit_mo_gen);
-
