@@ -361,7 +361,7 @@ void ext_main (void* resources) {
 	max_jit_class_addattr(c,attr);
 	
 	class_addmethod(c, (c74::max::method)max_jit_mop_assist, "assist", A_CANT, 0);
-    class_addmethod(c, (c74::max::method)min_jit_mop_method_patchlineupdate<jit_mo_join>, "patchlineupdate", A_CANT, 0);
+    class_addmethod(c, (c74::max::method)wrapper_method_self_ptr_long_ptr_long_ptr_long<jit_mo_join,wrapper_method_name_patchlineupdate>, "patchlineupdate", A_CANT, 0);
 	class_addmethod(c, (c74::max::method)max_jit_mo_join_jit_matrix, "jit_matrix", A_GIMME, 0);
     class_addmethod(c, (c74::max::method)max_jit_mo_join_int, "int", A_LONG, 0);
     
