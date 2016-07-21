@@ -82,7 +82,7 @@ public:
 		cell<matrix_type,planecount> output;
 		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
 		phase = phase + (delta * speed);
-		phase = mod_float64(phase, 2.0);
+		phase = std::fmod(phase, 2.0);
 
 		if(gentype == gentypes::sin) {
 			double val = (norm * 2. - 1.) * freq + phase;
@@ -159,14 +159,6 @@ private:
 		} else x = 0.; //don't divide by zero
 
 		return x + lo;
-	}
-
-	static double mod_float64(double a, double b) {
-		t_int32 n = (t_int32)(a/b);
-		a -= n*b;
-		if (a < 0)
-			return a + b;
-		return a;
 	}
 
 	std::vector<double>	randvals;
