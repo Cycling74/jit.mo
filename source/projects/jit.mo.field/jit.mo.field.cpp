@@ -1,7 +1,6 @@
-/// @file	
-///	@ingroup 	minexamples
+/// @file
 ///	@copyright	Copyright (c) 2016, Cycling '74
-/// @author		Timothy Place
+/// @author		Rob Ramirez
 ///	@license	Usage of this file and its contents is governed by the MIT License
 
 #include "c74_min.h"
