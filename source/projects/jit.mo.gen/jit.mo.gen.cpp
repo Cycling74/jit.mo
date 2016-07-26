@@ -8,10 +8,11 @@
 using namespace c74::min;
 using namespace c74::max;
 
-namespace gentypes {
+namespace functypes {
 	static const symbol sin = "sin";
 	static const symbol line = "line";
-	static const symbol saw = "saw";
+	static const symbol tri = "tri";
+	static const symbol function = "function";
 };
 
 class jit_mo_gen : public object<jit_mo_gen>, matrix_operator {
@@ -21,21 +22,23 @@ public:
 
 	c74::min::method setup = { this, "setup", MIN_FUNCTION {
 		if (classname() == "jit.mo.line")
-			gentype = gentypes::line;
-		else if (classname() == "jit.mo.saw")
-			gentype = gentypes::saw;
+			type = functypes::line;
+		else if (classname() == "jit.mo.tri")
+			type = functypes::tri;
+		else if (classname() == "jit.mo.sin")
+			type = functypes::sin;
 		return {};
 	}};
 
-	attribute<symbol> gentype = {
+	attribute<symbol> type = {
 		this,
-		"gentype",
-		gentypes::sin,
-		title {"Generator Type"},
-		range {gentypes::line, gentypes::sin, gentypes::saw}
+		"type",
+		functypes::function,
+		title {"Function Type"},
+		range {functypes::function, functypes::line, functypes::sin, functypes::tri}
 	};
 
-	attribute<double> amp = { this, "amp", 1, title {"Amplitude"} };
+	attribute<double> scale = { this, "scale", 1, title {"Scale"} };
 
 	attribute<double> freq = { this, "freq", 1, title {"Frequency"} };
 
@@ -77,31 +80,34 @@ public:
 		return {};
 	}};
 
+	// TODO: multiplane
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
 		cell<matrix_type,planecount> output;
+		double val = 0;
 		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
 		phase = phase + (delta * speed);
 		phase = std::fmod(phase, 2.0);
 
-		if(gentype == gentypes::sin) {
-			double val = (norm * 2. - 1.) * freq + phase;
-			val *= M_PI;
-			output[0] = sin(val) * amp;
+		if(type == functypes::sin) {
+			val = (norm * 2. - 1.) * freq + phase;
+			val = sin(val*M_PI);
 		}
-		else if (gentype == gentypes::saw) {
-			double val = norm * freq * 2.0 + phase;
+		else if (type == functypes::tri) {
+			val = norm * freq * 2.0 + phase;
 			val = foldit(val, 0., 1.);
-			output[0] = (val * 2.0 - 1.0) * amp;
+			val = (val * 2.0 - 1.0);
 		}
-		else {  // line
-			//output[0] = snorm * amp;
+		else if (type == functypes::line) {
 			if(norm == 0.)
-				output[0] = start * amp;
+				val = start;
 			else if(norm == 1.)
-				output[0] = end * amp;
+				val = end;
 			else
-				output[0] = (start*(1.-norm) + end*norm) * amp;
+				val = (start*(1.-norm) + end*norm);
+		}
+		else {
+			
 		}
 
 		if(rand_amt) {
@@ -110,13 +116,16 @@ public:
 			else if(reseed)
 				randvals[position.x()] = math::random(-1., 1.);
 
-			output[0] += randvals[position.x()]*rand_amt;
+			val += randvals[position.x()]*rand_amt;
 
 			if(position.x() == info.out_info->dim[0]-1)
 				reseed = false;
 		}
-
-		output[0] += offset;
+		
+		val *= scale;
+		val += offset;
+		
+		output[0] = val;
 		return output;
 	}
 
