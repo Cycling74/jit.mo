@@ -20,7 +20,7 @@ public:
 
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 
-	c74::min::method setup = { this, "setup", MIN_FUNCTION {
+	message setup = { this, "setup", MIN_FUNCTION {
 		if (classname() == "jit.mo.line")
 			type = functypes::line;
 		else if (classname() == "jit.mo.tri")
@@ -56,12 +56,12 @@ public:
 
 	attribute<double> rand_amt = { this, "rand_amt", 0, title {"Random Amount"} };
 
-	c74::min::method rand = { this, "rand", MIN_FUNCTION {
+	message rand = { this, "rand", MIN_FUNCTION {
 		reseed = true;
 		return {};
 	}};
 
-	c74::min::method maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
+	message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
 		t_object *mob=NULL;
 		object_obex_lookup(m_maxobj, gensym("maxwrapper"), &mob);
 		if (args.size() < 3) {

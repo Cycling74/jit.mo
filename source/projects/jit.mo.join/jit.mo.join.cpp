@@ -88,9 +88,8 @@ public:
     t_object *mob = nullptr;
     
 private:
-    typedef c74::min::method method;
     
-    method setup = { this, "setup", MIN_FUNCTION {
+    message setup = { this, "setup", MIN_FUNCTION {
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         return {};
     }};
@@ -101,7 +100,7 @@ private:
         JPATCHLINE_ORDER=2
     } t_patchline_updatetype;
     
-    method patchlineupdate = { this, "patchlineupdate", MIN_FUNCTION {
+    message patchlineupdate = { this, "patchlineupdate", MIN_FUNCTION {
         t_object *x = args[0];
        // t_object *patchline = args[1];
         long updatetype = args[2];
@@ -319,7 +318,7 @@ void ext_main (void* resources) {
 	std::string	maxname = c74::min::deduce_maxclassname(__FILE__);
     
 	// 1. Boxless Jit Class
-	t_class *c = (t_class*)jit_class_new(cppname,(c74::max::method)jit_new<jit_mo_join>, (c74::max::method)jit_free<jit_mo_join>, sizeof( c74::min::minwrap<jit_mo_join> ), 0);
+	t_class *c = (t_class*)jit_class_new(cppname,(method)jit_new<jit_mo_join>, (method)jit_free<jit_mo_join>, sizeof( c74::min::minwrap<jit_mo_join> ), 0);
     
 	//add mop
 	auto mop = jit_object_new(_jit_sym_jit_mop, -1, 1); // #inputs, #outputs
@@ -328,18 +327,18 @@ void ext_main (void* resources) {
     jit_class_addadornment(c, mop);
     
 	//add methods
-	jit_class_addmethod(c, (c74::max::method)jit_mo_join_update_anim, "update_anim", A_CANT, 0);
+	jit_class_addmethod(c, (method)jit_mo_join_update_anim, "update_anim", A_CANT, 0);
     
     auto attr = jit_object_new(_jit_sym_jit_attr_offset, "inletct", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
-                              (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
+                              (method)min_attr_getter<jit_mo_join>, (method)min_attr_setter<jit_mo_join>, 0);
     jit_class_addattr(c, attr);
     
     attr = jit_object_new(_jit_sym_jit_attr_offset, "count", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
-                         (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
+                         (method)min_attr_getter<jit_mo_join>, (method)min_attr_setter<jit_mo_join>, 0);
     jit_class_addattr(c, attr);
     
     attr = jit_object_new(_jit_sym_jit_attr_offset, "speed", _jit_sym_float32,ATTR_GET_DEFER_LOW|ATTR_SET_DEFER_LOW,
-                         (c74::max::method)min_attr_getter<jit_mo_join>, (c74::max::method)min_attr_setter<jit_mo_join>, 0);
+                         (method)min_attr_getter<jit_mo_join>, (method)min_attr_setter<jit_mo_join>, 0);
     jit_class_addattr(c, attr);
     CLASS_ATTR_LABEL(c,	"speed", 0, "Speed");
     
@@ -350,22 +349,22 @@ void ext_main (void* resources) {
 
 	
 	// 2. Max Wrapper Class
-	c = class_new(maxname.c_str(),(c74::max::method)max_jit_mo_join_new,(c74::max::method)max_jit_mo_join_free, sizeof(max_jit_wrapper), nullptr, A_GIMME, 0);
+	c = class_new(maxname.c_str(),(method)max_jit_mo_join_new,(method)max_jit_mo_join_free, sizeof(max_jit_wrapper), nullptr, A_GIMME, 0);
 	max_jit_class_obex_setup(c, calcoffset(max_jit_wrapper, obex));
 	
 	max_jit_class_mop_wrap(c, _jit_mo_join_class, MAX_JIT_MOP_FLAGS_OWN_JIT_MATRIX|MAX_JIT_MOP_FLAGS_OWN_DIM);
 	max_jit_class_wrap_standard(c, _jit_mo_join_class, 0);
     
 	attr = jit_object_new(_jit_sym_jit_attr_offset_array,"dim",_jit_sym_long,JIT_MATRIX_MAX_DIMCOUNT, ATTR_GET_DEFER_LOW|ATTR_SET_USURP_LOW,
-                         (c74::max::method)max_jit_mop_getdim,(c74::max::method)max_jit_mo_join_dim,0);
+                         (method)max_jit_mop_getdim,(method)max_jit_mo_join_dim,0);
 	max_jit_class_addattr(c,attr);
 	
-	class_addmethod(c, (c74::max::method)max_jit_mop_assist, "assist", A_CANT, 0);
-    class_addmethod(c, (c74::max::method)wrapper_method_self_ptr_long_ptr_long_ptr_long<jit_mo_join,wrapper_method_name_patchlineupdate>, "patchlineupdate", A_CANT, 0);
-	class_addmethod(c, (c74::max::method)max_jit_mo_join_jit_matrix, "jit_matrix", A_GIMME, 0);
-    class_addmethod(c, (c74::max::method)max_jit_mo_join_int, "int", A_LONG, 0);
+	class_addmethod(c, (method)max_jit_mop_assist, "assist", A_CANT, 0);
+	class_addmethod(c, (method)wrapper_method_self_ptr_long_ptr_long_ptr_long<jit_mo_join,wrapper_message_name_patchlineupdate>, "patchlineupdate", A_CANT, 0);
+	class_addmethod(c, (method)max_jit_mo_join_jit_matrix, "jit_matrix", A_GIMME, 0);
+    class_addmethod(c, (method)max_jit_mo_join_int, "int", A_LONG, 0);
     
-	c->c_menufun = (c74::max::method)c74::max::gensym(cppname);
+	c->c_menufun = (method)c74::max::gensym(cppname);
 	
 	class_register(c74::max::CLASS_BOX, c);
     _max_jit_mo_join_class = c;

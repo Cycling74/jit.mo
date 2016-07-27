@@ -33,12 +33,12 @@ public:
     
     attribute<vector<double>> rand_amt = { this, "rand_amt", {0.0, 0.0, 0.0}, title{"Random Amount"} };
     
-    c74::min::method rand = { this, "rand", MIN_FUNCTION {
+    message rand = { this, "rand", MIN_FUNCTION {
         reseed = true;
         return {};
     }};
 
-    c74::min::method maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
+    message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
         //t_object *mob=NULL;
 		//object_obex_lookup(m_maxobj, gensym("maxwrapper"), &mob);
         //long planes = object_attr_getlong(mob, _jit_sym_planecount);
