@@ -18,17 +18,7 @@ public:
 	~jit_mo_join() {
         jit_object_free(animator);
     }
-    
-    void update_mop_props(void *mob) {
-        t_jit_matrix_info info;
-        void *mop=max_jit_obex_adornment_get(mob,_jit_sym_jit_mop);
-        void *p=object_method((t_object*)mop,_jit_sym_getoutput,(void*)1);
-        void *m=object_method((t_object*)p,_jit_sym_getmatrix);
-        object_method((t_object*)m,_jit_sym_getinfo,&info);
-        count = info.dim[0];
-        type = info.type;
-    }
-    
+	
     attribute<double> speed = { this, "speed", 1.0 };
     
     attribute<int> inletct = { this, "inletct", 1 };
@@ -62,7 +52,17 @@ public:
             out += outstep;
         }
     }
-    
+	
+    void update_mop_props(void *mob) {
+        t_jit_matrix_info info;
+        void *mop=max_jit_obex_adornment_get(mob,_jit_sym_jit_mop);
+        void *p=object_method((t_object*)mop,_jit_sym_getoutput,(void*)1);
+        void *m=object_method((t_object*)p,_jit_sym_getmatrix);
+        object_method((t_object*)m,_jit_sym_getinfo,&info);
+        count = info.dim[0];
+        type = info.type;
+    }
+	
     void update(t_atom *av) {
         if(enable) {
             for( const auto& n : m_attached ) {
