@@ -48,7 +48,14 @@ public:
 
 	attribute<double> offset = { this, "offset", 0, title {"Offset"} };
 
-	attribute<double> delta = { this, "delta", 0, title {"Delta Time"} };
+	attribute<double> delta = { this, "delta", 0, title {"Delta Time"},
+		setter { MIN_FUNCTION {
+			double val = args[0];
+			phase = phase + (val * speed * 2.0); // default is one cycle / second	
+			phase = std::fmod(phase, 2.0);
+			return args;
+		}}
+	};
 
 	attribute<double> start = { this, "start", -1., title {"Start Line"} };
 
@@ -86,8 +93,6 @@ public:
 		cell<matrix_type,planecount> output;
 		double val = 0;
 		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
-		phase = phase + (delta * speed);
-		phase = std::fmod(phase, 2.0);
 
 		if(type == functypes::sin) {
 			val = (norm * 2. - 1.) * freq + phase;

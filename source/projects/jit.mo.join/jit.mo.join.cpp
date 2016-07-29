@@ -10,6 +10,7 @@ using namespace c74::max;
 
 static t_class *_jit_mo_join_class = NULL;
 static t_class *_max_jit_mo_join_class = NULL;
+static const symbol ps_automatic = "automatic";
 
 class jit_mo_join : public object<jit_mo_join>, matrix_operator {
 public:
@@ -279,8 +280,10 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
 			object_method(out_matrix, _jit_sym_lock, out_savelock);
 			object_method(in_matrix, _jit_sym_lock, in_savelock);
             
-            //if (job->obj.plane==0)
-                //max_jit_mop_outputmatrix(x);
+            if (job->min_object.plane==0 && object_attr_getlong(job, ps_automatic)==0 ) {
+                max_jit_mop_outputmatrix(x);
+				object_method(out_matrix, _jit_sym_clear);
+			}
 		} else {
 			jit_error_code(x,JIT_ERR_MATRIX_UNKNOWN);
 		}
