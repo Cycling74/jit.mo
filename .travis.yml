@@ -1,14 +1,11 @@
 language:
 - objective-c
 - c++
-
 compiler:
 - clang
-
 sudo: false
 os: osx
 osx_image: xcode7.3
-
 script:
 - mkdir build
 - cd build
@@ -34,12 +31,11 @@ script:
 - if [ -d patchers ]; then cp -r help $PACKAGE_NAME; fi
 - mkdir dist
 - zip -r dist/$PACKAGE_NAME-$PACKAGE_REV.zip $PACKAGE_NAME
-
 deploy:
   provider: s3
   access_key_id: AKIAIWE3SI2TMXC5AJBA
   secret_access_key:
-    secure: nT5q+qibu71HuieYTUGGRJhjwW7MUXRzPObtND87PeDnnZCMil0ISW8/iHBCPRDiaHDiaP8zezfxHtncQwC4Ubance5jbzWT3Xclfhdpt8UsHX0arMabborrw3yTPuRTHHkTvjn1WS8//w1rKIvJnCvLkXvj9IElqkgH6M4YOEBGKZrofiiRuuGGLu/bYKtBHJb4XwKe/9GLlEV1x7M0mu6/KfbKUoWwyq726f9tn8gzOvLOU0UMy6IAlATuM+sMkVWmDo+6ZdZCN1pxeToqziX0OFshBweqclAtkXYT73NcIgBhDs0xGSrSUHvabOEaDPhRgd/0nypslaiJXCl1FWT5/YXyIHKOM0O24n6yW6XFZZFXUR2437NGRsVSqKXJkpwiBdr57NioP3GvviK5GWSMy5j4O4jMdVVZCUoRfyg+3l3/ygN+A4J4EyJhKQWRO25XPq/BoU6OxmEJ+hY7hfpRQfPUjbnYpN8kJbruy27KY8bW54DNtXIp4o2XSetb5EaNpLrsLqoPSyuSVrUJZjzeMngajQF/CerLsSeVJbIs791Lcoun4k/6grIgMAyRO34op6JIqPKamMK18mSUBUNuXJL3wWq6NqoJuQzHpUKHFnLgJ5vB1rBuhiFksPk/Q8Xduwhtparz7CCBZUzw/+84Qz/MY9s93/64ciffFAo=
+    secure: HHi0F2v4hmVTssnQSdIjKwTGvR45pejN4vpwWvXoe9NMv9ToNd+9+Pg83bLfgutr/cvKIEwwckSufCQCCbTX/YWEZl36lKaZmUnMPW/XVLCauJl/7yiwoAlgia3Td1ZFVDedoypbEn5gN/h1j8riBUTlZwW+8546XLnYDbXLus1bJVyHG2W1dJoxNxp2vpXSQzYihwnd0X2KbHwg0T5iRLuzpXz7//GpU7OudFqNbgx9wcQnSfsAopfyL4Euhp/xz8bLoXuo8SGDuHRMuZVxXMovXI7jnDRK0MaTfGV/Yh3bvnJU3Nzz+yTH9jhQymUoEmSbAraV50Afsy6pSP40NHPdwFHCF5bw+Zh+0yS7Qlt/CzwPTO5Lj1CB/gG3ilSZiM3/upVtpERj2nVUsecH68Je8xuM1SNh+Q01KI4J4Fx/Ae6wAXGgyS7CuToidxU5gZjMh3GYExztNMagvnUaBeN51p69tltfTVh6WPYX7nE6G8QaGLgr2FIR4H+lkg4ndEcXUY0rPFE1pBLugM9pX9mnhhKbjv1NpUOE+6jYpXY+mhxNPQkrNheAXb5uhG2lRPhkAahokhOxBiqjsG5HXvBrhx3TLV0bH/iBezrkHsVFDI81zUnumscdjqpgNNmjYnMzWFRr4z7zOrb2BWtrIhRpNp31DHqcn4kaVGjET0s=
   bucket: cycling74-ci
   skip_cleanup: true
   local-dir: dist
