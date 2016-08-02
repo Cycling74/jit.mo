@@ -22,17 +22,17 @@ public:
 
 	message setup = { this, "setup", MIN_FUNCTION {
 		if (classname() == "jit.mo.line")
-			type = functypes::line;
+			functype = functypes::line;
 		else if (classname() == "jit.mo.tri")
-			type = functypes::tri;
+			functype = functypes::tri;
 		else if (classname() == "jit.mo.sin")
-			type = functypes::sin;
+			functype = functypes::sin;
 		return {};
 	}};
 
-	attribute<symbol> type = {
+	attribute<symbol> functype = {
 		this,
-		"type",
+		"functype",
 		functypes::function,
 		title {"Function Type"},
 		range {functypes::function, functypes::line, functypes::sin, functypes::tri}
@@ -94,16 +94,16 @@ public:
 		double val = 0;
 		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
 
-		if(type == functypes::sin) {
+		if(functype == functypes::sin) {
 			val = (norm * 2. - 1.) * freq + phase;
 			val = sin(val*M_PI);
 		}
-		else if (type == functypes::tri) {
+		else if (functype == functypes::tri) {
 			val = norm * freq * 2.0 + phase;
 			val = foldit(val, 0., 1.);
 			val = (val * 2.0 - 1.0);
 		}
-		else if (type == functypes::line) {
+		else if (functype == functypes::line) {
 			if(norm == 0.)
 				val = start;
 			else if(norm == 1.)
