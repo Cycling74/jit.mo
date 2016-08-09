@@ -39,7 +39,7 @@ deploy:
   bucket: cycling74-ci
   skip_cleanup: true
   local-dir: dist
-  upload-dir: jit.mograph
+  upload-dir: jit.mo
   acl: public_read
   on:
-    repo: Cycling74/jit.mograph
+    repo: Cycling74/jit.mo
