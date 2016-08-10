@@ -28,7 +28,7 @@
 	}
 ,
 	"tags" : [  ],
-	"version" : "0.0.1",
+	"version" : "0.0.3",
 	"website" : "http://www.github.com/Cycling74/min-devkit",
 	"filelist" : 	{
 		"externals" : [ "jit.mo.field.mxe", "jit.mo.field.mxe64", "jit.mo.field.mxo", "jit.mo.gen.mxe", "jit.mo.gen.mxe64", "jit.mo.gen.mxo", "jit.mo.join.mxe", "jit.mo.join.mxe64", "jit.mo.join.mxo" ],
