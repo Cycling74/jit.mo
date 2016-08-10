@@ -1,5 +1,5 @@
 # jit.mograph
-[![Build Status](https://travis-ci.com/Cycling74/jit.mograph.svg?token=riW9BN2g3ybUVWqVoXeT&branch=master)](https://travis-ci.com/Cycling74/jit.mograph)
+[![Build Status](https://travis-ci.com/Cycling74/jit.mo.svg?token=zXpqqVC6i6znLwCu1Mxj&branch=master)](https://travis-ci.com/Cycling74/jit.mo)
 
 ## Continuous Integration
 
