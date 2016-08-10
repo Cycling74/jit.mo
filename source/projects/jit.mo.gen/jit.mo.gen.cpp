@@ -18,6 +18,11 @@ namespace functypes {
 class jit_mo_gen : public object<jit_mo_gen>, matrix_operator {
 public:
 
+    MIN_DESCRIPTION { "Generate single dim matrices using specified function." };
+    MIN_TAGS		{ "jit.mo, Generators" };
+    MIN_AUTHOR		{ "Cycling '74" };
+    MIN_RELATED		{ "jit.mo.join, jit.mo.field" };
+    
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 
 	message setup = { this, "setup", MIN_FUNCTION {
@@ -30,25 +35,24 @@ public:
 		return {};
 	}};
 
-	attribute<symbol> functype = {
-		this,
-		"functype",
-		functypes::function,
+	attribute<symbol> functype { this, "functype", functypes::function,
 		title {"Function Type"},
+        description { "The fuction type used for generating matrices." },
 		range {functypes::function, functypes::line, functypes::sin, functypes::tri}
 	};
 
-	attribute<double> scale = { this, "scale", 1, title {"Scale"} };
+	attribute<double> scale = { this, "scale", 1, title {"Scale"}, description { "Output multiplier (default = 1.0)." } };
 
-	attribute<double> freq = { this, "freq", 1, title {"Frequency"} };
+	attribute<double> freq = { this, "freq", 1, title {"Frequency"}, description { "Output frequency (default = 1.0)." } };
 
-	attribute<double> phase = { this, "phase", 0, title {"Phase"} };
+	attribute<double> phase = { this, "phase", 0, title {"Phase"}, description { "Output phase offset (default = 0.0)." } };
 
-	attribute<double> speed = { this, "speed", 0, title {"Speed"} };
+	attribute<double> speed = { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
 
-	attribute<double> offset = { this, "offset", 0, title {"Offset"} };
+	attribute<double> offset = { this, "offset", 0, title {"Offset"}, description { "Output offset (default = 0.0)." } };
 
 	attribute<double> delta = { this, "delta", 0, title {"Delta Time"},
+        description { "Frame delta time for animating graph (default = 0.0). When bound to <o>jit.mo.join</o> this value is set automatically." },
 		setter { MIN_FUNCTION {
 			double val = args[0];
 			phase = phase + (val * speed * 2.0); // default is one cycle / second	
@@ -57,16 +61,18 @@ public:
 		}}
 	};
 
-	attribute<double> start = { this, "start", -1., title {"Start Line"} };
+	attribute<double> start = { this, "start", -1., title {"Start Line"}, description { "Line function start (default = -1.0)." } };
 
-	attribute<double> end = { this, "end", 1., title {"End Line"} };
+	attribute<double> end = { this, "end", 1., title {"End Line"}, description { "Line function end (default = 1.0)." } };
 
-	attribute<double> rand_amt = { this, "rand_amt", 0, title {"Random Amount"} };
+	attribute<double> rand_amt = { this, "rand_amt", 0, title {"Random Amount"}, description { "Scales the random offset value (default = 0.0)." } };
 
-	message rand = { this, "rand", MIN_FUNCTION {
-		reseed = true;
-		return {};
-	}};
+	message rand = { this, "rand", "Generate new random values for rand_amt offset.",
+        MIN_FUNCTION {
+            reseed = true;
+            return {};
+        }
+    };
 
 	message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
 		t_object *mob=NULL;

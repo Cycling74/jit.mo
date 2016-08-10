@@ -367,7 +367,7 @@ void ext_main (void* resources) {
 	class_addmethod(c, (method)max_jit_mo_join_jit_matrix, "jit_matrix", A_GIMME, 0);
     class_addmethod(c, (method)max_jit_mo_join_int, "int", A_LONG, 0);
     
-	c->c_menufun = (method)c74::max::gensym(cppname);
+	this_class_name = gensym(cppname);
 	
 	class_register(c74::max::CLASS_BOX, c);
     _max_jit_mo_join_class = c;

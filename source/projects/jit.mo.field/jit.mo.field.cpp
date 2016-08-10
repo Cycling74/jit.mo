@@ -11,6 +11,11 @@ using namespace std;
 
 class jit_mo_field : public object<jit_mo_field>, matrix_operator {
 public:
+    MIN_DESCRIPTION { "Field manipulator for jit.mo streams." };
+    MIN_TAGS		{ "jit.mo, Manipulators" };
+    MIN_AUTHOR		{ "Cycling '74" };
+    MIN_RELATED		{ "jit.mo.join, jit.mo.gen" };
+    
     inlet	input	= { this, "(matrix) Input", "matrix" };
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 	
