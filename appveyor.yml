@@ -37,10 +37,6 @@ build_script:
   - set SHORT_COMMIT=%APPVEYOR_REPO_COMMIT:~0,6%
   - 7z a %APPVEYOR_PROJECT_NAME%-win-%platform%-%SHORT_COMMIT%.zip %APPVEYOR_PROJECT_NAME% > %APPVEYOR_BUILD_FOLDER%\archive.log
 
-test_script:
-  - cd build
-  - ctest -C Release . -V
-
 artifacts:
   - name: Build
     path: '*.zip'
