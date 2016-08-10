@@ -268,7 +268,7 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
 			auto out_savelock = object_method(out_matrix, _jit_sym_lock, (void*)1);
 
             if (in_minfo.type == _jit_sym_char)
-                job->min_object.calculate_vector<uchar>(info, n, &in_opinfo, &out_opinfo);
+                job->min_object.calculate_vector<c74::min::uchar>(info, n, &in_opinfo, &out_opinfo);
             else if (in_minfo.type == _jit_sym_long)
                 job->min_object.calculate_vector<int>(info, n, &in_opinfo, &out_opinfo);
             else if (in_minfo.type == _jit_sym_float32)
