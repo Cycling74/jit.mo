@@ -44,14 +44,16 @@ public:
 
 	attribute<double> phase = { this, "phase", 0, title {"Phase"} };
 
-	attribute<double> speed = { this, "speed", 0, title {"Speed"} };
+	attribute<time_interval> speed = { this, "speed", 0, title {"Speed"} };
 
 	attribute<double> offset = { this, "offset", 0, title {"Offset"} };
 
 	attribute<double> delta = { this, "delta", 0, title {"Delta Time"},
 		setter { MIN_FUNCTION {
-			double val = args[0];
-			phase = phase + (val * speed * 2.0); // default is one cycle / second	
+			double			delta_val = args[0];
+			time_interval	speed_val = speed;
+
+			phase = phase + (delta_val * speed_val * 2.0); // default is one cycle / second
 			phase = std::fmod(phase, 2.0);
 			return args;
 		}}
