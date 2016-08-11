@@ -50,10 +50,11 @@ public:
 
 	attribute<double> delta = { this, "delta", 0, title {"Delta Time"},
 		setter { MIN_FUNCTION {
-			double			delta_val = args[0];
-			time_interval	speed_val = speed;
+			double					delta_val = args[0];
+			const time_interval&	speed_val = speed;
+			double					speed_ms = speed_val;
 
-			phase = phase + (delta_val * speed_val * 2.0); // default is one cycle / second
+			phase = phase + (delta_val * speed_ms * 2.0); // default is one cycle / second
 			phase = std::fmod(phase, 2.0);
 			return args;
 		}}
