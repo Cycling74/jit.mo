@@ -25,16 +25,6 @@ public:
     
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 
-	message setup = { this, "setup", MIN_FUNCTION {
-		if (classname() == "jit.mo.line")
-			functype = functypes::line;
-		else if (classname() == "jit.mo.tri")
-			functype = functypes::tri;
-		else if (classname() == "jit.mo.sin")
-			functype = functypes::sin;
-		return {};
-	}};
-
 	attribute<symbol> functype { this, "functype", functypes::function,
 		title {"Function Type"},
         description { "The fuction type used for generating matrices." },
@@ -81,6 +71,16 @@ public:
             return {};
         }
     };
+
+    message setup = { this, "setup", MIN_FUNCTION {
+        if (classname() == "jit.mo.line")
+            functype = functypes::line;
+        else if (classname() == "jit.mo.tri")
+            functype = functypes::tri;
+        else if (classname() == "jit.mo.sin")
+            functype = functypes::sin;
+        return {};
+    }};
 
 	message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
 		t_object *mob=NULL;

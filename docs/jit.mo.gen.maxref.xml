@@ -35,14 +35,14 @@
 			<description></description>
 		</method>
 
-		<method name='rand'>
-			<digest>Generate new random values for rand_amt offset</digest>
-			<description>Generate new random values for rand_amt offset.</description>
-		</method>
-
 		<method name='setup'>
 			<digest></digest>
 			<description></description>
+		</method>
+
+		<method name='rand'>
+			<digest>Generate new random values for rand_amt offset</digest>
+			<description>Generate new random values for rand_amt offset.</description>
 		</method>
 
 	</methodlist>
