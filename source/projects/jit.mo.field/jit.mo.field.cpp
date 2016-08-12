@@ -14,7 +14,7 @@ public:
     MIN_DESCRIPTION { "Field manipulator for jit.mo streams." };
     MIN_TAGS		{ "jit.mo, Manipulators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.join, jit.mo.gen" };
+    MIN_RELATED		{ "jit.mo.join, jit.mo.func" };
     
     inlet	input	= { this, "(matrix) Input", "matrix" };
 	outlet	output	= { this, "(matrix) Output", "matrix" };

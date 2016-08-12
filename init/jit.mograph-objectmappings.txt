@@ -1,3 +1,3 @@
-max objectfile jit.mo.line jit.mo.gen;
-max objectfile jit.mo.sin jit.mo.gen;
-max objectfile jit.mo.tri jit.mo.gen;
+max objectfile jit.mo.line jit.mo.func;
+max objectfile jit.mo.sin jit.mo.func;
+max objectfile jit.mo.tri jit.mo.func;

@@ -15,7 +15,7 @@ namespace functypes {
 	static const symbol function = "function";
 };
 
-class jit_mo_gen : public object<jit_mo_gen>, matrix_operator {
+class jit_mo_func : public object<jit_mo_func>, matrix_operator {
 public:
 
     MIN_DESCRIPTION { "Generate single dim matrices using specified function." };
@@ -175,4 +175,4 @@ private:
 	bool reseed = true;
 };
 
-MIN_EXTERNAL(jit_mo_gen);
+MIN_EXTERNAL(jit_mo_func);

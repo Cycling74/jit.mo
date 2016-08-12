@@ -103,6 +103,10 @@ public:
     void update(t_atom *av) {
         if(enable) {
             for( const auto& n : m_attached ) {
+                //const time_interval& speed_val = interval;
+                //double secs = speed_val;
+                //secs /= 1000.;
+                
                 object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*speed);
                 
                 t_object *mwrap=NULL;
@@ -254,7 +258,7 @@ private:
         //long dstin = args[6];
         symbol n = name;
         
-        if (x==dst && srcout==0 && object_classname_compare(src, gensym("jit.mo.gen")))
+        if (x==dst && srcout==0 && object_classname_compare(src, gensym("jit.mo.func")))
         {
 
             switch (updatetype)
