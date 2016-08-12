@@ -36,8 +36,8 @@
 		</method>
 
 		<method name='rand'>
-			<digest></digest>
-			<description></description>
+			<digest>Generate new random values for rand_amt offset</digest>
+			<description>Generate new random values for rand_amt offset.</description>
 		</method>
 
 		<method name='setup'>
@@ -52,49 +52,24 @@
 
 	<attributelist>
 
-		<attribute name='start' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
-		</attribute>
-
-		<attribute name='offset' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
-		</attribute>
-
-		<attribute name='speed' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
-		</attribute>
-
-		<attribute name='end' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
-		</attribute>
-
-		<attribute name='functype' get='1' set='1' type='symbol' size='1' >
-			<digest>The fuction type used for generating matrices</digest>
-			<description>The fuction type used for generating matrices.</description>
-		</attribute>
-
-		<attribute name='phase' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+		<attribute name='join' get='1' set='1' type='symbol' size='1' >
+			<digest>Sets the <o>jit_mo_join</o> object binding</digest>
+			<description>Sets the <o>jit_mo_join</o> object binding. When set, animation parameters are controlled by the named object.</description>
 		</attribute>
 
 		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Scales the random offset value (default = 0</digest>
+			<description>Scales the random offset value (default = 0.0).</description>
 		</attribute>
 
 		<attribute name='delta' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Frame delta time for animating graph (default = 0</digest>
+			<description>Frame delta time for animating graph (default = 0.0). When bound to <o>jit.mo.join</o> this value is set automatically.</description>
 		</attribute>
 
-		<attribute name='freq' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+		<attribute name='offset' get='1' set='1' type='float64' size='1' >
+			<digest>Output offset (default = 0</digest>
+			<description>Output offset (default = 0.0).</description>
 		</attribute>
 
 		<attribute name='scale' get='1' set='1' type='float64' size='1' >
@@ -102,9 +77,34 @@
 			<description>Output multiplier (default = 1.0).</description>
 		</attribute>
 
-		<attribute name='x' get='1' set='1' type='long' size='1' >
-			<digest>The horizontal distance from each incoming cell to the source cells used for averaging</digest>
-			<description>The horizontal distance from each incoming cell to the source cells used for averaging.</description>
+		<attribute name='end' get='1' set='1' type='float64' size='1' >
+			<digest>Line function end (default = 1</digest>
+			<description>Line function end (default = 1.0).</description>
+		</attribute>
+
+		<attribute name='speed' get='1' set='1' type='float64' size='1' >
+			<digest>Animation speed multiplier (default = 0</digest>
+			<description>Animation speed multiplier (default = 0.0).</description>
+		</attribute>
+
+		<attribute name='phase' get='1' set='1' type='float64' size='1' >
+			<digest>Output phase offset (default = 0</digest>
+			<description>Output phase offset (default = 0.0).</description>
+		</attribute>
+
+		<attribute name='freq' get='1' set='1' type='float64' size='1' >
+			<digest>Output frequency (default = 1</digest>
+			<description>Output frequency (default = 1.0).</description>
+		</attribute>
+
+		<attribute name='start' get='1' set='1' type='float64' size='1' >
+			<digest>Line function start (default = -1</digest>
+			<description>Line function start (default = -1.0).</description>
+		</attribute>
+
+		<attribute name='functype' get='1' set='1' type='symbol' size='1' >
+			<digest>The fuction type used for generating matrices</digest>
+			<description>The fuction type used for generating matrices.</description>
 		</attribute>
 
 	</attributelist>

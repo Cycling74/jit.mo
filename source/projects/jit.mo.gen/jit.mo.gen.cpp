@@ -41,17 +41,17 @@ public:
 		range {functypes::function, functypes::line, functypes::sin, functypes::tri}
 	};
 
-	attribute<double> scale = { this, "scale", 1, title {"Scale"}, description { "Output multiplier (default = 1.0)." } };
+	attribute<double> scale { this, "scale", 1, title {"Scale"}, description { "Output multiplier (default = 1.0)." } };
 
-	attribute<double> freq = { this, "freq", 1, title {"Frequency"}, description { "Output frequency (default = 1.0)." } };
+	attribute<double> freq { this, "freq", 1, title {"Frequency"}, description { "Output frequency (default = 1.0)." } };
 
-	attribute<double> phase = { this, "phase", 0, title {"Phase"}, description { "Output phase offset (default = 0.0)." } };
+	attribute<double> phase { this, "phase", 0, title {"Phase"}, description { "Output phase offset (default = 0.0)." } };
 
-	attribute<double> speed = { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
+	attribute<double> speed { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
 
-	attribute<double> offset = { this, "offset", 0, title {"Offset"}, description { "Output offset (default = 0.0)." } };
+	attribute<double> offset { this, "offset", 0, title {"Offset"}, description { "Output offset (default = 0.0)." } };
 
-	attribute<double> delta = { this, "delta", 0, title {"Delta Time"},
+	attribute<double> delta { this, "delta", 0, title {"Delta Time"},
         description { "Frame delta time for animating graph (default = 0.0). When bound to <o>jit.mo.join</o> this value is set automatically." },
 		setter { MIN_FUNCTION {
 			double val = args[0];
@@ -61,12 +61,12 @@ public:
 		}}
 	};
 
-	attribute<double> start = { this, "start", -1., title {"Start Line"}, description { "Line function start (default = -1.0)." } };
+	attribute<double> start { this, "start", -1., title {"Start Line"}, description { "Line function start (default = -1.0)." } };
 
-	attribute<double> end = { this, "end", 1., title {"End Line"}, description { "Line function end (default = 1.0)." } };
+	attribute<double> end { this, "end", 1., title {"End Line"}, description { "Line function end (default = 1.0)." } };
 
-	attribute<double> rand_amt = { this, "rand_amt", 0, title {"Random Amount"}, description { "Scales the random offset value (default = 0.0)." } };
-
+	attribute<double> rand_amt { this, "rand_amt", 0, title {"Random Amount"}, description { "Scales the random offset value (default = 0.0)." } };
+    
 	message rand = { this, "rand", "Generate new random values for rand_amt offset.",
         MIN_FUNCTION {
             reseed = true;
@@ -106,7 +106,7 @@ public:
 		}
 		else if (functype == functypes::tri) {
 			val = norm * freq * 2.0 + phase;
-			val = foldit(val, 0., 1.);
+            val = math::fold(val, 0., 1.);
 			val = (val * 2.0 - 1.0);
 		}
 		else if (functype == functypes::line) {
@@ -142,44 +142,6 @@ public:
 
 private:
 
-	static double foldit(double x, double lo, double hi) {
-		long di;
-		double m,d,tmp;
-
-		if (lo > hi) {
-			tmp = lo;
-			lo  = hi;
-			hi  = tmp;
-		}
-		if (lo)
-			x -= lo;
-		m = hi-lo;
-		if (m) {
-			if (x < 0.)
-				x = -x;
-			if (x>m) {
-				if (x>(m*2.)) {
-					d = x / m;
-					di = (long) d;
-					d = d - (double) di;
-					if (di%2) {
-						if (d < 0) {
-							d = -1. - d;
-						} else {
-							d = 1. - d;
-						}
-					}
-					x = d * m;
-					if (x < 0.)
-						x = m+x;
-				} else {
-					x = m-(x-m);
-				}
-			}
-		} else x = 0.; //don't divide by zero
-
-		return x + lo;
-	}
 
 	std::vector<double>	randvals;
 	bool reseed = true;
