@@ -28,17 +28,22 @@
 
 	<methodlist>
 
+		<method name='maxob_setup'>
+			<digest></digest>
+			<description></description>
+		</method>
+
+		<method name='setup'>
+			<digest></digest>
+			<description></description>
+		</method>
+
 		<method name='maxclass_setup'>
 			<digest></digest>
 			<description></description>
 		</method>
 
 		<method name='mob_setup'>
-			<digest></digest>
-			<description></description>
-		</method>
-
-		<method name='setup'>
 			<digest></digest>
 			<description></description>
 		</method>
@@ -56,11 +61,6 @@
 	<attributelist>
 
 		<attribute name='name' get='1' set='1' type='symbol' size='1' >
-			<digest></digest>
-			<description></description>
-		</attribute>
-
-		<attribute name='count' get='1' set='1' type='long' size='1' >
 			<digest></digest>
 			<description></description>
 		</attribute>

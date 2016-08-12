@@ -28,17 +28,9 @@ public:
 	
     outlet	output	= { this, "(matrix) Output", "matrix" };
     
-    attribute<double> speed { this, "speed", 1.0 };
+    attribute<double> speed { this, "speed", 1.0, title {"Speed"} };
     
-    attribute<int> count { this, "count", 1,
-		setter { MIN_FUNCTION {
-            if(initialized())
-                update_attached_dim(atom_getlong(&args[0]));
-            return args;
-		}}
-	};
-    
-    attribute<symbol> name { this, "name", _jit_sym_nothing,
+    attribute<symbol> name { this, "name", _jit_sym_nothing, title {"Name"},
         setter { MIN_FUNCTION {
             if(initialized()) {
                 t_object *o = nullptr;
@@ -60,7 +52,9 @@ public:
                 if(!(new_name == nothing))
                     object_register(_jit_sym_jitter, new_name, m_maxobj);
                 
-                // update children?
+                for( const auto& n : m_attached )
+                    object_attr_setlong(n.second, gensym("join"), new_name);
+
             }
         
             return args;
@@ -108,11 +102,7 @@ public:
                 //secs /= 1000.;
                 
                 object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*speed);
-                
-                t_object *mwrap=NULL;
-                object_obex_lookup(n.second, sym_maxwrapper, &mwrap);
-                if(mwrap)
-                    object_method(mwrap, sym_bang);
+                object_method(maxob_from_jitob(n.second), sym_bang);
             }
             
             if(mob)
@@ -122,10 +112,10 @@ public:
         }
     }
     
-    std::string namefromobptr(t_object *ob) {
-        std::stringstream ss;
-        ss << ob;
-        return ss.str();
+    void update_attached_dim(long dim) {
+        count = dim;
+        for( const auto& n : m_attached )
+            object_attr_setlong(maxob_from_jitob(n.second), _jit_sym_dim, count);
     }
     
     void attach(t_object *child) {
@@ -184,7 +174,7 @@ private:
     }};
     
     message setup = { this, "setup", MIN_FUNCTION {
-        name = symbol_unique();
+        //name = symbol_unique();
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         return {};
     }};
@@ -242,6 +232,13 @@ private:
         return {};
     }};
     
+    message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
+        if(name == symbol(""))
+            name = symbol_unique();
+        
+        return {};
+    }};
+
     typedef enum _patchline_updatetype {
         JPATCHLINE_DISCONNECT=0,
         JPATCHLINE_CONNECT=1,
@@ -258,37 +255,45 @@ private:
         //long dstin = args[6];
         symbol n = name;
         
-        if (x==dst && srcout==0 && object_classname_compare(src, gensym("jit.mo.func")))
-        {
+        // TODO: we could allow setting dim on any object with a dim attribute
+        if (x == dst && srcout == 0 && object_classname_compare(src, gensym("jit.mo.func"))) {
 
-            switch (updatetype)
-            {
-            case JPATCHLINE_CONNECT:
-                //m_attached.insert({name, src});
-                //object_attr_setlong(src, _jit_sym_planecount, 1);
-                //object_attr_setsym(src, _jit_sym_type, type);
-                object_attr_setlong(src, _jit_sym_dim, count);
-                object_attr_setsym(src, gensym("join"), n);
-                
-                break;
-            case JPATCHLINE_DISCONNECT:
-                //m_attached.erase(name);
-                object_attr_setsym(src, gensym("join"), _jit_sym_nothing);
-                break;
-            case JPATCHLINE_ORDER:
-                break;
+            switch (updatetype) {
+                // TODO: create patchcord_join attribute to distiguish from explicit user setting
+                case JPATCHLINE_CONNECT:
+                    //m_attached.insert({name, src});
+                    //object_attr_setlong(src, _jit_sym_planecount, 1);
+                    //object_attr_setsym(src, _jit_sym_type, type);
+                    object_attr_setlong(src, _jit_sym_dim, count);
+                    object_attr_setsym(src, gensym("join"), n);
+                    
+                    break;
+                case JPATCHLINE_DISCONNECT:
+                    //m_attached.erase(name);
+                    object_attr_setsym(src, gensym("join"), _jit_sym_nothing);
+                    break;
+                case JPATCHLINE_ORDER:
+                    break;
             }
         }
         return {};
     }};
     
-    void update_attached_dim(long dim) {
-        for( const auto& n : m_attached )
-            object_attr_setlong(n.second, _jit_sym_dim, dim);
+    std::string namefromobptr(t_object *ob) {
+        std::stringstream ss;
+        ss << ob;
+        return ss.str();
+    }
+    
+    t_object *maxob_from_jitob(t_object *job) {
+        t_object *mwrap=NULL;
+        object_obex_lookup(job, sym_maxwrapper, &mwrap);
+        return mwrap;
     }
     
     std::unordered_map<std::string, t_object*> m_attached;
     t_symbol *type = _jit_sym_float32;
+    long count = 1;
     
     const symbol sym_bang = "bang";
     const symbol sym_delta = "delta";
@@ -320,7 +325,8 @@ t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t
 {
     if(argv && argc) {
         void* job = max_jit_obex_jitob_get(mob);
-        object_attr_setlong(job, gensym("count"), atom_getlong(argv));
+        minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
+        self->min_object.update_attached_dim(atom_getlong(argv));
         max_jit_mop_dim(mob, attr, argc, argv);
     }
     

@@ -84,7 +84,7 @@
 
 	<seealsolist>
 		<seealso name='jit.mo.join' />
-		<seealso name='jit.mo.gen' />
+		<seealso name='jit.mo.func' />
 	</seealsolist>
 
 
