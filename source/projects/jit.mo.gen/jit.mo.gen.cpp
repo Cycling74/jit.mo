@@ -67,6 +67,14 @@ public:
 
 	attribute<double> rand_amt { this, "rand_amt", 0, title {"Random Amount"}, description { "Scales the random offset value (default = 0.0)." } };
     
+    attribute<symbol> join { this, "join", _jit_sym_nothing, title {"Join name"},
+        description { "Sets the <o>jit_mo_join</o> object binding. When set, animation parameters are controlled by the named object." },
+        setter { MIN_FUNCTION {
+            update_parent(args[0]);
+            return args;
+        }}
+    };
+    
 	message rand = { this, "rand", "Generate new random values for rand_amt offset.",
         MIN_FUNCTION {
             reseed = true;
@@ -142,6 +150,26 @@ public:
 
 private:
 
+    void update_parent (symbol name) {
+        symbol curjoin = join;
+        
+        if(!(curjoin == symbol(_jit_sym_nothing))) {
+            t_object *o = (t_object*)object_findregistered(_jit_sym_jitter, curjoin);
+            if(o) {
+                object_method(o, gensym("detach"), m_maxobj);
+            }
+        }
+        
+        if(!(name == symbol(_jit_sym_nothing))) {
+            t_object *o = (t_object*)object_findregistered(_jit_sym_jitter, name);
+            if(o) {
+                object_method(o, gensym("attach"), m_maxobj);
+            }
+            else {
+                // add to global list that's checked in join constructor
+            }
+        }
+    }
 
 	std::vector<double>	randvals;
 	bool reseed = true;

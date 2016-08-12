@@ -20,16 +20,43 @@ public:
         jit_object_free(animator);
     }
 	
-    attribute<double> speed = { this, "speed", 1.0 };
+    attribute<double> speed { this, "speed", 1.0 };
     
-    attribute<int> inletct = { this, "inletct", 1 };
+    attribute<int> inletct { this, "inletct", 1 };
     
-    attribute<int> count = { this, "count", 1,
+    attribute<int> count { this, "count", 1,
 		setter { MIN_FUNCTION {
             update_attached_dim(atom_getlong(&args[0]));
             return args;
 		}}
 	};
+    
+    attribute<symbol> name { this, "name", _jit_sym_nothing,
+        setter { MIN_FUNCTION {
+            t_object *o = nullptr;
+            symbol new_name = args[0];
+            symbol nothing = _jit_sym_nothing;
+            
+            if(new_name == name)
+                return args;
+            
+            if ((o = (t_object*)object_findregistered(_jit_sym_jitter, new_name))) {
+                //error("name %s already in use. anode does not allow multiple bindings", new_name->s_name);
+                symbol old_name = name;
+                return {old_name};
+            }
+            
+            if(!(name == nothing))
+                object_unregister(m_maxobj);
+            
+            if(!(new_name == nothing))
+                object_register(_jit_sym_jitter, new_name, m_maxobj);
+            
+            // update children?
+        
+            return args;
+        }}
+    };
     
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
@@ -68,7 +95,11 @@ public:
         if(enable) {
             for( const auto& n : m_attached ) {
                 object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*speed);
-                object_method(n.second, sym_bang);
+                
+                t_object *mwrap=NULL;
+                object_obex_lookup(n.second, sym_maxwrapper, &mwrap);
+                if(mwrap)
+                    object_method(mwrap, sym_bang);
             }
             
             if(mob)
@@ -76,6 +107,20 @@ public:
             
             request_clear = true;
         }
+    }
+    
+    std::string namefromobptr(t_object *ob) {
+        std::stringstream ss;
+        ss << ob;
+        return ss.str();
+    }
+    
+    void attach(t_object *child) {
+        m_attached.insert({namefromobptr(child), child});
+    }
+    
+    void detach(t_object *child) {
+        m_attached.erase(namefromobptr(child));
     }
     
     void do_int(long v) {
@@ -91,6 +136,7 @@ public:
 private:
     
     message setup = { this, "setup", MIN_FUNCTION {
+        name = symbol_unique();
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         return {};
     }};
@@ -109,23 +155,24 @@ private:
         long srcout = args[4];
         t_object *dst = args[5];
         //long dstin = args[6];
+        symbol n = name;
         
         if (x==dst && srcout==0 && object_classname_compare(src, gensym("jit.mo.gen")))
         {
-            std::stringstream ss;
-            ss << src;
-            std::string name = ss.str();
 
             switch (updatetype)
             {
             case JPATCHLINE_CONNECT:
-                m_attached.insert({name, src});
-                object_attr_setlong(src, _jit_sym_planecount, 1);
-                object_attr_setsym(src, _jit_sym_type, type);
+                //m_attached.insert({name, src});
+                //object_attr_setlong(src, _jit_sym_planecount, 1);
+                //object_attr_setsym(src, _jit_sym_type, type);
                 object_attr_setlong(src, _jit_sym_dim, count);
+                object_attr_setsym(src, gensym("join"), n);
+                
                 break;
             case JPATCHLINE_DISCONNECT:
-                m_attached.erase(name);
+                //m_attached.erase(name);
+                object_attr_setsym(src, gensym("join"), _jit_sym_nothing);
                 break;
             case JPATCHLINE_ORDER:
                 break;
@@ -144,6 +191,7 @@ private:
     
     const symbol sym_bang = "bang";
     const symbol sym_delta = "delta";
+    const symbol sym_maxwrapper = "maxwrapper";
 
 };
 
@@ -316,6 +364,18 @@ void jit_mo_join_update_anim(t_object *job, t_atom *a)
     self->min_object.update(a);
 }
 
+void jit_mo_join_attach(t_object *job, t_object *cob)
+{
+    minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
+    self->min_object.attach(cob);
+}
+
+void jit_mo_join_detach(t_object *job, t_object *cob)
+{
+    minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
+    self->min_object.detach(cob);
+}
+
 void ext_main (void* resources) {
     const char* cppname = "jit_mo_join";
 	std::string	maxname = c74::min::deduce_maxclassname(__FILE__);
@@ -331,6 +391,8 @@ void ext_main (void* resources) {
     
 	//add methods
 	jit_class_addmethod(c, (method)jit_mo_join_update_anim, "update_anim", A_CANT, 0);
+    jit_class_addmethod(c, (method)jit_mo_join_attach, "attach", A_CANT, 0);
+    jit_class_addmethod(c, (method)jit_mo_join_detach, "detach", A_CANT, 0);
     
     auto attr = jit_object_new(_jit_sym_jit_attr_offset, "inletct", _jit_sym_long,ATTR_GET_OPAQUE_USER|ATTR_SET_OPAQUE_USER,
                               (method)min_attr_getter<jit_mo_join>, (method)min_attr_setter<jit_mo_join>, 0);
@@ -344,6 +406,11 @@ void ext_main (void* resources) {
                          (method)min_attr_getter<jit_mo_join>, (method)min_attr_setter<jit_mo_join>, 0);
     jit_class_addattr(c, attr);
     CLASS_ATTR_LABEL(c,	"speed", 0, "Speed");
+    
+    attr = jit_object_new(_jit_sym_jit_attr_offset, "name", k_sym_symbol,ATTR_GET_DEFER_LOW|ATTR_SET_DEFER_LOW,
+                          (method)min_attr_getter<jit_mo_join>, (method)min_attr_setter<jit_mo_join>, 0);
+    jit_class_addattr(c, attr);
+    CLASS_ATTR_LABEL(c,	"name", 0, "Name");
     
     jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_join>, min_object) + calcoffset(jit_mo_join, animator), 0);
 
