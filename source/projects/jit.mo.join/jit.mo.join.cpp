@@ -15,14 +15,71 @@ void jit_mo_join_detach(t_object *job, t_object *cob);
 t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t_atom *argv);
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv);
 void max_jit_mo_join_int(max_jit_wrapper *mob, long v);
+void max_jit_mo_join_addfuncob(max_jit_wrapper *mob, t_object *ob);
+void max_jit_mo_join_removefuncob(max_jit_wrapper *mob, t_object *ob);
 
 static const symbol ps_automatic = "automatic";
+
+// static singleton class to hold unbound jit.mo.func objects.
+// checked when any jit.mo.join name attribute is set.
+// allows for setting jit.mo.func join attribute prior to creation of that object
+
+class funcob_container {
+    std::vector <t_object*>funcobs;
+    
+    funcob_container() {}
+    
+public:
+    void add_ob(t_object *o) {
+        funcobs.push_back(o);
+    }
+    
+    void remove_ob(t_object *o) {
+        int i = 0;
+        for(auto a : funcobs) {
+            if(a == o) {
+                funcobs.erase(funcobs.begin() + i);
+                break;
+            }
+            i++;
+        }
+    }
+    
+    void check_obs(t_symbol* joinname) {
+        if(funcobs.size()) {
+            typedef std::vector <t_object*>::iterator fobitr;
+            
+            fobitr iter = funcobs.begin();
+            while (iter != funcobs.end()) {
+                t_object *o = *iter;
+                t_symbol* joinsym = object_attr_getsym(o, gensym("join"));
+                if(joinname == joinsym) {
+                    t_object *joinob = (t_object*)object_findregistered(_jit_sym_jitter, joinname);
+                    if(joinob) {
+                        object_method(joinob, gensym("attach"), o);
+                        iter = funcobs.erase(iter);
+                        continue;
+                    }
+                }
+                ++iter;
+            }
+        }
+    }
+
+    static funcob_container &instance() {
+        static funcob_container s_instance;
+        return s_instance;
+    }
+};
 
 class jit_mo_join : public object<jit_mo_join>, matrix_operator {
 public:
     
 	jit_mo_join(const atoms& args = {}) {}
 	~jit_mo_join() {
+        for(auto a : m_attached) {
+            funcob_container::instance().add_ob(a.second);
+        }
         jit_object_free(animator);
     }
 	
@@ -54,7 +111,8 @@ public:
                 
                 for( const auto& n : m_attached )
                     object_attr_setlong(n.second, gensym("join"), new_name);
-
+                
+                funcob_container::instance().check_obs(new_name);
             }
         
             return args;
@@ -168,8 +226,10 @@ private:
                               (method)max_jit_mop_getdim,(method)max_jit_mo_join_dim,0);
         max_jit_class_addattr(c,attr);
         
-        class_addmethod(c, (method)max_jit_mo_join_jit_matrix, "jit_matrix", A_GIMME, 0);
-        class_addmethod(c, (method)max_jit_mo_join_int, "int", A_LONG, 0);
+        class_addmethod(c, (method)max_jit_mo_join_jit_matrix,  "jit_matrix", A_GIMME, 0);
+        class_addmethod(c, (method)max_jit_mo_join_int,         "int", A_LONG, 0);
+        class_addmethod(c, (method)max_jit_mo_join_addfuncob,   "addfuncob", A_CANT, 0);
+        class_addmethod(c, (method)max_jit_mo_join_removefuncob, "removefuncob", A_CANT, 0);
         
         return {};
     }};
@@ -339,6 +399,16 @@ void max_jit_mo_join_int(max_jit_wrapper *mob, long v)
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
     self->min_object.do_int(v);
+}
+
+void max_jit_mo_join_addfuncob(max_jit_wrapper *mob, t_object *ob)
+{
+    funcob_container::instance().add_ob(ob);
+}
+
+void max_jit_mo_join_removefuncob(max_jit_wrapper *mob, t_object *ob)
+{
+    funcob_container::instance().remove_ob(ob);
 }
 
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv)

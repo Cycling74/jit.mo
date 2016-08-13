@@ -28,8 +28,17 @@ public:
     jit_mo_func(const atoms& args = {}) {}
     
     ~jit_mo_func() {
+    
         if(!(join == symbol(""))) {
             update_parent(symbol(""));
+        }
+    
+        if(unbound) {
+            t_object *mojoin = (t_object*)newinstance(gensym("jit.mo.join"), 0, NULL);
+            if(mojoin) {
+                object_method(mojoin, gensym("removefuncob"), m_maxobj);
+                freeobject(mojoin);
+            }
         }
     }
 
@@ -175,13 +184,20 @@ private:
                 object_method(o, gensym("attach"), m_maxobj);
             }
             else {
-                // add to global list that's checked in join constructor
+                // add to global list that's checked in join name attr setter
+                t_object *mojoin = (t_object*)newinstance(gensym("jit.mo.join"), 0, NULL);
+                if(mojoin) {
+                    unbound = true;
+                    object_method(mojoin, gensym("addfuncob"), m_maxobj);
+                    freeobject(mojoin);
+                }
             }
         }
     }
 
 	std::vector<double>	randvals;
 	bool reseed = true;
+    bool unbound = false;
 };
 
 MIN_EXTERNAL(jit_mo_func);
