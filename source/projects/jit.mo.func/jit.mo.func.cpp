@@ -25,6 +25,14 @@ public:
     
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 
+    jit_mo_func(const atoms& args = {}) {}
+    
+    ~jit_mo_func() {
+        if(!(join == symbol(""))) {
+            update_parent(symbol(""));
+        }
+    }
+
 	attribute<symbol> functype { this, "functype", functypes::function,
 		title {"Function Type"},
         description { "The fuction type used for generating matrices." },
@@ -86,7 +94,8 @@ public:
 		t_object *mob=NULL;
 		object_obex_lookup(m_maxobj, gensym("maxwrapper"), &mob);
 		if (args.size() < 3) {
-			object_attr_setlong(mob, _jit_sym_dim, args.size()>1 ? (long)args[1] : 1);
+            if(join == symbol(""))
+                object_attr_setlong(mob, _jit_sym_dim, args.size()>1 ? (long)args[1] : 1);
 			object_attr_setlong(mob, _jit_sym_planecount, args.size()>0 ? (long)args[0] : 1);
 			object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
 		}

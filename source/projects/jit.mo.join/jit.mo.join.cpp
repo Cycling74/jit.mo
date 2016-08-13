@@ -120,6 +120,7 @@ public:
     
     void attach(t_object *child) {
         m_attached.insert({namefromobptr(child), child});
+        update_attached_dim(count);
     }
     
     void detach(t_object *child) {
