@@ -81,8 +81,11 @@ public:
             if(position.x() == info.out_info->dim[0]-1)
                 reseed = false;
         }
-                
-        auto mix = smoothstep<matrix_type>(radius, radius-falloff, length);
+
+		double fradius = radius;
+		double ffalloff = falloff;
+		matrix_type diff = matrix_type(fradius - ffalloff);
+        auto mix = smoothstep<matrix_type>(matrix_type(double(radius)), diff, length);
         
         for(auto i=0 ; i<info.planecount(); i++)
             output[i] = input[i] + (norm[i]*mix) + (translate[i]*mix) + (dorand ? (randvals[position.x()]*rand_amt[i]*mix) : 0);
@@ -91,7 +94,7 @@ public:
 	}
     
     template<typename T>
-    T smoothstep(T edge0, T edge1, T x) {
+    T smoothstep(const T& edge0, const T& edge1, const T& x) {
         T t = MIN_CLAMP((x - edge0) / (edge1 - edge0), 0.0, 1.0);
         return t * t * (3.0 - 2.0 * t);
     }

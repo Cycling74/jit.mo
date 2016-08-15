@@ -34,10 +34,10 @@ public:
         }
     
         if(unbound) {
-            t_object *mojoin = (t_object*)newinstance(gensym("jit.mo.join"), 0, NULL);
+            t_object *mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
             if(mojoin) {
                 object_method(mojoin, gensym("removefuncob"), m_maxobj);
-                freeobject(mojoin);
+                object_free(mojoin);
             }
         }
     }
@@ -54,7 +54,7 @@ public:
 
 	attribute<double> phase { this, "phase", 0, title {"Phase"}, description { "Output phase offset (default = 0.0)." } };
 
-	attribute<double> speed { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
+	attribute<time_value> speed { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
 
 	attribute<double> offset { this, "offset", 0, title {"Offset"}, description { "Output offset (default = 0.0)." } };
 
@@ -147,7 +147,7 @@ public:
 			
 		}
 
-		if(rand_amt) {
+		if (rand_amt != 0.0) {
 			if(position.x() >= randvals.size())
 				randvals.push_back(math::random(-1., 1.));
 			else if(reseed)
@@ -185,11 +185,11 @@ private:
             }
             else {
                 // add to global list that's checked in join name attr setter
-                t_object *mojoin = (t_object*)newinstance(gensym("jit.mo.join"), 0, NULL);
+                t_object *mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
                 if(mojoin) {
                     unbound = true;
                     object_method(mojoin, gensym("addfuncob"), m_maxobj);
-                    freeobject(mojoin);
+                    object_free(mojoin);
                 }
             }
         }

@@ -94,7 +94,7 @@ public:
                 symbol new_name = args[0];
                 symbol nothing = _jit_sym_nothing;
                 
-                if(new_name == name)
+                if (name == new_name)
                     return args;
                 
                 if ((o = (t_object*)object_findregistered(_jit_sym_jitter, new_name))) {
