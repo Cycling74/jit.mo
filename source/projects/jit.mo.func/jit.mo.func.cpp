@@ -29,8 +29,8 @@ public:
     
     ~jit_mo_func() {
     
-        if(!(join == symbol(""))) {
-            update_parent(symbol(""));
+        if(!(join == symbol())) {
+            update_parent(symbol());
         }
     
         if(unbound) {
@@ -54,7 +54,7 @@ public:
 
 	attribute<double> phase { this, "phase", 0, title {"Phase"}, description { "Output phase offset (default = 0.0)." } };
 
-	attribute<time_value> speed { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
+	attribute<double> speed { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
 
 	attribute<double> offset { this, "offset", 0, title {"Offset"}, description { "Output offset (default = 0.0)." } };
 
@@ -103,7 +103,7 @@ public:
 		t_object *mob=NULL;
 		object_obex_lookup(m_maxobj, gensym("maxwrapper"), &mob);
 		if (args.size() < 3) {
-            if(join == symbol(""))
+            if(join == symbol())
                 object_attr_setlong(mob, _jit_sym_dim, args.size()>1 ? (long)args[1] : 1);
 			object_attr_setlong(mob, _jit_sym_planecount, args.size()>0 ? (long)args[0] : 1);
 			object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);

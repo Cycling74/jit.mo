@@ -11,6 +11,7 @@ using namespace c74::max;
 void jit_mo_join_update_anim(t_object *job, t_atom *a);
 void jit_mo_join_attach(t_object *job, t_object *cob);
 void jit_mo_join_detach(t_object *job, t_object *cob);
+//void jit_mo_join_interval_attrfilter(t_object *job, void *attr, long argc, t_atom *argv);
 
 t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t_atom *argv);
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv);
@@ -87,6 +88,8 @@ public:
     
     attribute<double> speed { this, "speed", 1.0, title {"Speed"} };
     
+    attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"}, };
+    
     attribute<symbol> name { this, "name", _jit_sym_nothing, title {"Name"},
         setter { MIN_FUNCTION {
             if(initialized()) {
@@ -102,7 +105,7 @@ public:
                     symbol old_name = name;
                     return {old_name};
                 }
-                
+                    
                 if(!(name == nothing))
                     object_unregister(m_maxobj);
                 
@@ -154,12 +157,9 @@ public:
 	
     void update(t_atom *av) {
         if(enable) {
+            update_speed();
             for( const auto& n : m_attached ) {
-                //const time_interval& speed_val = interval;
-                //double secs = speed_val;
-                //secs /= 1000.;
-                
-                object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*speed);
+                object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*(speed));
                 object_method(maxob_from_jitob(n.second), sym_bang);
             }
             
@@ -194,6 +194,7 @@ public:
     bool request_clear = true;
     t_object *animator = nullptr;
     t_object *mob = nullptr;
+    double interval_ms = 0;
     
 private:
     
@@ -235,7 +236,7 @@ private:
     }};
     
     message setup = { this, "setup", MIN_FUNCTION {
-        //name = symbol_unique();
+        //attr_addfilterset_proc(object_attr_get(m_maxobj, symbol("interval")), (method)jit_mo_join_interval_attrfilter);
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         return {};
     }};
@@ -294,8 +295,8 @@ private:
     }};
     
     message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
-        if(name == symbol(""))
-            name = symbol_unique();
+        if(name == symbol())
+            name = symbol(true);
         
         return {};
     }};
@@ -339,6 +340,15 @@ private:
         }
         return {};
     }};
+
+    void update_speed() {
+        double msecs = interval;
+        if(msecs != interval_ms ) {
+            interval_ms = msecs;
+            speed = 1.0 / (msecs / 1000.);
+            object_attr_touch(maxob_from_jitob(m_maxobj), gensym("speed"));
+        }
+    }
     
     std::string namefromobptr(t_object *ob) {
         std::stringstream ss;
