@@ -147,7 +147,7 @@ public:
 			
 		}
 
-		if(rand_amt) {
+		if (rand_amt != 0.0) {
 			if(position.x() >= randvals.size())
 				randvals.push_back(math::random(-1., 1.));
 			else if(reseed)
