@@ -34,10 +34,10 @@ public:
         }
     
         if(unbound) {
-            t_object *mojoin = (t_object*)newinstance(gensym("jit.mo.join"), 0, NULL);
+            t_object *mojoin = (t_object*)object_new(k_sym_box, symbol("jit.mo.join"), 0, NULL);
             if(mojoin) {
                 object_method(mojoin, gensym("removefuncob"), m_maxobj);
-                freeobject(mojoin);
+                object_free(mojoin);
             }
         }
     }
@@ -185,11 +185,11 @@ private:
             }
             else {
                 // add to global list that's checked in join name attr setter
-                t_object *mojoin = (t_object*)newinstance(gensym("jit.mo.join"), 0, NULL);
+                t_object *mojoin = (t_object*)object_new(k_sym_box, symbol("jit.mo.join"), 0, NULL);
                 if(mojoin) {
                     unbound = true;
                     object_method(mojoin, gensym("addfuncob"), m_maxobj);
-                    freeobject(mojoin);
+                    object_free(mojoin);
                 }
             }
         }
