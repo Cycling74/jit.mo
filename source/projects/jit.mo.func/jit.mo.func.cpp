@@ -5,6 +5,9 @@
 
 #include "c74_min.h"
 
+// taken from: https://github.com/stegu/perlin-noise
+#include "noise1234.h"
+
 using namespace c74::min;
 using namespace c74::max;
 
@@ -12,6 +15,7 @@ namespace functypes {
 	static const symbol sin = "sin";
 	static const symbol line = "line";
 	static const symbol tri = "tri";
+    static const symbol perlin = "perlin";
 	static const symbol function = "function";
 };
 
@@ -45,7 +49,7 @@ public:
 	attribute<symbol> functype { this, "functype", functypes::function,
 		title {"Function Type"},
         description { "The fuction type used for generating matrices." },
-		range {functypes::function, functypes::line, functypes::sin, functypes::tri}
+		range {functypes::function, functypes::line, functypes::sin, functypes::tri, functypes::perlin}
 	};
 
 	attribute<double> scale { this, "scale", 1, title {"Scale"}, description { "Output multiplier (default = 1.0)." } };
@@ -73,6 +77,8 @@ public:
 	attribute<double> end { this, "end", 1., title {"End Line"}, description { "Line function end (default = 1.0)." } };
 
 	attribute<double> rand_amt { this, "rand_amt", 0, title {"Random Amount"}, description { "Scales the random offset value (default = 0.0)." } };
+    
+    attribute<long> period { this, "period", 8, title {"Period Length"}, description { "The period length for the perlin noise function (default = 8)." } };
     
     attribute<symbol> join { this, "join", _jit_sym_nothing, title {"Join name"},
         description { "Sets the <o>jit_mo_join</o> object binding. When set, animation parameters are controlled by the named object." },
@@ -143,8 +149,9 @@ public:
 			else
 				val = (start*(1.-norm) + end*norm);
 		}
-		else {
-			
+		else if (functype == functypes::perlin) {
+            val = (fmod(norm * 2. * freq + phase, 2.0) - 1.) * (double)period;
+            val = pnoise1(val, period);
 		}
 
 		if (rand_amt != 0.0) {

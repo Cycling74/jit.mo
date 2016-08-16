@@ -38,17 +38,17 @@
 			<description></description>
 		</method>
 
-		<method name='jitclass_setup'>
-			<digest></digest>
-			<description></description>
-		</method>
-
 		<method name='maxclass_setup'>
 			<digest></digest>
 			<description></description>
 		</method>
 
 		<method name='mob_setup'>
+			<digest></digest>
+			<description></description>
+		</method>
+
+		<method name='jitclass_setup'>
 			<digest></digest>
 			<description></description>
 		</method>
@@ -60,12 +60,17 @@
 
 	<attributelist>
 
-		<attribute name='speed' get='1' set='1' type='float64' size='1' >
+		<attribute name='name' get='1' set='1' type='symbol' size='1' >
 			<digest></digest>
 			<description></description>
 		</attribute>
 
-		<attribute name='name' get='1' set='1' type='symbol' size='1' >
+		<attribute name='interval' get='1' set='1' type='time' size='1' >
+			<digest></digest>
+			<description></description>
+		</attribute>
+
+		<attribute name='speed' get='1' set='1' type='float64' size='1' >
 			<digest></digest>
 			<description></description>
 		</attribute>

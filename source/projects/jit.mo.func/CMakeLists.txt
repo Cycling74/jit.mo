@@ -11,6 +11,7 @@ include(${C74_MIN_API_DIR}/script/min-pretarget.cmake)
 
 include_directories( 
 	"${C74_INCLUDES}"
+	"${CMAKE_CURRENT_SOURCE_DIR}/noise1234.h"
 )
 
 
@@ -18,6 +19,7 @@ add_library(
 	${PROJECT_NAME} 
 	MODULE
 	${PROJECT_NAME}.cpp
+	noise1234.c
 )
 
 
