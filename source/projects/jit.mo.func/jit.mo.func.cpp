@@ -52,6 +52,8 @@ public:
 		range {functypes::function, functypes::line, functypes::sin, functypes::tri, functypes::perlin}
 	};
 
+    attribute<bool> loop { this, "loop", true, title {"Loop"}, description { "Enable and disable phase looping when animating (default = 1)" } };
+    
 	attribute<double> scale { this, "scale", 1, title {"Scale"}, description { "Output multiplier (default = 1.0)." } };
 
 	attribute<double> freq { this, "freq", 1, title {"Frequency"}, description { "Output frequency (default = 1.0)." } };
@@ -65,9 +67,12 @@ public:
 	attribute<double> delta { this, "delta", 0, title {"Delta Time"},
         description { "Frame delta time for animating graph (default = 0.0). When bound to <o>jit.mo.join</o> this value is set automatically." },
 		setter { MIN_FUNCTION {
-			double val = args[0];
-			phase = phase + (val * speed * 2.0); // default is one cycle / second	
-			phase = std::fmod(phase, 2.0);
+            double val = args[0];
+            double pval = phase + (val * speed * 2.0); // default is one cycle / second
+            
+            if(loop || pval < 2.0) {
+                phase = std::fmod(pval, 2.0);
+            }
 			return args;
 		}}
 	};
@@ -78,7 +83,13 @@ public:
 
 	attribute<double> rand_amt { this, "rand_amt", 0, title {"Random Amount"}, description { "Scales the random offset value (default = 0.0)." } };
     
-    attribute<long> period { this, "period", 8, title {"Period Length"}, description { "The period length for the perlin noise function (default = 8)." } };
+    attribute<long> period { this, "period", 8, title {"Period Length"},
+        description { "The period length for the perlin noise function (default = 8)." },
+        setter { MIN_FUNCTION {
+            long v = args[0];
+            return { std::max(v, 1L) };
+        }}
+    };
     
     attribute<symbol> join { this, "join", _jit_sym_nothing, title {"Join name"},
         description { "Sets the <o>jit_mo_join</o> object binding. When set, animation parameters are controlled by the named object." },

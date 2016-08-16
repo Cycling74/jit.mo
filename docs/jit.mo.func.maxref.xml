@@ -52,21 +52,6 @@
 
 	<attributelist>
 
-		<attribute name='end' get='1' set='1' type='float64' size='1' >
-			<digest>Line function end (default = 1</digest>
-			<description>Line function end (default = 1.0).</description>
-		</attribute>
-
-		<attribute name='scale' get='1' set='1' type='float64' size='1' >
-			<digest>Output multiplier (default = 1</digest>
-			<description>Output multiplier (default = 1.0).</description>
-		</attribute>
-
-		<attribute name='period' get='1' set='1' type='float64' size='1' >
-			<digest>The period length for the perlin noise function (default = 8)</digest>
-			<description>The period length for the perlin noise function (default = 8).</description>
-		</attribute>
-
 		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
 			<digest>Scales the random offset value (default = 0</digest>
 			<description>Scales the random offset value (default = 0.0).</description>
@@ -87,9 +72,29 @@
 			<description>Output offset (default = 0.0).</description>
 		</attribute>
 
+		<attribute name='period' get='1' set='1' type='float64' size='1' >
+			<digest>The period length for the perlin noise function (default = 8)</digest>
+			<description>The period length for the perlin noise function (default = 8).</description>
+		</attribute>
+
+		<attribute name='scale' get='1' set='1' type='float64' size='1' >
+			<digest>Output multiplier (default = 1</digest>
+			<description>Output multiplier (default = 1.0).</description>
+		</attribute>
+
+		<attribute name='end' get='1' set='1' type='float64' size='1' >
+			<digest>Line function end (default = 1</digest>
+			<description>Line function end (default = 1.0).</description>
+		</attribute>
+
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
 			<digest>Animation speed multiplier (default = 0</digest>
 			<description>Animation speed multiplier (default = 0.0).</description>
+		</attribute>
+
+		<attribute name='loop' get='1' set='1' type='long' size='1' >
+			<digest>Enable and disable phase looping when animating (default = 1)</digest>
+			<description>Enable and disable phase looping when animating (default = 1)</description>
 		</attribute>
 
 		<attribute name='phase' get='1' set='1' type='float64' size='1' >
