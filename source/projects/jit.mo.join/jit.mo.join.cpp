@@ -279,7 +279,7 @@ private:
         return {};
     }};
     
-    message mob_setup = { this, "mob_setup", MIN_FUNCTION {
+    message mop_setup = { this, "mop_setup", MIN_FUNCTION {
         void *o = m_maxobj;
         t_object *x = args[args.size()-1];
         
