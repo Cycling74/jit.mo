@@ -60,17 +60,22 @@
 
 	<attributelist>
 
-		<attribute name='name' get='1' set='1' type='symbol' size='1' >
-			<digest></digest>
-			<description></description>
-		</attribute>
-
 		<attribute name='interval' get='1' set='1' type='time' size='1' >
 			<digest></digest>
 			<description></description>
 		</attribute>
 
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
+			<digest></digest>
+			<description></description>
+		</attribute>
+
+		<attribute name='name' get='1' set='1' type='symbol' size='1' >
+			<digest></digest>
+			<description></description>
+		</attribute>
+
+		<attribute name='enable' get='1' set='1' type='long' size='1' >
 			<digest></digest>
 			<description></description>
 		</attribute>
