@@ -13,7 +13,7 @@ using namespace c74::max;
 void jit_mo_join_update_anim(t_object *job, t_atom *a);
 void jit_mo_join_attach(t_object *job, t_object *cob);
 void jit_mo_join_detach(t_object *job, t_object *cob);
-//void jit_mo_join_interval_attrfilter(t_object *job, void *attr, long argc, t_atom *argv);
+void jit_mo_join_automatic_attrfilter(t_object *job, void *attr, long argc, t_atom *argv);
 
 t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t_atom *argv);
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv);
@@ -26,6 +26,8 @@ static const symbol sym_automatic = "automatic";
 static const symbol sym_bang = "bang";
 static const symbol sym_delta = "delta";
 static const symbol sym_maxwrapper = "maxwrapper";
+static const symbol sym_drawto = "drawto";
+static const symbol sym_dest_closing = "dest_closing";
 
 // static singleton class to manage unbound mo.join and mo.func objects
 // mo.func obs are checked when any jit.mo.join name attribute is set.
@@ -46,6 +48,10 @@ public:
         joinobs.insert({o, patcher});
         if(joinobs.size() == 1)
             metro.delay(metro_interval);
+    }
+    
+    void remove_joinob(t_object *o) {
+        joinobs.erase(o);
     }
     
     void add_funcob(t_object *o) {
@@ -114,9 +120,16 @@ public:
             }
             
             if(name != _jit_sym_nothing) {
-                // set drawto of joinob to this name
                 t_object *joinob = a.first;
-                object_attr_setsym(joinob, gensym("drawto"), name);
+                
+                // attach max box to context
+                t_object *mwrap=NULL;
+                object_obex_lookup(joinob, sym_maxwrapper, &mwrap);
+                jit_object_attach(name, mwrap);
+                
+                // set drawto of joinob to context name
+                object_attr_setsym(joinob, sym_drawto, name);
+                //std::cout << "adding to context " << name->s_name << std::endl;
                 
                 erase.push_back(a.first);
             }
@@ -148,7 +161,10 @@ private:
                 t_object *o = jbox_get_object(jbox);
                 t_symbol *oname = object_classname(o);
                 if(oname == classname) {
-                    return object_attr_getsym(o, gensym("name"));
+                    if(classname == gensym("jit.world"))
+                        return object_attr_getsym(o, sym_drawto);
+                    else
+                        return object_attr_getsym(o, gensym("name"));
                 }
                 else {
                     t_object *jitob = (t_object *)max_jit_obex_jitob_get(o);
@@ -188,6 +204,10 @@ public:
         for(auto a : attached_funcobs) {
             jit_mo_join_singleton::instance().add_funcob(a.second);
         }
+        
+        if(implicit)
+            jit_mo_join_singleton::instance().remove_joinob(m_maxobj);
+        
         jit_object_free(animator);
     }
 	
@@ -338,6 +358,12 @@ public:
         attached_funcobs.erase(string_from_obptr(child));
     }
     
+    void automatic_filter(long automatic) {
+        if(implicit) {
+            // TODO: remove or add to implicit check list
+        }
+    }
+    
 private:
     
     message jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
@@ -378,8 +404,9 @@ private:
     }};
     
     message setup = { this, "setup", MIN_FUNCTION {
-        //attr_addfilterset_proc(object_attr_get(m_maxobj, symbol("interval")), (method)jit_mo_join_interval_attrfilter);
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
+        attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_join_automatic_attrfilter);
+        
         return {};
     }};
     
@@ -440,8 +467,11 @@ private:
         if(name == symbol())
             name = symbol(true);
         
-        if(object_attr_getsym(m_maxobj, gensym("drawto")) == _jit_sym_nothing) {
+        long atm = object_attr_getlong(m_maxobj, gensym("automatic"));
+        
+        if(atm && object_attr_getsym(m_maxobj, sym_drawto) == _jit_sym_nothing) {
             jit_mo_join_singleton::instance().add_joinob(m_maxobj, patcher);
+            implicit = true;
         }
         
         return {};
@@ -486,6 +516,17 @@ private:
         }
         return {};
     }};
+    
+    message notify = { this, "notify", MIN_FUNCTION {
+        symbol s = args[2];
+        if(s == sym_dest_closing) {
+            if(implicit) {
+                object_attr_setsym(animator, sym_drawto, _jit_sym_nothing);
+                jit_mo_join_singleton::instance().add_joinob(m_maxobj, patcher);
+            }
+        }
+        return { JIT_ERR_NONE };
+    }};
 
     void update_speed_from_interval() {
         double msecs = interval;
@@ -521,6 +562,7 @@ private:
     t_object*   patcher = nullptr;
     t_object*   animator = nullptr;
     t_object*   maxob = nullptr;
+    bool        implicit = false;
     int         curplane = 0;
     bool        request_clear = true;
     long        count = 1;
@@ -546,6 +588,15 @@ void jit_mo_join_detach(t_object *job, t_object *cob)
 {
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
     self->min_object.detach(cob);
+}
+
+void jit_mo_join_automatic_attrfilter(t_object *job, void *attr, long argc, t_atom *argv)
+{
+    minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
+    if(argc && argv) {
+        long automatic = atom_getlong(argv);
+        self->min_object.automatic_filter(automatic);
+    }
 }
 
 t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t_atom *argv)
