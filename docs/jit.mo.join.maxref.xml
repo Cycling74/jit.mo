@@ -33,7 +33,7 @@
 			<description></description>
 		</method>
 
-		<method name='setup'>
+		<method name='mop_setup'>
 			<digest></digest>
 			<description></description>
 		</method>
@@ -43,7 +43,7 @@
 			<description></description>
 		</method>
 
-		<method name='mob_setup'>
+		<method name='setup'>
 			<digest></digest>
 			<description></description>
 		</method>

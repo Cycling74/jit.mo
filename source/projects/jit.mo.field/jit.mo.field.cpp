@@ -11,7 +11,7 @@ using namespace std;
 
 class jit_mo_field : public object<jit_mo_field>, matrix_operator {
 public:
-    MIN_DESCRIPTION { "Field manipulator for jit.mo streams." };
+    MIN_DESCRIPTION { "Field manipulator for 3 plane jit.mo streams." };
     MIN_TAGS		{ "jit.mo, Manipulators" };
     MIN_AUTHOR		{ "Cycling '74" };
     MIN_RELATED		{ "jit.mo.join, jit.mo.func" };
@@ -42,15 +42,6 @@ public:
         reseed = true;
         return {};
     }};
-
-    message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
-        //t_object *mob=NULL;
-		//object_obex_lookup(m_maxobj, gensym("maxwrapper"), &mob);
-        //long planes = object_attr_getlong(mob, _jit_sym_planecount);
-        
-        return {};
-    }};
-
     
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
@@ -101,8 +92,8 @@ public:
 	
 	
 private:
-    vector<double>randvals;
-    bool reseed = true;
+    vector<double>  randvals;
+    bool            reseed = true;
 
 };
 

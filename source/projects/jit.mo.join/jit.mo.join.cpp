@@ -4,6 +4,8 @@
 ///	@license	Usage of this file and its contents is governed by the MIT License
 
 #include "c74_min.h"
+#include "c74_ui.h"
+#include "c74_ui_graphics.h"
 
 using namespace c74::min;
 using namespace c74::max;
@@ -18,27 +20,39 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
 void max_jit_mo_join_int(max_jit_wrapper *mob, long v);
 void max_jit_mo_join_addfuncob(max_jit_wrapper *mob, t_object *ob);
 void max_jit_mo_join_removefuncob(max_jit_wrapper *mob, t_object *ob);
+void max_jit_mo_join_removefuncob(max_jit_wrapper *mob, t_object *ob);
 
 static const symbol sym_automatic = "automatic";
 static const symbol sym_bang = "bang";
 static const symbol sym_delta = "delta";
 static const symbol sym_maxwrapper = "maxwrapper";
 
-// static singleton class to hold unbound jit.mo.func objects.
-// checked when any jit.mo.join name attribute is set.
-// allows for setting jit.mo.func join attribute prior to creation of that object
+// static singleton class to manage unbound mo.join and mo.func objects
+// mo.func obs are checked when any jit.mo.join name attribute is set.
+// mo.join obs are checked by a timer which walks the patcher looking for valid gl contexts
 
-class funcob_container {
-    std::vector <t_object*>funcobs;
-    
-    funcob_container() {}
+void check_joinobs_defer();
+
+class jit_mo_join_singleton {
     
 public:
-    void add_ob(t_object *o) {
+
+    timer metro {nullptr, MIN_FUNCTION {
+        defer_low(nullptr, (method)check_joinobs_defer, nullptr, 0, nullptr);
+        return {};
+    }};
+
+    void add_joinob(t_object *o, t_object *patcher) {
+        joinobs.insert({o, patcher});
+        if(joinobs.size() == 1)
+            metro.delay(metro_interval);
+    }
+    
+    void add_funcob(t_object *o) {
         funcobs.push_back(o);
     }
     
-    void remove_ob(t_object *o) {
+    void remove_funcob(t_object *o) {
         int i = 0;
         for(auto a : funcobs) {
             if(a == o) {
@@ -49,7 +63,7 @@ public:
         }
     }
     
-    void check_obs(t_symbol* joinname) {
+    void check_funcobs(t_symbol* joinname) {
         if(funcobs.size()) {
             typedef std::vector <t_object*>::iterator fobitr;
             
@@ -69,20 +83,110 @@ public:
             }
         }
     }
+    
+    void check_joinobs() {
+        t_object *patcher = nullptr, *prevpatcher = nullptr, *ppatcher = nullptr;
+        t_symbol *name = _jit_sym_nothing;
+        std::vector<t_object*> erase;
+        
+        for(auto a : joinobs) {
+            patcher = a.second;
+            
+            if(prevpatcher != patcher)
+                name = _jit_sym_nothing;
+            
+            while(patcher && name == _jit_sym_nothing) {
+                name = find_context(patcher, gensym("jit.world"), &ppatcher);
+                if(name != _jit_sym_nothing) {
+                    break;
+                }
 
-    static funcob_container &instance() {
-        static funcob_container s_instance;
+                name = find_context(patcher, gensym("jit_window"), &ppatcher);
+                if(name != _jit_sym_nothing) {
+                    break;
+                }
+                
+                name = find_context(patcher, gensym("jit.pwindow"), &ppatcher);
+                if(name != _jit_sym_nothing) {
+                    break;
+                }
+                patcher = ppatcher;
+            }
+            
+            if(name != _jit_sym_nothing) {
+                // set drawto of joinob to this name
+                t_object *joinob = a.first;
+                object_attr_setsym(joinob, gensym("drawto"), name);
+                
+                erase.push_back(a.first);
+            }
+            prevpatcher = patcher;
+        }
+        
+        for(auto a : erase) {
+            joinobs.erase(a);
+        }
+        
+        if(joinobs.size() > 0)
+            metro.delay(metro_interval);
+    }
+    
+    static jit_mo_join_singleton &instance() {
+        static jit_mo_join_singleton s_instance;
         return s_instance;
     }
+
+private:
+    jit_mo_join_singleton() {}
+    
+    t_symbol * find_context(t_object *patcher, t_symbol *classname, t_object **parent) {
+        *parent = 0;
+        
+        if(patcher) {
+            t_object *jbox = jpatcher_get_firstobject(patcher);
+            while(jbox) {
+                t_object *o = jbox_get_object(jbox);
+                t_symbol *oname = object_classname(o);
+                if(oname == classname) {
+                    return object_attr_getsym(o, gensym("name"));
+                }
+                else {
+                    t_object *jitob = (t_object *)max_jit_obex_jitob_get(o);
+                    if(jitob) {
+                        t_symbol *cname = object_classname(jitob);
+                        if(cname == classname) {
+                            return object_attr_getsym(o, gensym("name"));
+                        }
+                    }
+                }
+                
+                jbox = jbox_get_nextobject(jbox);
+            }
+            *parent = object_attr_getobj(patcher, gensym("parentpatcher"));
+        }
+        return _jit_sym_nothing;
+    }
+    
+    const long metro_interval = 500;
+    std::unordered_map<t_object*, t_object*> joinobs;
+    std::vector <t_object*>funcobs;
+
 };
+
+void check_joinobs_defer() {
+    jit_mo_join_singleton::instance().check_joinobs();
+}
 
 class jit_mo_join : public object<jit_mo_join>, matrix_operator {
 public:
     
-	jit_mo_join(const atoms& args = {}) {}
+	jit_mo_join(const atoms& args = {}) {
+        patcher = (t_object *)gensym("#P")->s_thing;
+    }
+    
 	~jit_mo_join() {
         for(auto a : attached_funcobs) {
-            funcob_container::instance().add_ob(a.second);
+            jit_mo_join_singleton::instance().add_funcob(a.second);
         }
         jit_object_free(animator);
     }
@@ -120,7 +224,7 @@ public:
                 for( const auto& n : attached_funcobs )
                     object_attr_setlong(n.second, gensym("join"), new_name);
                 
-                funcob_container::instance().check_obs(new_name);
+                jit_mo_join_singleton::instance().check_funcobs(new_name);
             }
         
             return args;
@@ -336,6 +440,10 @@ private:
         if(name == symbol())
             name = symbol(true);
         
+        if(object_attr_getsym(m_maxobj, gensym("drawto")) == _jit_sym_nothing) {
+            jit_mo_join_singleton::instance().add_joinob(m_maxobj, patcher);
+        }
+        
         return {};
     }};
 
@@ -410,6 +518,7 @@ private:
     }
     
     std::unordered_map<std::string, t_object*> attached_funcobs;
+    t_object*   patcher = nullptr;
     t_object*   animator = nullptr;
     t_object*   maxob = nullptr;
     int         curplane = 0;
@@ -460,12 +569,12 @@ void max_jit_mo_join_int(max_jit_wrapper *mob, long v)
 
 void max_jit_mo_join_addfuncob(max_jit_wrapper *mob, t_object *ob)
 {
-    funcob_container::instance().add_ob(ob);
+    jit_mo_join_singleton::instance().add_funcob(ob);
 }
 
 void max_jit_mo_join_removefuncob(max_jit_wrapper *mob, t_object *ob)
 {
-    funcob_container::instance().remove_ob(ob);
+    jit_mo_join_singleton::instance().remove_funcob(ob);
 }
 
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv)

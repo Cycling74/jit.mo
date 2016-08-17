@@ -113,6 +113,8 @@ public:
             functype = functypes::tri;
         else if (classname() == "jit.mo.sin")
             functype = functypes::sin;
+        else if (classname() == "jit.mo.perlin")
+            functype = functypes::perlin;
         return {};
     }};
 
@@ -214,8 +216,8 @@ private:
     }
 
 	std::vector<double>	randvals;
-	bool reseed = true;
-    bool unbound = false;
+	bool                reseed = true;
+    bool                unbound = false;
 };
 
 MIN_EXTERNAL(jit_mo_func);
