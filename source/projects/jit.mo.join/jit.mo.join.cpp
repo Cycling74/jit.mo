@@ -3,7 +3,7 @@
 /// @author		Rob Ramirez
 ///	@license	Usage of this file and its contents is governed by the MIT License
 
-#include "jit.mo.common.h"
+#include "jit.mo.singleton.h"
 
 using namespace c74::min;
 using namespace c74::max;
