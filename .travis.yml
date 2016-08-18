@@ -28,7 +28,7 @@ script:
 - if [ -d javascript ]; then cp -r javascript $PACKAGE_NAME; fi
 - if [ -d media ]; then cp -r media $PACKAGE_NAME; fi
 - if [ -d misc ]; then cp -r misc $PACKAGE_NAME; fi
-- if [ -d patchers ]; then cp -r help $PACKAGE_NAME; fi
+- if [ -d patchers ]; then cp -r patchers $PACKAGE_NAME; fi
 - mkdir dist
 - zip -r dist/$PACKAGE_NAME-$PACKAGE_REV.zip $PACKAGE_NAME
 deploy:
