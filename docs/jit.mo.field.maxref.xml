@@ -6,8 +6,8 @@
 
 <c74object name='jit.mo.field' category='jit.mo,  Manipulators'>
 
-	<digest>Field manipulator for jit</digest>
-	<description>Field manipulator for jit.mo streams.</description>
+	<digest>Field manipulator for 3 plane jit</digest>
+	<description>Field manipulator for 3 plane jit.mo streams.</description>
 
 
 	<!--METADATA-->
@@ -30,11 +30,6 @@
 
 	<methodlist>
 
-		<method name='maxob_setup'>
-			<digest></digest>
-			<description></description>
-		</method>
-
 		<method name='rand'>
 			<digest></digest>
 			<description></description>
@@ -47,7 +42,7 @@
 
 	<attributelist>
 
-		<attribute name='location' get='1' set='1' type='float64' size='1' >
+		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
 			<digest></digest>
 			<description></description>
 		</attribute>
@@ -67,7 +62,7 @@
 			<description></description>
 		</attribute>
 
-		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
+		<attribute name='location' get='1' set='1' type='float64' size='1' >
 			<digest></digest>
 			<description></description>
 		</attribute>

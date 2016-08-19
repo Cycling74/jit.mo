@@ -19,6 +19,8 @@ add_library(
 	${PROJECT_NAME} 
 	MODULE
 	${PROJECT_NAME}.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/../common/jit.mo.common.h
+	${CMAKE_CURRENT_SOURCE_DIR}/../common/jit.mo.singleton.h
 	${CMAKE_CURRENT_SOURCE_DIR}/../common/noise1234.c
 )
 

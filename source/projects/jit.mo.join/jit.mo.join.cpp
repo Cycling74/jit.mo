@@ -155,7 +155,10 @@ public:
     
     void update_animation(t_atom *av) {
         if(enable) {
-            update_speed_from_interval();
+            if(i_s.update(speed, interval)) {
+                object_attr_touch(maxob_from_jitob(m_maxobj), gensym("speed"));
+            }
+            
             for( const auto& n : attached_funcobs ) {
                 object_attr_setfloat(n.second, sym_delta, atom_getfloat(av)*(speed));
                 object_method(maxob_from_jitob(n.second), sym_bang);
@@ -224,6 +227,8 @@ private:
         class_addmethod(c, (method)max_jit_mo_join_int,         "int", A_LONG, 0);
         class_addmethod(c, (method)max_jit_mo_addfuncob,   "addfuncob", A_CANT, 0);
         class_addmethod(c, (method)max_jit_mo_removefuncob, "removefuncob", A_CANT, 0);
+        
+        class_addmethod(c, (method)max_jit_mop_assist, "assist", A_CANT, 0);	// standard matrix-operator (mop) assist fn
         
         return {};
     }};
@@ -353,14 +358,6 @@ private:
         return { JIT_ERR_NONE };
     }};
 
-    void update_speed_from_interval() {
-        double msecs = interval;
-        if(msecs != interval_ms ) {
-            interval_ms = msecs;
-            speed = 1.0 / (msecs / 1000.);
-            object_attr_touch(maxob_from_jitob(m_maxobj), gensym("speed"));
-        }
-    }
     
     void update_mop_props(void *mob) {
         t_jit_matrix_info info;
@@ -377,12 +374,6 @@ private:
         return ss.str();
     }
     
-    t_object *maxob_from_jitob(t_object *job) {
-        t_object *mwrap=NULL;
-        object_obex_lookup(job, sym_maxwrapper, &mwrap);
-        return mwrap;
-    }
-    
     std::unordered_map<std::string, t_object*> attached_funcobs;
     t_object*   patcher = nullptr;
     t_object*   animator = nullptr;
@@ -391,7 +382,8 @@ private:
     int         curplane = 0;
     bool        request_clear = true;
     long        count = 1;
-    double      interval_ms = 0;
+    
+    interval_speed  i_s;
     
 };
 

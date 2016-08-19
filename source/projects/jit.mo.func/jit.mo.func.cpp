@@ -3,21 +3,14 @@
 /// @author		Rob Ramirez
 ///	@license	Usage of this file and its contents is governed by the MIT License
 
-#include "c74_min.h"
+#include "jit.mo.common.h"
 
 // taken from: https://github.com/stegu/perlin-noise
 #include "noise1234.h"
 
 using namespace c74::min;
 using namespace c74::max;
-
-namespace functypes {
-	static const symbol sin = "sin";
-	static const symbol line = "line";
-	static const symbol tri = "tri";
-    static const symbol perlin = "perlin";
-	static const symbol function = "function";
-};
+using namespace jit_mo;
 
 class jit_mo_func : public object<jit_mo_func>, matrix_operator {
 public:
@@ -46,10 +39,10 @@ public:
         }
     }
 
-	attribute<symbol> functype { this, "functype", functypes::function,
+	attribute<symbol> functype { this, "functype", functypes::line,
 		title {"Function Type"},
         description { "The fuction type used for generating matrices." },
-		range {functypes::function, functypes::line, functypes::sin, functypes::tri, functypes::perlin}
+		range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
 	};
 
     attribute<bool> loop { this, "loop", true, title {"Loop"}, description { "Enable and disable phase looping when animating (default = 1)" } };
@@ -113,6 +106,8 @@ public:
             functype = functypes::tri;
         else if (classname() == "jit.mo.sin")
             functype = functypes::sin;
+        else if (classname() == "jit.mo.saw")
+            functype = functypes::saw;
         else if (classname() == "jit.mo.perlin")
             functype = functypes::perlin;
         return {};
@@ -145,7 +140,10 @@ public:
 		double val = 0;
 		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
 
-		if(functype == functypes::sin) {
+        if(functype == functypes::saw) {
+            val = fmod(norm * freq + phase, 1.);
+        }
+        else if(functype == functypes::sin) {
 			val = (norm * 2. - 1.) * freq + phase;
 			val = sin(val*M_PI);
 		}
