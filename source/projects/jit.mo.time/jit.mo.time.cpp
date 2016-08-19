@@ -14,6 +14,7 @@ using namespace c74::max;
 using namespace jit_mo;
 
 void jit_mo_time_update_anim(t_object *job, t_atom *a);
+void max_jit_mo_time_int(max_jit_wrapper *mob, long v);
 
 namespace timemodes {
     static const symbol accum = "accum";
@@ -65,7 +66,7 @@ public:
     
     attribute<double> phase { this, "phase", 0, title {"Phase"}, description { "Output phase offset (default = 0.0)." } };
     
-    attribute<double> speed { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
+    attribute<double> speed { this, "speed", 1, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
     
     attribute<double> offset { this, "offset", 0, title {"Offset"}, description { "Output offset (default = 0.0)." } };
     
@@ -173,13 +174,33 @@ private:
     message maxclass_setup { this, "maxclass_setup", MIN_FUNCTION {
         t_class *c = args[0];
         max_jit_class_wrap_standard(c, this_jit_class, 0);
+        class_addmethod(c, (method)max_jit_mo_time_int, "int", A_LONG, 0);
+        
         return {};
     }};
     
     message setup { this, "setup", MIN_FUNCTION {
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         //attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_time_automatic_attrfilter);
-    
+        
+        if(classname() == "jit.mo.time.delta") {
+            mode = timemodes::delta;
+        }
+        else if(!(classname() == "jit.mo.time")) {
+            
+            mode = timemodes::function;
+            
+            if (classname() == "jit.mo.time.line")
+                functype = functypes::line;
+            else if (classname() == "jit.mo.time.tri")
+                functype = functypes::tri;
+            else if (classname() == "jit.mo.time.sin")
+                functype = functypes::sin;
+            else if (classname() == "jit.mo.time.saw")
+                functype = functypes::saw;
+            else if (classname() == "jit.mo.time.perlin")
+                functype = functypes::perlin;
+        }
         return {};
     }};
     
@@ -232,4 +253,11 @@ void jit_mo_time_update_anim(t_object *job, t_atom *a)
 {
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
     self->min_object.update_animation(a);
+}
+
+void max_jit_mo_time_int(max_jit_wrapper *mob, long v)
+{
+    void* job = max_jit_obex_jitob_get(mob);
+    minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
+    self->min_object.enable = (bool)v;
 }

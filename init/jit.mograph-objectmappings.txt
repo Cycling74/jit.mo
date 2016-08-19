@@ -1,4 +1,12 @@
 max objectfile jit.mo.line jit.mo.func;
 max objectfile jit.mo.sin jit.mo.func;
+max objectfile jit.mo.saw jit.mo.func;
 max objectfile jit.mo.tri jit.mo.func;
 max objectfile jit.mo.perlin jit.mo.func;
+
+max objectfile jit.mo.time.line jit.mo.time;
+max objectfile jit.mo.time.sin jit.mo.time;
+max objectfile jit.mo.time.saw jit.mo.time;
+max objectfile jit.mo.time.tri jit.mo.time;
+max objectfile jit.mo.time.perlin jit.mo.time;
+max objectfile jit.mo.time.delta jit.mo.time;
