@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 567.0, 129.0, 769.0, 482.0 ],
+		"rect" : [ 283.0, 79.0, 769.0, 482.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -80,7 +80,6 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-18",
@@ -90,7 +89,7 @@
 									"outlettype" : [ "jit_matrix", "" ],
 									"patching_rect" : [ 5.0, 155.0, 422.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.field @radius 1.5 @translate 0. 0.9 -2.5 @force -0.4 @position 0 -0.5 0."
+									"text" : "jit.mo.field @radius 1.5 @translate 0. 0.9 -2.5 @force -0.4 @location 0 -0.5 0."
 								}
 
 							}
@@ -1800,7 +1799,7 @@
 									"outlettype" : [ "jit_matrix", "" ],
 									"patching_rect" : [ 12.0, 482.0, 234.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.field @radius 1. @position 0. 0. -0.1"
+									"text" : "jit.mo.field @radius 1. @location 0. 0. -0.1"
 								}
 
 							}
