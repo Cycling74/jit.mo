@@ -15,6 +15,7 @@ using namespace jit_mo;
 
 void jit_mo_time_update_anim(t_object *job, t_atom *a);
 void max_jit_mo_time_int(max_jit_wrapper *mob, long v);
+void max_jit_mo_time_bang(max_jit_wrapper *mob);
 
 namespace timemodes {
     static const symbol accum = "accum";
@@ -153,6 +154,17 @@ public:
             outlet_float(timeoutlet, val);
         }
     }
+    
+    void update_nonauto() {
+        long time = gettime();
+        float deltatime;
+        t_atom av;
+        if(prevtime_ms == 0) deltatime = 0;
+        else deltatime = (float)(time - prevtime_ms) * .001f;
+        prevtime_ms = time;
+        atom_setfloat(&av, deltatime);
+        update_animation(&av);
+    }
 
     template<class matrix_type, size_t planecount>
     cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
@@ -175,6 +187,7 @@ private:
         t_class *c = args[0];
         max_jit_class_wrap_standard(c, this_jit_class, 0);
         class_addmethod(c, (method)max_jit_mo_time_int, "int", A_LONG, 0);
+        class_addmethod(c, (method)max_jit_mo_time_bang, "bang", A_NOTHING, 0);
         
         return {};
     }};
@@ -216,7 +229,7 @@ private:
     }};
     
     message maxob_setup { this, "maxob_setup", MIN_FUNCTION {
-        long atm = object_attr_getlong(m_maxobj, gensym("automatic"));
+        long atm = object_attr_getlong(m_maxobj, sym_automatic);
         
         if(atm && object_attr_getsym(m_maxobj, sym_drawto) == _jit_sym_nothing) {
             jit_mo_singleton::instance().add_animob(m_maxobj, patcher);
@@ -243,6 +256,7 @@ private:
     void*       timeoutlet = nullptr;
     bool        implicit = false;
     double      accum_time = 0.;
+    long		prevtime_ms = 0;
     
     interval_speed i_s;
 };
@@ -260,4 +274,12 @@ void max_jit_mo_time_int(max_jit_wrapper *mob, long v)
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
     self->min_object.enable = (bool)v;
+}
+
+void max_jit_mo_time_bang(max_jit_wrapper *mob)
+{
+    void* job = max_jit_obex_jitob_get(mob);
+    minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
+    if(!object_attr_getlong(job, sym_automatic))
+        self->min_object.update_nonauto();
 }

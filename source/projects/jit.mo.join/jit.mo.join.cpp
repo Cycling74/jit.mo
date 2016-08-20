@@ -297,7 +297,7 @@ private:
         if(name == symbol())
             name = symbol(true);
         
-        long atm = object_attr_getlong(m_maxobj, gensym("automatic"));
+        long atm = object_attr_getlong(m_maxobj, sym_automatic);
         
         if(atm && object_attr_getsym(m_maxobj, sym_drawto) == _jit_sym_nothing) {
             jit_mo_singleton::instance().add_animob(m_maxobj, patcher);
