@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 100.0, 100.0, 852.0, 705.0 ],
+		"rect" : [ 427.0, 123.0, 863.0, 747.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -54,7 +54,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 0.0, 26.0, 852.0, 679.0 ],
+						"rect" : [ 0.0, 26.0, 863.0, 721.0 ],
 						"bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 						"editing_bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 						"bglocked" : 0,
@@ -171,7 +171,7 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 203.0, 226.0, 55.0, 22.0 ],
+									"patching_rect" : [ 203.0, 226.0, 56.0, 22.0 ],
 									"style" : ""
 								}
 
@@ -435,7 +435,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 100.0, 126.0, 852.0, 679.0 ],
+						"rect" : [ 427.0, 149.0, 863.0, 721.0 ],
 						"bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 						"editing_bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
 						"bglocked" : 0,
@@ -604,9 +604,9 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 219.0, 465.0, 457.0, 35.0 ],
+									"patching_rect" : [ 219.0, 465.0, 354.25, 35.0 ],
 									"style" : "",
-									"text" : "jit.gl.path @pathstyle tube @extrudescale 0.05 @segments 10 @interpmode spline @scale 0.5"
+									"text" : "jit.gl.path @pathstyle tube @extrudescale 0.05 @segments 10 @interpmode spline @scale 0.5 @joinstyle round"
 								}
 
 							}
@@ -1271,7 +1271,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 0.0, 26.0, 852.0, 679.0 ],
+						"rect" : [ 0.0, 26.0, 863.0, 721.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
