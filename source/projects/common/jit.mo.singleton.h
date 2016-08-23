@@ -73,8 +73,7 @@ namespace jit_mo {
                     t_object *joinob = a.first;
                     
                     // attach max box to context
-                    t_object *mwrap=NULL;
-                    object_obex_lookup(joinob, sym_maxwrapper, &mwrap);
+                    t_object *mwrap = maxob_from_jitob(joinob);                    
                     jit_object_attach(name, mwrap);
                     
                     // set drawto of joinob to context name

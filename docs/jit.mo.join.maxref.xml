@@ -61,23 +61,23 @@
 	<attributelist>
 
 		<attribute name='interval' get='1' set='1' type='time' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Animation interval (default = 0 ms)</digest>
+			<description>Animation interval (default = 0 ms).</description>
 		</attribute>
 
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Animation speed (default = 1</digest>
+			<description>Animation speed (default = 1.).</description>
 		</attribute>
 
 		<attribute name='name' get='1' set='1' type='symbol' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Object name (default = UID)</digest>
+			<description>Object name (default = UID).</description>
 		</attribute>
 
 		<attribute name='enable' get='1' set='1' type='long' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Enable Animation (default = 1)</digest>
+			<description>Enable Animation (default = 1).</description>
 		</attribute>
 
 	</attributelist>

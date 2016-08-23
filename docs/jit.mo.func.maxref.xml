@@ -59,12 +59,12 @@
 
 		<attribute name='join' get='1' set='1' type='symbol' size='1' >
 			<digest>Sets the <o>jit_mo_join</o> object binding</digest>
-			<description>Sets the <o>jit_mo_join</o> object binding. When set, animation parameters are controlled by the named object.</description>
+			<description>Sets the <o>jit_mo_join</o> object binding.             When set, animation parameters are controlled by the named object.</description>
 		</attribute>
 
 		<attribute name='delta' get='1' set='1' type='float64' size='1' >
 			<digest>Frame delta time for animating graph (default = 0</digest>
-			<description>Frame delta time for animating graph (default = 0.0). When bound to <o>jit.mo.join</o> this value is set automatically.</description>
+			<description>Frame delta time for animating graph (default = 0.0).             When bound to <o>jit.mo.join</o> this value is set automatically.</description>
 		</attribute>
 
 		<attribute name='offset' get='1' set='1' type='float64' size='1' >

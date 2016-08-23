@@ -31,8 +31,8 @@
 	<methodlist>
 
 		<method name='rand'>
-			<digest></digest>
-			<description></description>
+			<digest>Generate new random values for rand_amt offset</digest>
+			<description>Generate new random values for rand_amt offset.</description>
 		</method>
 
 	</methodlist>
@@ -42,34 +42,34 @@
 
 	<attributelist>
 
-		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+		<attribute name='location' get='1' set='1' type='float64' size='1' >
+			<digest>Location value (default = 0</digest>
+			<description>Location value (default = 0. 0. 0.).</description>
 		</attribute>
 
 		<attribute name='falloff' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Falloff value (default = 0</digest>
+			<description>Falloff value (default = 0.5).</description>
 		</attribute>
 
 		<attribute name='translate' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Translation amount (default = 0</digest>
+			<description>Translation amount (default = 0. 0. 0.).</description>
 		</attribute>
 
 		<attribute name='radius' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Radius value (default = 0</digest>
+			<description>Radius value (default = 0.5).</description>
 		</attribute>
 
-		<attribute name='location' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
+			<digest>Random offset amount (default = 0</digest>
+			<description>Random offset amount (default = 0. 0. 0.).</description>
 		</attribute>
 
 		<attribute name='force' get='1' set='1' type='float64' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Force amount (default = 0</digest>
+			<description>Force amount (default = 0.0).</description>
 		</attribute>
 
 	</attributelist>

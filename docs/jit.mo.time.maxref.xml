@@ -56,8 +56,8 @@
 		</method>
 
 		<method name='reset'>
-			<digest></digest>
-			<description></description>
+			<digest>Reset the accumulated time to 0</digest>
+			<description>Reset the accumulated time to 0.</description>
 		</method>
 
 	</methodlist>
@@ -74,7 +74,7 @@
 
 		<attribute name='delta' get='1' set='1' type='float64' size='1' >
 			<digest>Frame delta time for animating graph (default = 0</digest>
-			<description>Frame delta time for animating graph (default = 0.0). When bound to <o>jit.mo.join</o> this value is set automatically.</description>
+			<description>Frame delta time for animating graph (default = 0.0).             When <at>automatic</at> enabled this value is set automatically by the render context.</description>
 		</attribute>
 
 		<attribute name='offset' get='1' set='1' type='float64' size='1' >
@@ -118,13 +118,13 @@
 		</attribute>
 
 		<attribute name='interval' get='1' set='1' type='time' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Animation interval (default = 0 ms)</digest>
+			<description>Animation interval (default = 0 ms).</description>
 		</attribute>
 
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
-			<digest>Animation speed multiplier (default = 0</digest>
-			<description>Animation speed multiplier (default = 0.0).</description>
+			<digest>Animation speed multiplier (default = 1</digest>
+			<description>Animation speed multiplier (default = 1.0).</description>
 		</attribute>
 
 		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >

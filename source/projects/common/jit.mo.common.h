@@ -78,7 +78,7 @@ namespace jit_mo {
     
     struct interval_speed {
         
-        bool update(c74::min::attribute<double>& speed, c74::min::attribute<c74::min::time_value>& interval) {
+        bool update(c74::min::attribute<double>& speed, const c74::min::attribute<c74::min::time_value>& interval) {
             double msecs = interval;
             if(msecs != interval_ms ) {
                 interval_ms = msecs;

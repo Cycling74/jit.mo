@@ -57,22 +57,39 @@ public:
         range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
     };
     
-    attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"}, };
+    attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"},
+        description {"Animation interval (default = 0 ms)."}
+    };
     
-    attribute<bool> loop { this, "loop", true, title {"Loop"}, description { "Enable and disable phase looping when animating (default = 1)" } };
+    attribute<bool> loop { this, "loop", true, title {"Loop"},
+        description { "Enable and disable phase looping when animating (default = 1)" }
+    };
     
-    attribute<double> scale { this, "scale", 1, title {"Scale"}, description { "Output multiplier (default = 1.0)." } };
+    attribute<double> scale { this, "scale", 1, title {"Scale"},
+        description { "Output multiplier (default = 1.0)." }
+    };
     
-    attribute<double> freq { this, "freq", 1, title {"Frequency"}, description { "Output frequency (default = 1.0)." } };
+    attribute<double> freq { this, "freq", 1, title {"Frequency"},
+        description { "Output frequency (default = 1.0)." }
+    };
     
-    attribute<double> phase { this, "phase", 0, title {"Phase"}, description { "Output phase offset (default = 0.0)." } };
+    attribute<double> phase { this, "phase", 0, title {"Phase"},
+        description { "Output phase offset (default = 0.0)." }
+    };
     
-    attribute<double> speed { this, "speed", 1, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
+    attribute<double> speed { this, "speed", 1., title {"Speed"},
+        description { "Animation speed multiplier (default = 1.0)." }
+    };
     
-    attribute<double> offset { this, "offset", 0, title {"Offset"}, description { "Output offset (default = 0.0)." } };
+    attribute<double> offset { this, "offset", 0, title {"Offset"},
+        description { "Output offset (default = 0.0)." }
+    };
     
     attribute<double> delta { this, "delta", 0, title {"Delta Time"},
-        description { "Frame delta time for animating graph (default = 0.0). When bound to <o>jit.mo.join</o> this value is set automatically." },
+        description {
+            "Frame delta time for animating graph (default = 0.0). \
+            When <at>automatic</at> enabled this value is set automatically by the render context."
+        },
         setter { MIN_FUNCTION {
             double val = args[0];
             phase = update_phase_frome_delta(val, phase, speed, loop);
@@ -80,11 +97,17 @@ public:
         }}
     };
     
-    attribute<double> start { this, "start", -1., title {"Start Line"}, description { "Line function start (default = -1.0)." } };
+    attribute<double> start { this, "start", -1., title {"Start Line"},
+        description { "Line function start (default = -1.0)." }
+    };
     
-    attribute<double> end { this, "end", 1., title {"End Line"}, description { "Line function end (default = 1.0)." } };
+    attribute<double> end { this, "end", 1., title {"End Line"},
+        description { "Line function end (default = 1.0)." }
+    };
     
-    attribute<double> rand_amt { this, "rand_amt", 0, title {"Random Amount"}, description { "Scales the random offset value (default = 0.0)." } };
+    attribute<double> rand_amt { this, "rand_amt", 0, title {"Random Amount"},
+        description { "Scales the random offset value (default = 0.0)." }
+    };
     
     attribute<long> period { this, "period", 8, title {"Period Length"},
         description { "The period length for the perlin noise function (default = 8)." },
@@ -94,7 +117,7 @@ public:
         }}
     };
     
-    message reset { this, "reset", MIN_FUNCTION {
+    message reset { this, "reset", "Reset the accumulated time to 0.", MIN_FUNCTION {
         accum_time = 0.;
        return {};
     }};

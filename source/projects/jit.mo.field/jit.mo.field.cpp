@@ -22,26 +22,42 @@ public:
 	jit_mo_field(const atoms& args = {}) {}
 	~jit_mo_field() {}
     
-    attribute<double> force = { this, "force", 0, title {"Force"} };
+    attribute<double> force { this, "force", 0, title {"Force"},
+        description {"Force amount (default = 0.0)." }
+    };
 	
-    attribute<double> radius = { this, "radius", 0.5, title {"Radius"} };
+    attribute<double> radius { this, "radius", 0.5, title {"Radius"},
+        description {"Radius value (default = 0.5)." }
+    };
     
-    attribute<double> falloff = { this, "falloff", 0.5, title {"Fall off"},
+    attribute<double> falloff { this, "falloff", 0.5, title {"Fall off"},
+        description {"Falloff value (default = 0.5)." },
         setter { MIN_FUNCTION {
 			return { std::fmax(args[0], 0.00001) };
 		}}
     };
     
-    attribute<vector<double>> translate = { this, "translate", {0.0, 0.0, 0.0}, title{"Translate"} };
+    attribute<vector<double>> translate { this, "translate", {0.0, 0.0, 0.0},
+        title{"Translate"},
+        description {"Translation amount (default = 0. 0. 0.)." }
+    };
     
-    attribute<vector<double>> location = { this, "location", {0.0, 0.0, 0.0}, title{"Location"} };
+    attribute<vector<double>> location { this, "location", {0.0, 0.0, 0.0},
+        title{"Location"},
+        description {"Location value (default = 0. 0. 0.)." }
+    };
     
-    attribute<vector<double>> rand_amt = { this, "rand_amt", {0.0, 0.0, 0.0}, title{"Random Amount"} };
+    attribute<vector<double>> rand_amt { this, "rand_amt", {0.0, 0.0, 0.0},
+        title{"Random Amount"},
+        description {"Random offset amount (default = 0. 0. 0.)." },
+    };
     
-    message rand = { this, "rand", MIN_FUNCTION {
-        reseed = true;
-        return {};
-    }};
+    message rand = { this, "rand", "Generate new random values for rand_amt offset.",
+        MIN_FUNCTION {
+            reseed = true;
+            return {};
+        }
+    };
     
 	template<class matrix_type, size_t planecount>
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {

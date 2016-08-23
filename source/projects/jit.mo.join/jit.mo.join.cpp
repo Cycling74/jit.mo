@@ -38,13 +38,20 @@ public:
 	
     outlet	output	= { this, "(matrix) Output", "matrix" };
     
-    attribute<bool> enable { this, "enable", true, title {"Enable Animation"} };
+    attribute<bool> enable { this, "enable", true, title {"Enable Animation"},
+        description {"Enable Animation (default = 1)."}
+    };
     
-    attribute<double> speed { this, "speed", 1.0, title {"Speed"} };
+    attribute<double> speed { this, "speed", 1.0, title {"Speed"},
+        description {"Animation speed (default = 1.)."}
+    };
     
-    attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"}, };
+    attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"},
+        description {"Animation interval (default = 0 ms)."}
+    };
     
     attribute<symbol> name { this, "name", _jit_sym_nothing, title {"Name"},
+        description {"Object name (default = UID)."},
         setter { MIN_FUNCTION {
             if(initialized()) {
                 t_object *o = nullptr;

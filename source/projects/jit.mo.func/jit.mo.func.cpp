@@ -39,26 +39,40 @@ public:
         }
     }
 
-	attribute<symbol> functype { this, "functype", functypes::line,
-		title {"Function Type"},
+	attribute<symbol> functype { this, "functype", functypes::line, title {"Function Type"},
         description { "The fuction type used for generating matrices." },
 		range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
 	};
 
-    attribute<bool> loop { this, "loop", true, title {"Loop"}, description { "Enable and disable phase looping when animating (default = 1)" } };
+    attribute<bool> loop { this, "loop", true, title {"Loop"},
+        description { "Enable and disable phase looping when animating (default = 1)" }
+    };
     
-	attribute<double> scale { this, "scale", 1, title {"Scale"}, description { "Output multiplier (default = 1.0)." } };
+	attribute<double> scale { this, "scale", 1, title {"Scale"},
+        description { "Output multiplier (default = 1.0)." }
+    };
 
-	attribute<double> freq { this, "freq", 1, title {"Frequency"}, description { "Output frequency (default = 1.0)." } };
+	attribute<double> freq { this, "freq", 1, title {"Frequency"},
+        description { "Output frequency (default = 1.0)." }
+    };
 
-	attribute<double> phase { this, "phase", 0, title {"Phase"}, description { "Output phase offset (default = 0.0)." } };
+	attribute<double> phase { this, "phase", 0, title {"Phase"},
+        description { "Output phase offset (default = 0.0)." }
+    };
 
-	attribute<double> speed { this, "speed", 0, title {"Speed"}, description { "Animation speed multiplier (default = 0.0)." } };
+	attribute<double> speed { this, "speed", 0, title {"Speed"},
+        description { "Animation speed multiplier (default = 0.0)." }
+    };
 
-	attribute<double> offset { this, "offset", 0, title {"Offset"}, description { "Output offset (default = 0.0)." } };
+	attribute<double> offset { this, "offset", 0, title {"Offset"},
+        description { "Output offset (default = 0.0)." }
+    };
 
 	attribute<double> delta { this, "delta", 0, title {"Delta Time"},
-        description { "Frame delta time for animating graph (default = 0.0). When bound to <o>jit.mo.join</o> this value is set automatically." },
+        description {
+            "Frame delta time for animating graph (default = 0.0). \
+            When bound to <o>jit.mo.join</o> this value is set automatically."
+        },
 		setter { MIN_FUNCTION {
             double val = args[0];
             double pval = phase + (val * speed * 2.0); // default is one cycle / second
@@ -70,11 +84,17 @@ public:
 		}}
 	};
 
-	attribute<double> start { this, "start", -1., title {"Start Line"}, description { "Line function start (default = -1.0)." } };
+	attribute<double> start { this, "start", -1., title {"Start Line"},
+        description { "Line function start (default = -1.0)." }
+    };
 
-	attribute<double> end { this, "end", 1., title {"End Line"}, description { "Line function end (default = 1.0)." } };
+	attribute<double> end { this, "end", 1., title {"End Line"},
+        description { "Line function end (default = 1.0)." }
+    };
 
-	attribute<double> rand_amt { this, "rand_amt", 0, title {"Random Amount"}, description { "Scales the random offset value (default = 0.0)." } };
+	attribute<double> rand_amt { this, "rand_amt", 0, title {"Random Amount"},
+        description { "Scales the random offset value (default = 0.0)." }
+    };
     
     attribute<long> period { this, "period", 8, title {"Period Length"},
         description { "The period length for the perlin noise function (default = 8)." },
@@ -85,14 +105,18 @@ public:
     };
     
     attribute<symbol> join { this, "join", _jit_sym_nothing, title {"Join name"},
-        description { "Sets the <o>jit_mo_join</o> object binding. When set, animation parameters are controlled by the named object." },
+        description {
+            "Sets the <o>jit_mo_join</o> object binding. \
+            When set, animation parameters are controlled by the named object."
+        },
         setter { MIN_FUNCTION {
             update_parent(args[0]);
             return args;
         }}
     };
     
-	message rand = { this, "rand", "Generate new random values for rand_amt offset.",
+	message rand = { this, "rand",
+        "Generate new random values for rand_amt offset.",
         MIN_FUNCTION {
             reseed = true;
             return {};
@@ -114,8 +138,8 @@ public:
     }};
 
 	message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
-		t_object *mob=NULL;
-		object_obex_lookup(m_maxobj, gensym("maxwrapper"), &mob);
+		t_object *mob=maxob_from_jitob(m_maxobj);
+		
 		if (args.size() < 3) {
             if(join == symbol())
                 object_attr_setlong(mob, _jit_sym_dim, args.size()>1 ? (long)args[1] : 1);
