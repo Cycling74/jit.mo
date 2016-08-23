@@ -79,6 +79,7 @@ public:
             
             if(loop || pval < 2.0) {
                 phase = std::fmod(pval, 2.0);
+                object_attr_touch(maxob_from_jitob(m_maxobj), sym_phase);
             }
 			return args;
 		}}

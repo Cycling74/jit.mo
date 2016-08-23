@@ -15,6 +15,7 @@ namespace jit_mo {
     static const c74::min::symbol sym_maxwrapper = "maxwrapper";
     static const c74::min::symbol sym_drawto = "drawto";
     static const c74::min::symbol sym_dest_closing = "dest_closing";
+    static const c74::min::symbol sym_phase = "phase";
     
     namespace functypes {
         static const c74::min::symbol sin = "sin";
