@@ -139,13 +139,12 @@ public:
 
 	message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
 		t_object *mob=maxob_from_jitob(m_maxobj);
-		
-		if (args.size() < 3) {
-            if(join == symbol())
-                object_attr_setlong(mob, _jit_sym_dim, args.size()>1 ? (long)args[1] : 1);
-			object_attr_setlong(mob, _jit_sym_planecount, args.size()>0 ? (long)args[0] : 1);
-			object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
-		}
+		long dim = object_attr_getlong(mob, _jit_sym_dim);
+        
+        if(join == symbol())
+            object_attr_setlong(mob, _jit_sym_dim, args.size()>0 ? (long)args[0] : dim);
+        object_attr_setlong(mob, _jit_sym_planecount, 1);
+        object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
 
 		/*if(args.size() < 1)
 			object_attr_setlong(mob, _jit_sym_planecount, 1);
