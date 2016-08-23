@@ -65,6 +65,11 @@
 			<description>Animation interval (default = 0 ms).</description>
 		</attribute>
 
+		<attribute name='scale' get='1' set='1' type='float64' size='1' >
+			<digest>Output multiplier (default = 1</digest>
+			<description>Output multiplier (default = 1.0).</description>
+		</attribute>
+
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
 			<digest>Animation speed (default = 1</digest>
 			<description>Animation speed (default = 1.).</description>

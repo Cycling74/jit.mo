@@ -46,6 +46,10 @@ public:
         description {"Animation speed (default = 1.)."}
     };
     
+    attribute<double> scale { this, "scale", 1, title {"Scale"},
+        description { "Output multiplier (default = 1.0)." }
+    };
+    
     attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"},
         description {"Animation interval (default = 0 ms)."}
     };
@@ -99,7 +103,7 @@ public:
         // TODO: allow multiplane input
         for (auto j=0; j<n; ++j) {
             for (auto k=0; k<instep && k<outstep; ++k)
-                out[curplane] += *(in+instep*k);
+                out[curplane] += (*(in+instep*k) * scale);
             
             in += instep;
             out += outstep;
