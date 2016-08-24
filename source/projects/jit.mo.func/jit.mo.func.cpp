@@ -74,12 +74,14 @@ public:
             When bound to <o>jit.mo.join</o> this value is set automatically."
         },
 		setter { MIN_FUNCTION {
-            double val = args[0];
-            double pval = phase + (val * speed * 2.0); // default is one cycle / second
-            
-            if(loop || pval < 2.0) {
-                phase = std::fmod(pval, 2.0);
-                object_attr_touch(maxob_from_jitob(m_maxobj), sym_phase);
+            if(initialized()) {
+                double val = args[0];
+                double pval = phase + (val * speed * 2.0); // default is one cycle / second
+                
+                if(loop || pval < 2.0) {
+                    phase = std::fmod(pval, 2.0);
+                    object_attr_touch(maxob_from_jitob(m_maxobj), sym_phase);
+                }
             }
 			return args;
 		}}
@@ -123,39 +125,6 @@ public:
             return {};
         }
     };
-
-    message setup = { this, "setup", MIN_FUNCTION {
-        if (classname() == "jit.mo.line")
-            functype = functypes::line;
-        else if (classname() == "jit.mo.tri")
-            functype = functypes::tri;
-        else if (classname() == "jit.mo.sin")
-            functype = functypes::sin;
-        else if (classname() == "jit.mo.saw")
-            functype = functypes::saw;
-        else if (classname() == "jit.mo.perlin")
-            functype = functypes::perlin;
-        return {};
-    }};
-
-	message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
-		t_object *mob=maxob_from_jitob(m_maxobj);
-		long dim = object_attr_getlong(mob, _jit_sym_dim);
-        
-        if(join == symbol())
-            object_attr_setlong(mob, _jit_sym_dim, args.size()>0 ? (long)args[0] : dim);
-        object_attr_setlong(mob, _jit_sym_planecount, 1);
-        object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
-
-		/*if(args.size() < 1)
-			object_attr_setlong(mob, _jit_sym_planecount, 1);
-		if(args.size() < 2)
-			object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
-		if(args.size() < 3)
-			object_attr_setlong(mob, _jit_sym_dim, 10);*/
-
-		return {};
-	}};
 
 	// TODO: multiplane
 	template<class matrix_type, size_t planecount>
@@ -210,6 +179,44 @@ public:
 
 private:
 
+    //message jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
+        //t_class *c = args[0];
+        //jit_class_addmethod(c, (method)jit_mo_func_detach_join, "detach_join", A_CANT, 0);
+    //}};
+    
+    message setup = { this, "setup", MIN_FUNCTION {
+        if (classname() == "jit.mo.line")
+            functype = functypes::line;
+        else if (classname() == "jit.mo.tri")
+            functype = functypes::tri;
+        else if (classname() == "jit.mo.sin")
+            functype = functypes::sin;
+        else if (classname() == "jit.mo.saw")
+            functype = functypes::saw;
+        else if (classname() == "jit.mo.perlin")
+            functype = functypes::perlin;
+        return {};
+    }};
+
+    message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
+        t_object *mob=maxob_from_jitob(m_maxobj);
+        long dim = object_attr_getlong(mob, _jit_sym_dim);
+        
+        if(join == symbol())
+            object_attr_setlong(mob, _jit_sym_dim, args.size()>0 ? (long)args[0] : dim);
+        object_attr_setlong(mob, _jit_sym_planecount, 1);
+        object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
+        
+        /*if(args.size() < 1)
+         object_attr_setlong(mob, _jit_sym_planecount, 1);
+         if(args.size() < 2)
+         object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
+         if(args.size() < 3)
+         object_attr_setlong(mob, _jit_sym_dim, 10);*/
+        
+        return {};
+    }};
+    
     void update_parent (symbol name) {
         symbol curjoin = join;
         

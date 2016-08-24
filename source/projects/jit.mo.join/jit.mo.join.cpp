@@ -13,6 +13,7 @@ void jit_mo_join_update_anim(t_object *job, t_atom *a);
 t_jit_err jit_mo_join_attach(t_object *job, t_object *cob);
 void jit_mo_join_detach(t_object *job, t_object *cob);
 void jit_mo_join_automatic_attrfilter(t_object *job, void *attr, long argc, t_atom *argv);
+t_jit_err jit_mo_join_matrix_calc(t_object *x, t_object *inputs, t_object *outputs);
 
 t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t_atom *argv);
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv);
@@ -115,15 +116,7 @@ public:
         }
     }
 	
-    t_jit_err jit_matrix(void *matrix, void *mop, t_object *mob) {
-        auto in_mop_io = (t_object*)object_method((t_object*)object_method((t_object*)mop,_jit_sym_getinputlist), _jit_sym_getindex, 0);
-        auto out_mop_io = (t_object*)object_method((t_object*)object_method((t_object*)mop,_jit_sym_getoutputlist), _jit_sym_getindex, 0);
-        auto in_matrix = (t_object*)object_method(in_mop_io, k_sym_getmatrix);
-        auto out_matrix = (t_object*)object_method(out_mop_io, k_sym_getmatrix);
-        
-        if (!in_matrix || !out_matrix)
-            return JIT_ERR_INVALID_PTR;
-        
+    t_jit_err matrix_calc(t_object *in_matrix, t_object *out_matrix, long plane, t_object* mob) {
         t_jit_matrix_info in_minfo;
         t_jit_matrix_info out_minfo;
         object_method(in_matrix, _jit_sym_getinfo, &in_minfo);
@@ -139,7 +132,7 @@ public:
         matrix_info info(&in_minfo, (char*)in_opinfo.p, &out_minfo, (char*)out_opinfo.p);
         
         maxob = mob;
-        curplane = max_jit_obex_inletnumber_get(maxob);
+        curplane = plane;
         
         if(request_clear) {
             object_method(out_matrix, _jit_sym_clear);
@@ -162,10 +155,6 @@ public:
         object_method(out_matrix, _jit_sym_lock, out_savelock);
         object_method(in_matrix, _jit_sym_lock, in_savelock);
         
-        if (curplane==0 && object_attr_getlong(m_maxobj, sym_automatic) == 0) {
-            max_jit_mop_outputmatrix(maxob);
-            object_method(out_matrix, _jit_sym_clear);
-        }
         return JIT_ERR_NONE;
     }
     
@@ -225,6 +214,7 @@ private:
         jit_class_addadornment(c, mop);
         
         //add methods
+        jit_class_addmethod(c, (method)jit_mo_join_matrix_calc, "matrix_calc", A_CANT, 0);  //handles case where used in JS
         jit_class_addmethod(c, (method)jit_mo_join_update_anim, "update_anim", A_CANT, 0);
         jit_class_addmethod(c, (method)jit_mo_join_attach,      "attach", A_CANT, 0);
         jit_class_addmethod(c, (method)jit_mo_join_detach,      "detach", A_CANT, 0);
@@ -257,7 +247,10 @@ private:
     message setup = { this, "setup", MIN_FUNCTION {
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_join_automatic_attrfilter);
-        
+
+        if(name == symbol())
+            name = symbol(true);
+
         return {};
     }};
     
@@ -315,8 +308,6 @@ private:
     }};
     
     message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
-        if(name == symbol())
-            name = symbol(true);
         
         long atm = object_attr_getlong(m_maxobj, sym_automatic);
         
@@ -438,6 +429,31 @@ void jit_mo_join_automatic_attrfilter(t_object *job, void *attr, long argc, t_at
     }
 }
 
+//handles case where used in JS
+t_jit_err jit_mo_join_matrix_calc(t_object *x, t_object *inputs, t_object *outputs)
+{
+    if(!x || !inputs || !outputs)
+        return JIT_ERR_INVALID_PTR;
+    
+    t_jit_err err = JIT_ERR_NONE;
+    long in_count = (long)object_method(inputs ,gensym("getsize"));
+    auto out_matrix = (t_object*)object_method(outputs, _jit_sym_getindex, 0);
+    
+    if (in_count<=0) in_count = 1;
+    
+    for (long j = 0; j < in_count; j++) {
+        auto in_matrix = (t_object*)object_method(inputs, _jit_sym_getindex, (void*)j);
+        if (in_matrix && out_matrix) {
+            minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)(x);
+            err = job->min_object.matrix_calc(in_matrix, out_matrix, j, nullptr);
+        }
+        else {
+            return JIT_ERR_INVALID_PTR;
+        }
+    }
+    return err;
+}
+
 t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t_atom *argv)
 {
     if(argv && argc) {
@@ -472,9 +488,23 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
             void *input = object_method((t_object*)mop, _jit_sym_getinput, (void*)1);
             object_method((t_object*)input, _jit_sym_matrix, matrix);
             jit_attr_setsym(input, _jit_sym_matrixname, matrixname);
+
+            auto in_mop_io = (t_object*)object_method((t_object*)object_method((t_object*)mop,_jit_sym_getinputlist), _jit_sym_getindex, 0);
+            auto out_mop_io = (t_object*)object_method((t_object*)object_method((t_object*)mop,_jit_sym_getoutputlist), _jit_sym_getindex, 0);
+            auto in_matrix = (t_object*)object_method(in_mop_io, k_sym_getmatrix);
+            auto out_matrix = (t_object*)object_method(out_mop_io, k_sym_getmatrix);
         
+            if (!in_matrix || !out_matrix)
+                return JIT_ERR_INVALID_PTR;
+            
+            long plane = max_jit_obex_inletnumber_get(x);
             minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)max_jit_obex_jitob_get(x);
-            err = job->min_object.jit_matrix(matrix, mop, (t_object*)x);
+            err = job->min_object.matrix_calc(in_matrix, out_matrix, plane, (t_object*)x);
+
+            if (plane == 0 && object_attr_getlong(job, sym_automatic) == 0) {
+                max_jit_mop_outputmatrix(x);
+                object_method(out_matrix, _jit_sym_clear);
+            }
         }
         else {
             jit_error_code(x,JIT_ERR_MATRIX_UNKNOWN);
