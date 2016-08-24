@@ -10,7 +10,7 @@ using namespace c74::max;
 using namespace jit_mo;
 
 void jit_mo_join_update_anim(t_object *job, t_atom *a);
-void jit_mo_join_attach(t_object *job, t_object *cob);
+t_jit_err jit_mo_join_attach(t_object *job, t_object *cob);
 void jit_mo_join_detach(t_object *job, t_object *cob);
 void jit_mo_join_automatic_attrfilter(t_object *job, void *attr, long argc, t_atom *argv);
 
@@ -26,8 +26,13 @@ public:
     }
     
 	~jit_mo_join() {
+        freeing = true;
+        symbol n = name;
+        
         for(auto a : attached_funcobs) {
-            jit_mo_singleton::instance().add_funcob(a.second);
+            // setting attached objects join attribute to this name while freeing will add them to unbound list
+            // will ensure that deletion followed by undo will still function
+            object_attr_setsym(a.second, gensym("join"), n);
         }
         
         if(implicit)
@@ -188,13 +193,18 @@ public:
             object_attr_setlong(maxob_from_jitob(n.second), _jit_sym_dim, count);
     }
     
-    void attach(t_object *child) {
-        attached_funcobs.insert({string_from_obptr(child), child});
-        update_attached_dim(count);
+    t_jit_err attach(t_object *child) {
+        if(!freeing) {
+            attached_funcobs.insert({string_from_obptr(child), child});
+            update_attached_dim(count);
+            return JIT_ERR_NONE;
+        }
+        return JIT_ERR_GENERIC;
     }
     
     void detach(t_object *child) {
-        attached_funcobs.erase(string_from_obptr(child));
+        if(!freeing)
+            attached_funcobs.erase(string_from_obptr(child));
     }
     
     void automatic_filter(long automatic) {
@@ -393,6 +403,7 @@ private:
     int         curplane = 0;
     bool        request_clear = true;
     long        count = 1;
+    bool        freeing = false;
     
     interval_speed  i_s;
     
@@ -406,10 +417,10 @@ void jit_mo_join_update_anim(t_object *job, t_atom *a)
     self->min_object.update_animation(a);
 }
 
-void jit_mo_join_attach(t_object *job, t_object *cob)
+t_jit_err jit_mo_join_attach(t_object *job, t_object *cob)
 {
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-    self->min_object.attach(cob);
+    return self->min_object.attach(cob);
 }
 
 void jit_mo_join_detach(t_object *job, t_object *cob)

@@ -221,11 +221,15 @@ private:
         }
         
         if(!(name == symbol(_jit_sym_nothing))) {
+            bool success = false;
             t_object *o = (t_object*)object_findregistered(_jit_sym_jitter, name);
             if(o) {
-                object_method(o, gensym("attach"), m_maxobj);
+                if(JIT_ERR_NONE == (t_jit_err)object_method(o, gensym("attach"), m_maxobj)) {
+                    success = true;
+                }
             }
-            else {
+            
+            if(!success) {
                 // add to global list that's checked in join name attr setter
                 t_object *mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
                 if(mojoin) {
