@@ -157,7 +157,11 @@ public:
         
         object_method(out_matrix, _jit_sym_lock, out_savelock);
         object_method(in_matrix, _jit_sym_lock, in_savelock);
-        
+		
+		if(plane == 0 && object_attr_getlong(m_maxobj, sym_automatic) == 0) {
+			request_clear = true;
+		}
+		
         return JIT_ERR_NONE;
     }
     
@@ -510,7 +514,6 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
 
             if (plane == 0 && object_attr_getlong(job, sym_automatic) == 0) {
                 max_jit_mop_outputmatrix(x);
-                object_method(out_matrix, _jit_sym_clear);
             }
         }
         else {
