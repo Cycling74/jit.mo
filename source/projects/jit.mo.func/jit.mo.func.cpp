@@ -15,7 +15,7 @@ using namespace jit_mo;
 class jit_mo_func : public object<jit_mo_func>, matrix_operator {
 public:
 
-    MIN_DESCRIPTION { "Generate single dim matrices using specified function." };
+    MIN_DESCRIPTION { "Generate animated single dim matrices using a specified function. Similar in nature to a sound oscillator, jit.mo.func can generate time-varying cell values across a matrix based on a given function." };
     MIN_TAGS		{ "jit.mo, Generators" };
     MIN_AUTHOR		{ "Cycling '74" };
     MIN_RELATED		{ "jit.mo.join, jit.mo.field" };
@@ -40,12 +40,12 @@ public:
     }
 
 	attribute<symbol> functype { this, "functype", functypes::line, title {"Function Type"},
-        description { "The fuction type used for generating matrices." },
+        description { "The fuction type used for generating matrices. Available functypes are line, sin, saw, tri, perlin" },
 		range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
 	};
 
     attribute<bool> loop { this, "loop", true, title {"Loop"},
-        description { "Enable and disable phase looping when animating (default = 1)" }
+        description { "Enable and disable phase looping when animating (default = 1). Non-looped animation can be reset by setting phase to 0" }
     };
     
 	attribute<double> scale { this, "scale", 1, title {"Scale"},
@@ -53,7 +53,7 @@ public:
     };
 
 	attribute<double> freq { this, "freq", 1, title {"Frequency"},
-        description { "Output frequency (default = 1.0)." }
+        description { "Output frequency (default = 1.0). Number of times the function is repeated over the width of the matrix" }
     };
 
 	attribute<double> phase { this, "phase", 0, title {"Phase"},

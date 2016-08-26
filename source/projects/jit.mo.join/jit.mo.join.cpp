@@ -21,7 +21,10 @@ void max_jit_mo_join_int(max_jit_wrapper *mob, long v);
 
 class jit_mo_join : public object<jit_mo_join>, matrix_operator {
 public:
-    
+    MIN_DESCRIPTION { "Combine jit.mo streams and output a multi-plane matrix. Automatically connects to jit.world to drive animations. Inputs add multiple jit.mo/matrix inputs for additive control" };
+    MIN_TAGS		{ "jit.mo, Generators" };
+    MIN_AUTHOR		{ "Cycling '74" };
+    MIN_RELATED		{ "jit.mo.func, jit.mo.field, jit.mo.time, jit.world" };
 	jit_mo_join(const atoms& args = {}) {
         patcher = (t_object *)gensym("#P")->s_thing;
     }
@@ -45,11 +48,11 @@ public:
     outlet	output	= { this, "(matrix) Output", "matrix" };
     
     attribute<bool> enable { this, "enable", true, title {"Enable Animation"},
-        description {"Enable Animation (default = 1)."}
+        description {"Enable Animation (default = 1). This affects any connected jit.mo.func objects"}
     };
     
     attribute<double> speed { this, "speed", 1.0, title {"Speed"},
-        description {"Animation speed (default = 1.)."}
+        description {"Animation speed (default = 1.). Scales animation speed of all connected jit.mo.func objects"}
     };
     
     attribute<double> scale { this, "scale", 1, title {"Scale"},
@@ -57,7 +60,7 @@ public:
     };
     
     attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"},
-        description {"Animation interval (default = 0 ms)."}
+        description {"Animation interval (default = 0 ms). Using transport timing notation (4n,2n,etc.) connects animation timing to the Global Transport of Max."}
     };
     
     attribute<symbol> name { this, "name", _jit_sym_nothing, title {"Name"},

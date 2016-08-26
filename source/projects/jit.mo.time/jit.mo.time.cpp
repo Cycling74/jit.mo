@@ -26,7 +26,7 @@ namespace timemodes {
 class jit_mo_time : public object<jit_mo_time>, matrix_operator {
 public:
     
-    MIN_DESCRIPTION { "Output time values using specified mode." };
+    MIN_DESCRIPTION { "Outputs float time values using specified mode for realtime animation. Can be used to generate control functions in sync with other jit.world and jit.mo objects, time delta between frames, or accumulated running time." };
     MIN_TAGS		{ "jit.mo, Generators" };
     MIN_AUTHOR		{ "Cycling '74" };
     MIN_RELATED		{ "jit.mo.join, jit.mo.field, jit.mo.func" };
@@ -47,13 +47,14 @@ public:
     
     attribute<symbol> mode { this, "mode", timemodes::accum,
         title {"Time Output Mode"},
-        description { "The time output mode." },
+        description { "How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified functype to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations." },
         range { timemodes::accum, timemodes::delta, timemodes::function }
     };
     
     attribute<symbol> functype { this, "functype", functypes::line,
         title {"Function Type"},
-        description { "The fuction type used when mode = function." },
+        description { "The fuction type used when mode = function (default = line). \
+            Line generates linear interpolated values between <at>start</at> and <at>end</at> values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function" },
         range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
     };
     
@@ -62,7 +63,7 @@ public:
     };
     
     attribute<bool> loop { this, "loop", true, title {"Loop"},
-        description { "Enable and disable phase looping when animating (default = 1)" }
+        description { "Enable and disable phase looping when animating (default = 1). Animation can be reset by setting phase to 0" }
     };
     
     attribute<double> scale { this, "scale", 1, title {"Scale"},
@@ -70,11 +71,11 @@ public:
     };
     
     attribute<double> freq { this, "freq", 1, title {"Frequency"},
-        description { "Output frequency (default = 1.0)." }
+        description { "Function frequency (default = 1.0). Specified in Hz" }
     };
     
     attribute<double> phase { this, "phase", 0, title {"Phase"},
-        description { "Output phase offset (default = 0.0)." }
+        description { "Output phase offset (default = 0.0). Setting this to 0 will restart an animation" }
     };
     
     attribute<double> speed { this, "speed", 1., title {"Speed"},
