@@ -45,7 +45,6 @@
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 620.0, 44.0, 24.0, 24.0 ],
-					"presentation_rect" : [ 621.5, 41.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -59,7 +58,6 @@
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 534.5, 44.0, 24.0, 24.0 ],
-					"presentation_rect" : [ 534.333313, 41.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -73,7 +71,6 @@
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 454.333313, 44.0, 24.0, 24.0 ],
-					"presentation_rect" : [ 454.0, 47.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -529,7 +526,6 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"patching_rect" : [ 112.0, 8.0, 30.0, 30.0 ],
-									"presentation_rect" : [ 107.0, 6.0, 0.0, 0.0 ],
 									"style" : ""
 								}
 
@@ -1866,7 +1862,6 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"patching_rect" : [ 12.0, 160.0, 30.0, 30.0 ],
-									"presentation_rect" : [ 110.0, 111.0, 0.0, 0.0 ],
 									"style" : ""
 								}
 
@@ -2855,9 +2850,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "bang", "" ],
-					"patching_rect" : [ 16.0, 86.0, 51.0, 22.0 ],
+					"patching_rect" : [ 16.0, 86.0, 129.0, 22.0 ],
 					"style" : "",
-					"text" : "jit.world"
+					"text" : "jit.world av @enable 1"
 				}
 
 			}

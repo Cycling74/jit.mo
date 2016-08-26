@@ -1366,7 +1366,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 37.0, 83.0, 46.0, 22.0 ],
+					"patching_rect" : [ 78.0, 200.0, 46.0, 22.0 ],
 					"style" : "",
 					"text" : "s draw"
 				}
@@ -1406,7 +1406,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 21.0, 22.0, 24.0, 24.0 ],
+					"patching_rect" : [ 21.0, 139.0, 24.0, 24.0 ],
 					"style" : ""
 				}
 
@@ -1418,9 +1418,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "bang", "" ],
-					"patching_rect" : [ 21.0, 54.0, 51.0, 22.0 ],
+					"patching_rect" : [ 21.0, 171.0, 133.0, 22.0 ],
 					"style" : "",
-					"text" : "jit.world"
+					"text" : "jit.world om @enable 1"
 				}
 
 			}
