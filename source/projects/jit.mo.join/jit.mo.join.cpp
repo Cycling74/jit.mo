@@ -373,6 +373,10 @@ private:
         return { JIT_ERR_NONE };
     }};
 
+    message fileusage = { this, "fileusage", MIN_FUNCTION {
+        jit_mo::fileusage(args[0]);
+        return {};
+    }};
     
     void update_mop_props(void *mob) {
         t_jit_matrix_info info;

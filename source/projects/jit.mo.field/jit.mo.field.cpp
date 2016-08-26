@@ -4,6 +4,7 @@
 ///	@license	Usage of this file and its contents is governed by the MIT License
 
 #include "c74_min.h"
+#include "jit.mo.common.h"
 
 using namespace c74::min;
 using namespace c74::max;
@@ -108,6 +109,12 @@ public:
 	
 	
 private:
+    
+    message fileusage = { this, "fileusage", MIN_FUNCTION {
+        jit_mo::fileusage(args[0]);
+        return {};
+    }};
+    
     vector<double>  randvals;
     bool            reseed = true;
 

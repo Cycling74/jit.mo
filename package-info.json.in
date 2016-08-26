@@ -8,7 +8,7 @@
 	"homepatcher" : "jit.mo.join.maxhelp",
 	"max_version_max" : "none",
 	"max_version_min" : "7.1",
-	"name" : "jit.mograph",
+	"name" : "jit.mo",
 	"os" : 	{
 		"macintosh" : 		{
 			"platform" : [ "ia32", "x64" ],

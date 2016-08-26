@@ -217,6 +217,11 @@ private:
         return {};
     }};
     
+    message fileusage = { this, "fileusage", MIN_FUNCTION {
+        jit_mo::fileusage(args[0]);
+        return {};
+    }};
+    
     void update_parent (symbol name) {
         symbol curjoin = join;
         
