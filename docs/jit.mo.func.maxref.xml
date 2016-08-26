@@ -6,8 +6,8 @@
 
 <c74object name='jit.mo.func' category='jit.mo,  Generators'>
 
-	<digest>Generate single dim matrices using specified function</digest>
-	<description>Generate single dim matrices using specified function.</description>
+	<digest>Generate animated single dim matrices using a specified function</digest>
+	<description>Generate animated single dim matrices using a specified function. Similar in nature to a sound oscillator, jit.mo.func can generate time-varying cell values across a matrix based on a given function.</description>
 
 
 	<!--METADATA-->
@@ -29,16 +29,6 @@
 	<!--MESSAGES-->
 
 	<methodlist>
-
-		<method name='maxob_setup'>
-			<digest></digest>
-			<description></description>
-		</method>
-
-		<method name='setup'>
-			<digest></digest>
-			<description></description>
-		</method>
 
 		<method name='rand'>
 			<digest>Generate new random values for rand_amt offset</digest>
@@ -94,7 +84,7 @@
 
 		<attribute name='loop' get='1' set='1' type='long' size='1' >
 			<digest>Enable and disable phase looping when animating (default = 1)</digest>
-			<description>Enable and disable phase looping when animating (default = 1)</description>
+			<description>Enable and disable phase looping when animating (default = 1). Non-looped animation can be reset by setting phase to 0</description>
 		</attribute>
 
 		<attribute name='phase' get='1' set='1' type='float64' size='1' >
@@ -104,7 +94,7 @@
 
 		<attribute name='freq' get='1' set='1' type='float64' size='1' >
 			<digest>Output frequency (default = 1</digest>
-			<description>Output frequency (default = 1.0).</description>
+			<description>Output frequency (default = 1.0). Number of times the function is repeated over the width of the matrix</description>
 		</attribute>
 
 		<attribute name='start' get='1' set='1' type='float64' size='1' >
@@ -114,7 +104,7 @@
 
 		<attribute name='functype' get='1' set='1' type='symbol' size='1' >
 			<digest>The fuction type used for generating matrices</digest>
-			<description>The fuction type used for generating matrices.</description>
+			<description>The fuction type used for generating matrices. Available functypes are line, sin, saw, tri, perlin</description>
 		</attribute>
 
 	</attributelist>
