@@ -11,7 +11,7 @@
 ,
 		"rect" : [ 50.0, 79.0, 945.0, 371.0 ],
 		"bglocked" : 0,
-		"openinpresentation" : 0,
+		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
 		"default_fontface" : 0,
 		"default_fontname" : "Arial",
@@ -69,7 +69,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 23.0, 116.0, 150.0, 100.0 ],
+					"patching_rect" : [ 23.0, 116.0, 151.0, 100.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 4,
 					"presentation_rect" : [ 23.0, 101.0, 256.0, 60.0 ],
@@ -175,7 +175,6 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_matrix", "" ],
 					"patching_rect" : [ 514.0, 104.0, 95.0, 22.0 ],
-					"presentation_rect" : [ 514.0, 101.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "jit.mo.join 3 100"
 				}
