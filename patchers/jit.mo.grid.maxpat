@@ -4,12 +4,12 @@
 		"appversion" : 		{
 			"major" : 7,
 			"minor" : 2,
-			"revision" : 4,
+			"revision" : 5,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 349.0, 123.0, 539.0, 602.0 ],
+		"rect" : [ 84.0, 128.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -58,7 +58,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 320.0, 419.0, 30.0, 30.0 ],
-					"presentation_rect" : [ 319.0, 421.0, 0.0, 0.0 ],
 					"style" : ""
 				}
 
@@ -67,12 +66,12 @@
 				"box" : 				{
 					"id" : "obj-13",
 					"maxclass" : "newobj",
-					"numinlets" : 4,
-					"numoutlets" : 4,
-					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 205.0, 60.0, 195.0, 22.0 ],
+					"numinlets" : 5,
+					"numoutlets" : 5,
+					"outlettype" : [ "", "", "", "", "" ],
+					"patching_rect" : [ 205.0, 60.0, 224.0, 22.0 ],
 					"style" : "",
-					"text" : "routepass jit_matrix grid_dim scale"
+					"text" : "routepass jit_matrix grid_dim scale rows"
 				}
 
 			}
@@ -80,12 +79,12 @@
 				"box" : 				{
 					"id" : "obj-12",
 					"maxclass" : "newobj",
-					"numinlets" : 2,
-					"numoutlets" : 2,
-					"outlettype" : [ "bang", "" ],
-					"patching_rect" : [ 359.0, 240.0, 56.0, 22.0 ],
+					"numinlets" : 3,
+					"numoutlets" : 3,
+					"outlettype" : [ "", "", "" ],
+					"patching_rect" : [ 358.75, 263.0, 97.0, 22.0 ],
 					"style" : "",
-					"text" : "sel done"
+					"text" : "route rows done"
 				}
 
 			}
@@ -101,7 +100,7 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 2,
-							"revision" : 4,
+							"revision" : 5,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -149,7 +148,7 @@
 							}
 , 							{
 								"box" : 								{
-									"code" : "gdv = 0.;\r\nif(grid_dim == 0)\r\n\tgdv = in.x;\r\nelse if(grid_dim == 1)\r\n\tgdv = in.y;\r\nelse if(grid_dim == 2)\r\n\tgdv = in.z;\t\r\n\t\r\ngdv += snorm.y*scale;\r\n\r\nval = vec(0,0,0);\r\nif(grid_dim == 0)\r\n\tval = concat(gdv, in1.y, in1.z);\r\nelse if(grid_dim == 1)\r\n\tval = concat(in1.x, gdv, in1.z);\r\nelse if(grid_dim == 2)\r\n\tval = concat(in1.x, in1.y, gdv);\r\n\t\r\nout1 = val;",
+									"code" : "gdv = 0.;\r\nif(grid_dim <= 0)\r\n\tgdv = in.x;\r\nelse if(grid_dim == 1)\r\n\tgdv = in.y;\r\nelse if(grid_dim >= 2)\r\n\tgdv = in.z;\t\r\n\t\r\ngdv += snorm.y*scale;\r\n\r\nval = vec(0,0,0);\r\nif(grid_dim <= 0)\r\n\tval = concat(gdv, in1.y, in1.z);\r\nelse if(grid_dim == 1)\r\n\tval = concat(in1.x, gdv, in1.z);\r\nelse if(grid_dim >= 2)\r\n\tval = concat(in1.x, in1.y, gdv);\r\n\t\r\nout1 = val;",
 									"fontface" : 0,
 									"fontname" : "Arial",
 									"fontsize" : 12.0,
@@ -405,10 +404,28 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-16", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-12", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-5", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-12", 1 ]
+					"source" : [ "obj-12", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-12", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-13", 3 ]
 				}
 
 			}
