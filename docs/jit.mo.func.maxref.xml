@@ -53,7 +53,7 @@
 		</attribute>
 
 		<attribute name='delta' get='1' set='1' type='float64' size='1' >
-			<digest>Frame delta time for animating graph (default = 0</digest>
+			<digest>Frame delta time for animating graph (default = 0.0)</digest>
 			<description>Frame delta time for animating graph (default = 0.0).             When bound to <o>jit.mo.join</o> this value is set automatically.</description>
 		</attribute>
 
@@ -93,7 +93,7 @@
 		</attribute>
 
 		<attribute name='freq' get='1' set='1' type='float64' size='1' >
-			<digest>Output frequency (default = 1</digest>
+			<digest>Output frequency (default = 1.0)</digest>
 			<description>Output frequency (default = 1.0). Number of times the function is repeated over the width of the matrix</description>
 		</attribute>
 

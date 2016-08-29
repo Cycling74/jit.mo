@@ -6,7 +6,7 @@
 
 <c74object name='jit.mo.join' category='jit.mo,  Generators'>
 
-	<digest>Combine jit</digest>
+	<digest>Combine jit.mo streams and output a multi-plane matrix</digest>
 	<description>Combine jit.mo streams and output a multi-plane matrix. Automatically connects to jit.world to drive animations. Inputs add multiple jit.mo/matrix inputs for additive control</description>
 
 
@@ -48,7 +48,7 @@
 		</attribute>
 
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
-			<digest>Animation speed (default = 1</digest>
+			<digest>Animation speed (default = 1.)</digest>
 			<description>Animation speed (default = 1.). Scales animation speed of all connected jit.mo.func objects</description>
 		</attribute>
 

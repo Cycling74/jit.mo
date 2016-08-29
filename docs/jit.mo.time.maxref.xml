@@ -48,7 +48,7 @@
 		</attribute>
 
 		<attribute name='delta' get='1' set='1' type='float64' size='1' >
-			<digest>Frame delta time for animating graph (default = 0</digest>
+			<digest>Frame delta time for animating graph (default = 0.0)</digest>
 			<description>Frame delta time for animating graph (default = 0.0).             When <at>automatic</at> enabled this value is set automatically by the render context.</description>
 		</attribute>
 
@@ -63,12 +63,12 @@
 		</attribute>
 
 		<attribute name='phase' get='1' set='1' type='float64' size='1' >
-			<digest>Output phase offset (default = 0</digest>
+			<digest>Output phase offset (default = 0.0)</digest>
 			<description>Output phase offset (default = 0.0). Setting this to 0 will restart an animation</description>
 		</attribute>
 
 		<attribute name='freq' get='1' set='1' type='float64' size='1' >
-			<digest>Function frequency (default = 1</digest>
+			<digest>Function frequency (default = 1.0)</digest>
 			<description>Function frequency (default = 1.0). Specified in Hz</description>
 		</attribute>
 
