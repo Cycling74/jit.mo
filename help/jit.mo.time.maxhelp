@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 2,
 			"revision" : 5,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 100.0, 100.0, 888.0, 638.0 ],
+		"rect" : [ 31.0, 79.0, 796.0, 562.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -50,13 +50,11 @@
 							"major" : 7,
 							"minor" : 2,
 							"revision" : 5,
-							"architecture" : "x64",
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 100.0, 126.0, 888.0, 612.0 ],
-						"bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
-						"editing_bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
+						"rect" : [ 0.0, 26.0, 796.0, 536.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -86,12 +84,68 @@
 						"showontab" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-12",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 270.5, 166.0, 57.0, 24.0 ],
+									"presentation_rect" : [ 270.5, 162.0, 0.0, 0.0 ],
+									"style" : "",
+									"text" : "on/off"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-5",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 581.585938, 221.5, 114.0, 24.0 ],
+									"presentation_rect" : [ 642.585938, 234.0, 0.0, 0.0 ],
+									"style" : "",
+									"text" : "repeat last cycle"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-1",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 91.085938, 199.0, 54.0, 24.0 ],
+									"presentation_rect" : [ 84.5, 232.0, 0.0, 0.0 ],
+									"style" : "",
+									"text" : "reset"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-9",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 41.5, 166.0, 57.0, 24.0 ],
+									"style" : "",
+									"text" : "on/off"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
 									"id" : "obj-68",
 									"linecount" : 2,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 648.0, 244.0, 166.0, 33.0 ],
+									"patching_rect" : [ 615.0, 177.0, 166.0, 37.0 ],
 									"style" : "",
 									"text" : "Immediately go from 0. to 1. over 4 seconds."
 								}
@@ -105,7 +159,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 478.0, 243.0, 169.0, 35.0 ],
+									"patching_rect" : [ 443.0, 178.0, 169.0, 35.0 ],
 									"style" : "",
 									"text" : "start 0., end 1., interval 4000, phase 0"
 								}
@@ -118,8 +172,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 461.0, 208.0, 335.0, 33.0 ],
-									"presentation_rect" : [ 463.0, 223.0, 0.0, 0.0 ],
+									"patching_rect" : [ 436.0, 142.0, 337.0, 33.0 ],
 									"style" : "",
 									"text" : "Jit.mo.time can be a good substitute for the bline object when you want to declare a duration instead of a number of frames."
 								}
@@ -132,7 +185,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "float" ],
-									"patching_rect" : [ 461.0, 407.0, 42.0, 22.0 ],
+									"patching_rect" : [ 443.0, 361.0, 42.0, 22.0 ],
 									"style" : "",
 									"text" : "* 360."
 								}
@@ -145,7 +198,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 461.0, 432.0, 109.0, 22.0 ],
+									"patching_rect" : [ 443.0, 394.0, 109.0, 22.0 ],
 									"style" : "",
 									"text" : "rotatexyz $1 $1 $1"
 								}
@@ -153,13 +206,16 @@
 							}
 , 							{
 								"box" : 								{
+									"frozen_object_attributes" : 									{
+										"windowposition" : [ 764, 45 ]
+									}
+,
 									"id" : "obj-3",
-									"linecount" : 2,
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 3,
 									"outlettype" : [ "", "bang", "" ],
-									"patching_rect" : [ 13.0, 514.5, 97.0, 35.0 ],
+									"patching_rect" : [ 13.0, 480.5, 155.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.world motime @enable 1"
 								}
@@ -173,22 +229,9 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 461.0, 459.5, 271.0, 35.0 ],
+									"patching_rect" : [ 443.0, 425.5, 273.0, 35.0 ],
 									"style" : "",
 									"text" : "jit.gl.gridshape @shape cube @lighting_enable 1 @scale 0.25 0.25 0.25 @color 1. 1. 1. 1."
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-41",
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 588.0, 282.0, 102.0, 20.0 ],
-									"presentation_rect" : [ 617.0, 247.0, 0.0, 0.0 ],
-									"style" : "",
-									"text" : "Repeat last cycle"
 								}
 
 							}
@@ -198,8 +241,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 13.0, 170.5, 310.0, 20.0 ],
-									"presentation_rect" : [ 331.0, 195.5, 0.0, 0.0 ],
+									"patching_rect" : [ 10.0, 120.567627, 269.0, 20.0 ],
 									"style" : "",
 									"text" : "All of the standard jit.mo.func types can be used."
 								}
@@ -214,46 +256,20 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 33.0, 395.0, 50.0, 22.0 ],
+									"patching_rect" : [ 33.0, 361.0, 50.0, 22.0 ],
 									"style" : ""
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-28",
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 98.0, 270.0, 82.0, 20.0 ],
-									"presentation_rect" : [ 42.0, 272.0, 0.0, 0.0 ],
-									"style" : "",
-									"text" : "Reset"
-								}
-
-							}
-, 							{
-								"box" : 								{
 									"id" : "obj-26",
-									"linecount" : 2,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 13.0, 192.5, 310.0, 33.0 ],
+									"patching_rect" : [ 10.0, 98.567627, 594.0, 20.0 ],
 									"style" : "",
 									"text" : "Functions can be called in the object name, or by setting @mode function and @functype to the desired type. "
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-18",
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 10.0, 247.0, 150.0, 20.0 ],
-									"style" : "",
-									"text" : "Turn animation On/Off"
 								}
 
 							}
@@ -264,7 +280,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 13.0, 135.0, 520.0, 33.0 ],
+									"patching_rect" : [ 10.0, 63.567627, 594.0, 33.0 ],
 									"style" : "",
 									"text" : "Jit.mo.time can be used to call up jit.mo function types. This creates render context synchronous floating point LFO's by cycling the phase at the desired speed and returning the values as floats. "
 								}
@@ -277,7 +293,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 203.0, 332.0, 48.0, 60.0 ],
+									"patching_rect" : [ 203.0, 298.0, 48.0, 60.0 ],
 									"style" : "",
 									"text" : "="
 								}
@@ -291,8 +307,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 13.0, 269.0, 24.0, 24.0 ],
-									"presentation_rect" : [ 13.0, 433.5, 0.0, 0.0 ],
+									"patching_rect" : [ 13.0, 166.0, 24.0, 24.0 ],
 									"style" : ""
 								}
 
@@ -306,7 +321,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 13.0, 337.5, 188.0, 49.0 ],
+									"patching_rect" : [ 13.0, 303.5, 188.0, 49.0 ],
 									"style" : "",
 									"text" : "jit.mo.time @drawto motime @mode function @functype sin @freq 1. @speed 0.2 @enable 0"
 								}
@@ -319,8 +334,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 41.5, 270.0, 53.0, 22.0 ],
-									"presentation_rect" : [ 47.5, 433.5, 0.0, 0.0 ],
+									"patching_rect" : [ 33.0, 200.0, 53.0, 22.0 ],
 									"style" : "",
 									"text" : "phase 0"
 								}
@@ -341,9 +355,8 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 13.0, 422.5, 169.0, 72.0 ],
+									"patching_rect" : [ 13.0, 388.5, 169.0, 72.0 ],
 									"peakcolor" : [ 0.498039, 0.498039, 0.498039, 1.0 ],
-									"presentation_rect" : [ 13.0, 570.5, 0.0, 0.0 ],
 									"setstyle" : 2,
 									"style" : ""
 								}
@@ -357,7 +370,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 461.0, 313.5, 113.0, 22.0 ],
+									"patching_rect" : [ 479.0, 251.5, 113.0, 22.0 ],
 									"style" : "",
 									"text_width" : 63.0
 								}
@@ -370,7 +383,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 588.0, 298.5, 53.0, 22.0 ],
+									"patching_rect" : [ 493.0, 278.5, 53.0, 22.0 ],
 									"style" : "",
 									"text" : "phase 0"
 								}
@@ -384,7 +397,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 461.0, 284.5, 113.0, 22.0 ],
+									"patching_rect" : [ 463.0, 222.5, 113.0, 22.0 ],
 									"style" : "",
 									"text_width" : 60.0
 								}
@@ -398,7 +411,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 461.0, 344.5, 305.0, 22.0 ],
+									"patching_rect" : [ 443.0, 310.5, 305.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.mo.time.line @start 0. @end 1. @speed 0.1 @loop 0"
 								}
@@ -412,7 +425,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 276.0, 289.5, 113.0, 22.0 ],
+									"patching_rect" : [ 276.0, 222.5, 113.0, 22.0 ],
 									"style" : "",
 									"text_width" : 63.0
 								}
@@ -426,7 +439,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 241.5, 239.5, 24.0, 24.0 ],
+									"patching_rect" : [ 241.5, 166.0, 24.0, 24.0 ],
 									"style" : ""
 								}
 
@@ -439,7 +452,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 276.0, 265.5, 113.0, 22.0 ],
+									"patching_rect" : [ 276.0, 195.0, 113.0, 22.0 ],
 									"style" : "",
 									"text_width" : 63.0
 								}
@@ -454,7 +467,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 241.5, 344.5, 184.5, 35.0 ],
+									"patching_rect" : [ 241.5, 310.5, 184.5, 35.0 ],
 									"style" : "",
 									"text" : "jit.mo.time.sin @drawto motime @freq 1. @speed 0.2 @enable 0"
 								}
@@ -467,7 +480,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 276.0, 239.5, 53.0, 22.0 ],
+									"patching_rect" : [ 295.0, 278.5, 53.0, 22.0 ],
 									"style" : "",
 									"text" : "phase 0"
 								}
@@ -481,7 +494,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 276.0, 313.5, 150.0, 22.0 ],
+									"patching_rect" : [ 276.0, 251.5, 150.0, 22.0 ],
 									"style" : "",
 									"text_width" : 72.0
 								}
@@ -502,7 +515,7 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 241.5, 422.5, 169.0, 72.0 ],
+									"patching_rect" : [ 241.5, 388.5, 169.0, 72.0 ],
 									"peakcolor" : [ 0.498039, 0.498039, 0.498039, 1.0 ],
 									"setstyle" : 2,
 									"style" : ""
@@ -512,7 +525,7 @@
 , 							{
 								"box" : 								{
 									"border" : 0,
-									"filename" : "helpdetails.js",
+									"filename" : "helpname.js",
 									"id" : "obj-2",
 									"ignoreclick" : 1,
 									"jsarguments" : [ "jit.mo.time" ],
@@ -521,7 +534,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 10.0, 10.0, 620.0, 125.0 ]
+									"patching_rect" : [ 10.0, 10.0, 228.171875, 57.567627 ]
 								}
 
 							}
@@ -679,6 +692,18 @@
 								}
 
 							}
+ ],
+						"styles" : [ 							{
+								"name" : "helpfile_label-1",
+								"default" : 								{
+									"fontname" : [ "Arial" ],
+									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
+									"fontsize" : [ 13.0 ]
+								}
+,
+								"parentstyle" : "",
+								"multi" : 0
+							}
  ]
 					}
 ,
@@ -727,13 +752,11 @@
 							"major" : 7,
 							"minor" : 2,
 							"revision" : 5,
-							"architecture" : "x64",
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 0.0, 26.0, 888.0, 612.0 ],
-						"bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
-						"editing_bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
+						"rect" : [ 31.0, 105.0, 796.0, 536.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -763,96 +786,139 @@
 						"showontab" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
-									"id" : "obj-73",
-									"maxclass" : "button",
+									"bubble" : 1,
+									"id" : "obj-24",
+									"maxclass" : "comment",
 									"numinlets" : 1,
-									"numoutlets" : 1,
-									"outlettype" : [ "bang" ],
-									"patching_rect" : [ 325.0, 405.0, 24.0, 24.0 ],
+									"numoutlets" : 0,
+									"patching_rect" : [ 326.75, 413.0, 178.0, 24.0 ],
+									"presentation_rect" : [ 254.0, 417.0, 0.0, 0.0 ],
+									"style" : "",
+									"text" : "reset accumulated time to 0."
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-23",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 299.5, 378.0, 104.0, 24.0 ],
+									"presentation_rect" : [ 180.0, 366.5, 0.0, 0.0 ],
+									"style" : "",
+									"text" : "bang to output"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-22",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 299.5, 344.5, 136.0, 24.0 ],
+									"presentation_rect" : [ 220.0, 363.0, 0.0, 0.0 ],
+									"style" : "",
+									"text" : "set automatic output"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-21",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 121.0, 187.5, 118.0, 24.0 ],
+									"presentation_rect" : [ 141.0, 270.0, 0.0, 0.0 ],
+									"style" : "",
+									"text" : "set interval in ms"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
+									"id" : "obj-20",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 146.0, 217.0, 175.0, 24.0 ],
+									"presentation_rect" : [ 170.0, 298.5, 0.0, 0.0 ],
+									"style" : "",
+									"text" : "set a tempo-relative interval"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-17",
+									"items" : [ "1n", ",", "2n", ",", "4n", ",", "8n", ",", "16n" ],
+									"maxclass" : "umenu",
+									"numinlets" : 1,
+									"numoutlets" : 3,
+									"outlettype" : [ "int", "", "" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 97.0, 217.0, 46.0, 22.0 ],
 									"style" : ""
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"bubblepoint" : 0.07,
-									"bubbleside" : 2,
-									"id" : "obj-71",
-									"linecount" : 3,
+									"bubble" : 1,
+									"id" : "obj-10",
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 60.0, 175.0, 390.0, 47.0 ],
+									"patching_rect" : [ 296.5, 313.5, 210.0, 24.0 ],
+									"presentation_rect" : [ 214.0, 207.5, 0.0, 0.0 ],
 									"style" : "",
-									"text" : "The speed value is how many seconds it takes to complete a cycle. In accum mode, 1 cycle = an increase of 1. In function modes, it means 1 full phase animation."
+									"text" : "set how elapsed time is calculated"
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"fontname" : "Arial Italic",
-									"id" : "obj-70",
-									"linecount" : 2,
+									"bubble" : 1,
+									"id" : "obj-9",
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 60.0, 140.0, 422.0, 33.0 ],
+									"patching_rect" : [ 54.0, 132.0, 57.0, 24.0 ],
+									"presentation_rect" : [ 68.0, 133.5, 0.0, 0.0 ],
 									"style" : "",
-									"text" : "The rate of value change can be set using either interval or speed messages. These attributes both control the same function and will override each other. "
+									"text" : "on/off"
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-68",
-									"linecount" : 3,
+									"bubble" : 1,
+									"id" : "obj-3",
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 167.0, 356.0, 320.0, 47.0 ],
+									"patching_rect" : [ 257.25, 282.0, 186.0, 24.0 ],
+									"presentation_rect" : [ 211.0, 185.5, 0.0, 0.0 ],
 									"style" : "",
-									"text" : "When set to automatic 1, values are automatically output in-time with the associated render context. With automatic 0, the value can be reported at any time with a bang."
+									"text" : "set animation speed multiplier"
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"bubblepoint" : 0.07,
-									"bubbleside" : 2,
-									"id" : "obj-55",
-									"linecount" : 4,
-									"maxclass" : "comment",
+									"id" : "obj-73",
+									"maxclass" : "button",
 									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 60.0, 249.5, 230.0, 60.0 ],
-									"style" : "",
-									"text" : "When using a ms interval, the number of ms represents the duration over which the jit.mo.time object will complete one cycle."
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-15",
-									"linecount" : 3,
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 296.0, 249.5, 165.0, 47.0 ],
-									"style" : "",
-									"text" : "When set to a time interval, values change relative to the Global Transport tempo."
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-57",
-									"maxclass" : "message",
-									"numinlets" : 2,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 327.5, 298.5, 29.5, 22.0 ],
-									"style" : "",
-									"text" : "2n"
+									"outlettype" : [ "bang" ],
+									"patching_rect" : [ 273.5, 378.0, 24.0, 24.0 ],
+									"style" : ""
 								}
 
 							}
@@ -865,7 +931,7 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 60.0, 308.0, 56.0, 22.0 ],
+									"patching_rect" : [ 76.0, 163.0, 56.0, 22.0 ],
 									"style" : ""
 								}
 
@@ -877,61 +943,9 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 60.0, 335.0, 43.0, 22.0 ],
+									"patching_rect" : [ 76.0, 190.0, 43.0, 22.0 ],
 									"style" : "",
 									"text" : "$1 ms"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-59",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 422.0, 298.5, 31.0, 22.0 ],
-									"style" : "",
-									"text" : "16n"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-60",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 390.5, 298.5, 29.5, 22.0 ],
-									"style" : "",
-									"text" : "8n"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-61",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 296.0, 298.5, 29.5, 22.0 ],
-									"style" : "",
-									"text" : "1n"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-62",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 359.0, 298.5, 29.5, 22.0 ],
-									"style" : "",
-									"text" : "4n"
 								}
 
 							}
@@ -942,7 +956,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 60.0, 370.0, 97.0, 22.0 ],
+									"patching_rect" : [ 76.0, 250.5, 97.0, 22.0 ],
 									"style" : "",
 									"text" : "prepend interval"
 								}
@@ -962,21 +976,8 @@
 									"numinlets" : 0,
 									"numoutlets" : 0,
 									"offset" : [ 0.0, 0.0 ],
-									"patching_rect" : [ 296.0, 322.5, 160.0, 30.0 ],
+									"patching_rect" : [ 331.0, 214.0, 160.0, 30.0 ],
 									"viewvisibility" : 1
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-49",
-									"linecount" : 2,
-									"maxclass" : "comment",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 24.75, 482.0, 365.0, 33.0 ],
-									"style" : "",
-									"text" : "In accum mode (default) jit.mo.time outputs the time elapsed since the last reset based on the speed or interval value supplied. "
 								}
 
 							}
@@ -988,7 +989,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 9.0, 140.0, 24.0, 24.0 ],
+									"patching_rect" : [ 26.0, 132.0, 24.0, 24.0 ],
 									"style" : ""
 								}
 
@@ -1000,7 +1001,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 21.0, 166.0, 37.0, 22.0 ],
+									"patching_rect" : [ 285.75, 413.0, 37.0, 22.0 ],
 									"style" : "",
 									"text" : "reset"
 								}
@@ -1014,7 +1015,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 60.0, 224.0, 128.0, 22.0 ],
+									"patching_rect" : [ 128.0, 283.0, 128.0, 22.0 ],
 									"style" : "",
 									"text_width" : 63.0
 								}
@@ -1029,20 +1030,20 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 9.0, 523.5, 99.0, 22.0 ],
+									"patching_rect" : [ 26.0, 485.5, 99.0, 22.0 ],
 									"style" : ""
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
+									"color" : [ 0.490196, 0.498039, 0.517647, 1.0 ],
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 9.0, 458.0, 305.0, 22.0 ],
+									"patching_rect" : [ 26.0, 450.0, 305.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.mo.time @drawto motime @mode accum @enable 0"
 								}
@@ -1054,13 +1055,13 @@
 									"filename" : "helpdetails.js",
 									"id" : "obj-2",
 									"ignoreclick" : 1,
-									"jsarguments" : [ "jit.mo.time" ],
+									"jsarguments" : [ "jit.mo.time", 112 ],
 									"maxclass" : "jsui",
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 10.0, 10.0, 620.0, 125.0 ]
+									"patching_rect" : [ 10.0, 10.0, 650.0, 110.0 ]
 								}
 
 							}
@@ -1072,8 +1073,23 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 167.0, 405.0, 150.0, 22.0 ],
-									"style" : ""
+									"patching_rect" : [ 201.5, 344.5, 96.0, 22.0 ],
+									"style" : "",
+									"text_width" : 74.0
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"attr" : "mode",
+									"id" : "obj-4",
+									"maxclass" : "attrui",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 172.5, 313.5, 122.0, 22.0 ],
+									"style" : "",
+									"text_width" : 56.0
 								}
 
 							}
@@ -1107,19 +1123,28 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-1", 0 ],
+									"destination" : [ "obj-63", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"source" : [ "obj-51", 0 ]
+									"source" : [ "obj-17", 1 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-63", 0 ],
+									"destination" : [ "obj-1", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"source" : [ "obj-57", 0 ]
+									"source" : [ "obj-4", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-1", 0 ],
+									"disabled" : 0,
+									"hidden" : 0,
+									"source" : [ "obj-51", 0 ]
 								}
 
 							}
@@ -1134,46 +1159,10 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-63", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"source" : [ "obj-59", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
 									"destination" : [ "obj-1", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-6", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-63", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"source" : [ "obj-60", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-63", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"source" : [ "obj-61", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-63", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"source" : [ "obj-62", 0 ]
 								}
 
 							}
@@ -1203,6 +1192,18 @@
 									"source" : [ "obj-73", 0 ]
 								}
 
+							}
+ ],
+						"styles" : [ 							{
+								"name" : "helpfile_label-1",
+								"default" : 								{
+									"fontname" : [ "Arial" ],
+									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
+									"fontsize" : [ 13.0 ]
+								}
+,
+								"parentstyle" : "",
+								"multi" : 0
 							}
  ]
 					}
@@ -1250,11 +1251,11 @@
 							"major" : 7,
 							"minor" : 2,
 							"revision" : 5,
-							"architecture" : "x64",
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 0.0, 26.0, 888.0, 612.0 ],
+						"rect" : [ 0.0, 26.0, 796.0, 536.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
