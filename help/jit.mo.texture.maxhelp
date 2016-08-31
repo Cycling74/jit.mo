@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 2,
 			"revision" : 5,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 554.0, 301.0, 837.0, 620.0 ],
+		"rect" : [ 37.0, 79.0, 596.0, 586.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -68,13 +68,11 @@
 							"major" : 7,
 							"minor" : 2,
 							"revision" : 5,
-							"architecture" : "x64",
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 554.0, 327.0, 837.0, 594.0 ],
-						"bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
-						"editing_bgcolor" : [ 1.0, 1.0, 1.0, 1.0 ],
+						"rect" : [ 37.0, 105.0, 596.0, 560.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -104,12 +102,14 @@
 						"showontab" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
+									"fontname" : "Lato Regular",
+									"fontsize" : 13.0,
 									"id" : "obj-13",
 									"linecount" : 2,
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 10.0, 81.0, 503.0, 33.0 ],
+									"patching_rect" : [ 10.0, 66.0, 500.0, 38.0 ],
 									"style" : "",
 									"text" : "Jit.mo.texture is an abstraction that converts the output of jit.mo.join into an OpenGL texture. All of jit.gl.textures attributes can be called if typed into the object box."
 								}
@@ -123,7 +123,7 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 31.0, 326.0, 50.0, 22.0 ],
+									"patching_rect" : [ 42.0, 283.0, 50.0, 22.0 ],
 									"style" : ""
 								}
 
@@ -135,7 +135,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 31.0, 352.0, 53.0, 22.0 ],
+									"patching_rect" : [ 42.0, 311.0, 53.0, 22.0 ],
 									"style" : "",
 									"text" : "rows $1"
 								}
@@ -149,19 +149,23 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 235.0, 372.0, 40.0, 40.0 ],
+									"patching_rect" : [ 246.0, 331.0, 40.0, 40.0 ],
 									"style" : ""
 								}
 
 							}
 , 							{
 								"box" : 								{
+									"frozen_object_attributes" : 									{
+										"windowposition" : [ 680, 45 ]
+									}
+,
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 3,
 									"outlettype" : [ "", "bang", "" ],
-									"patching_rect" : [ 235.0, 463.0, 108.0, 22.0 ],
+									"patching_rect" : [ 246.0, 422.0, 108.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.world motexture"
 								}
@@ -174,7 +178,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 10.0, 455.0, 161.0, 124.0 ]
+									"patching_rect" : [ 21.0, 414.0, 161.0, 124.0 ]
 								}
 
 							}
@@ -185,7 +189,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "jit_gl_texture" ],
-									"patching_rect" : [ 10.0, 420.0, 217.0, 22.0 ],
+									"patching_rect" : [ 21.0, 379.0, 217.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.mo.texture motexture @name motex"
 								}
@@ -198,7 +202,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 374.0, 176.0, 197.0, 22.0 ],
+									"patching_rect" : [ 385.0, 151.0, 197.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.mo.perlin @speed 1 @period 20"
 								}
@@ -211,7 +215,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 192.0, 176.0, 167.0, 22.0 ],
+									"patching_rect" : [ 203.0, 151.0, 167.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.mo.tri @speed 1 @freq 1.5"
 								}
@@ -224,7 +228,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "jit_matrix" ],
-									"patching_rect" : [ 10.0, 384.0, 120.0, 22.0 ],
+									"patching_rect" : [ 21.0, 343.0, 120.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.mo.grid @rows 50"
 								}
@@ -237,7 +241,7 @@
 									"numinlets" : 3,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 10.0, 286.0, 383.0, 22.0 ],
+									"patching_rect" : [ 21.0, 253.0, 383.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.mo.join 3 50"
 								}
@@ -250,7 +254,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 10.0, 176.0, 162.0, 22.0 ],
+									"patching_rect" : [ 21.0, 151.0, 162.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.mo.sin @speed 1 @freq 1"
 								}
@@ -264,7 +268,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 256.0, 420.0, 195.0, 22.0 ],
+									"patching_rect" : [ 267.0, 379.0, 195.0, 22.0 ],
 									"style" : "",
 									"text_width" : 117.0
 								}
@@ -278,7 +282,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 31.0, 218.0, 107.0, 22.0 ],
+									"patching_rect" : [ 42.0, 185.0, 107.0, 22.0 ],
 									"style" : "",
 									"text_width" : 56.0
 								}
@@ -292,7 +296,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 10.0, 140.0, 150.0, 22.0 ],
+									"patching_rect" : [ 21.0, 115.0, 150.0, 22.0 ],
 									"style" : ""
 								}
 
@@ -305,7 +309,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 31.0, 249.0, 87.0, 22.0 ],
+									"patching_rect" : [ 58.5, 216.0, 87.0, 22.0 ],
 									"style" : "",
 									"text_width" : 42.0
 								}
@@ -323,7 +327,29 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 10.0, 10.0, 620.0, 125.0 ]
+									"patching_rect" : [ 10.0, 10.0, 297.0, 54.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"background" : 1,
+									"bgcolor" : [ 1.0, 0.788235, 0.470588, 1.0 ],
+									"fontname" : "Arial Bold",
+									"hint" : "",
+									"id" : "obj-93",
+									"ignoreclick" : 1,
+									"legacytextcolor" : 1,
+									"maxclass" : "textbutton",
+									"numinlets" : 1,
+									"numoutlets" : 3,
+									"outlettype" : [ "", "", "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 288.0, 331.0, 20.0, 20.0 ],
+									"rounded" : 60.0,
+									"style" : "",
+									"text" : "1",
+									"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
 								}
 
 							}
@@ -441,7 +467,7 @@
 									"destination" : [ "obj-1", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"midpoints" : [ 19.5, 450.0, 244.5, 450.0 ],
+									"midpoints" : [ 30.5, 409.0, 255.5, 409.0 ],
 									"source" : [ "obj-62", 0 ]
 								}
 
@@ -519,11 +545,11 @@
 							"major" : 7,
 							"minor" : 2,
 							"revision" : 5,
-							"architecture" : "x64",
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 109.0, 153.0, 640.0, 480.0 ],
+						"rect" : [ 0.0, 26.0, 596.0, 560.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -586,7 +612,7 @@
 			}
 , 			{
 				"name" : "jit.mo.grid.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/patchers",
+				"bootpath" : "~/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
