@@ -30,6 +30,11 @@
 
 	<methodlist>
 
+		<method name='update'>
+			<digest>Update and output the time or function value when in non-automatic mode</digest>
+			<description>Update and output the time or function value when in non-automatic mode.</description>
+		</method>
+
 		<method name='reset'>
 			<digest>Reset the accumulated time to 0</digest>
 			<description>Reset the accumulated time to 0.</description>

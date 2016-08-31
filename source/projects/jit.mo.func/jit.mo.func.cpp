@@ -119,11 +119,12 @@ public:
     };
     
 	message rand = { this, "rand",
-        "Generate new random values for rand_amt offset.",
         MIN_FUNCTION {
             reseed = true;
             return {};
-        }
+        },
+		"Generate new random values for rand_amt offset.",
+		A_DEFER_LOW
     };
 
 	// TODO: multiplane

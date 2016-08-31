@@ -53,11 +53,13 @@ public:
         description {"Random offset amount (default = 0. 0. 0.). Random position offsets applied based on field strength" },
     };
     
-    message rand = { this, "rand", "Generate new random values for rand_amt offset.",
+    message rand = { this, "rand",
         MIN_FUNCTION {
             reseed = true;
             return {};
-        }
+        },
+		"Generate new random values for rand_amt offset.",
+		A_DEFER_LOW
     };
     
 	template<class matrix_type, size_t planecount>

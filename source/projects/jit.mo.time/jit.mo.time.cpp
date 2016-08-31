@@ -118,12 +118,32 @@ public:
         }}
     };
     
-    message reset { this, "reset", "Reset the accumulated time to 0.", MIN_FUNCTION {
-        accum_time = 0.;
-       return {};
-    }};
-    
-    void update_animation(t_atom *av) {
+    message reset { this, "reset",
+		MIN_FUNCTION {
+			accum_time = 0.;
+			return {};
+		},
+		"Reset the accumulated time to 0.",
+		A_DEFER_LOW
+	};
+	
+	message update { this, "update",
+		MIN_FUNCTION {
+			long time = gettime();
+			float deltatime;
+			t_atom av;
+			if(prevtime_ms == 0) deltatime = 0;
+			else deltatime = (float)(time - prevtime_ms) * .001f;
+			prevtime_ms = time;
+			atom_setfloat(&av, deltatime);
+			
+			return { atom(update_animation(&av)) };
+		},
+		"Update and output the time or function value when in non-automatic mode.",
+		A_GIMMEBACK
+	};
+	
+    double update_animation(t_atom *av) {
         if(enable) {
             if(i_s.update(speed, interval)) {
                 object_attr_touch(maxob_from_jitob(m_maxobj), gensym("speed"));
@@ -176,18 +196,9 @@ public:
             }
             
             outlet_float(timeoutlet, val);
+			return val;
         }
-    }
-    
-    void update_nonauto() {
-        long time = gettime();
-        float deltatime;
-        t_atom av;
-        if(prevtime_ms == 0) deltatime = 0;
-        else deltatime = (float)(time - prevtime_ms) * .001f;
-        prevtime_ms = time;
-        atom_setfloat(&av, deltatime);
-        update_animation(&av);
+		return 0.;
     }
 
     template<class matrix_type, size_t planecount>
@@ -223,6 +234,10 @@ private:
         if(classname() == "jit.mo.time.delta") {
             mode = timemodes::delta;
         }
+		// currently, if instantiated from JS classname will be empty
+		else if(classname() == symbol()) {
+			mode = timemodes::accum;
+		}
         else if(!(classname() == "jit.mo.time")) {
             
             mode = timemodes::function;
@@ -310,5 +325,5 @@ void max_jit_mo_time_bang(max_jit_wrapper *mob)
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
     if(!object_attr_getlong(job, sym_automatic))
-        self->min_object.update_nonauto();
+        self->min_object.update();
 }
