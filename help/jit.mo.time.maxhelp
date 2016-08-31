@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 31.0, 79.0, 796.0, 562.0 ],
+		"rect" : [ 31.0, 79.0, 784.0, 562.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -54,7 +54,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 0.0, 26.0, 796.0, 536.0 ],
+						"rect" : [ 31.0, 105.0, 784.0, 536.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -145,7 +145,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 615.0, 177.0, 166.0, 37.0 ],
+									"patching_rect" : [ 615.0, 177.0, 150.0, 37.0 ],
 									"style" : "",
 									"text" : "Immediately go from 0. to 1. over 4 seconds."
 								}
@@ -756,7 +756,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 31.0, 105.0, 796.0, 536.0 ],
+						"rect" : [ 0.0, 26.0, 784.0, 536.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -1255,7 +1255,7 @@
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 0.0, 26.0, 796.0, 536.0 ],
+						"rect" : [ 0.0, 26.0, 784.0, 536.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
