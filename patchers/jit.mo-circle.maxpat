@@ -97,7 +97,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 234.0, 188.0, 123.0, 22.0 ],
+					"patching_rect" : [ 234.0, 188.0, 124.0, 22.0 ],
 					"style" : "",
 					"text_width" : 60.0
 				}
@@ -196,27 +196,27 @@
 			}
 , 			{
 				"box" : 				{
-					"id" : "obj-3",
-					"maxclass" : "toggle",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"parameter_enable" : 0,
-					"patching_rect" : [ 76.0, 436.0, 24.0, 24.0 ],
-					"style" : ""
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-1",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "bang", "" ],
-					"patching_rect" : [ 76.0, 473.0, 196.0, 22.0 ],
+					"patching_rect" : [ 76.0, 473.0, 258.0, 22.0 ],
 					"style" : "",
-					"text" : "jit.world @erase_color 0.8 0.9 1. 1."
+					"text" : "jit.world @erase_color 0.8 0.9 1. 1. @enable 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"attr" : "enable",
+					"id" : "obj-4",
+					"maxclass" : "attrui",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 76.0, 443.0, 150.0, 22.0 ],
+					"style" : ""
 				}
 
 			}
@@ -289,7 +289,7 @@
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-3", 0 ]
+					"source" : [ "obj-4", 0 ]
 				}
 
 			}
@@ -339,13 +339,9 @@
 
 			}
  ],
-		"parameters" : 		{
-
-		}
-,
 		"dependency_cache" : [ 			{
 				"name" : "jit.mo.slice.maxpat",
-				"bootpath" : "~/dev/cycling/jit.mograph/patchers",
+				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
@@ -361,15 +357,15 @@
 		"autosave" : 0,
 		"styles" : [ 			{
 				"name" : "afxyellow",
+				"multislider" : 				{
+					"color" : [ 1.0, 0.818637, 0.0, 1.0 ],
+					"bgcolor" : [ 0.204102, 0.125198, 0.002398, 1.0 ]
+				}
+,
 				"tab" : 				{
 					"color" : [ 0.679508, 0.55813, 0.006126, 1.0 ],
 					"textcolor_inverse" : [ 0.881305, 0.881305, 0.881305, 1.0 ],
 					"elementcolor" : [ 0.451979, 0.451979, 0.451979, 1.0 ]
-				}
-,
-				"multislider" : 				{
-					"color" : [ 1.0, 0.818637, 0.0, 1.0 ],
-					"bgcolor" : [ 0.204102, 0.125198, 0.002398, 1.0 ]
 				}
 ,
 				"message" : 				{

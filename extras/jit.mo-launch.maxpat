@@ -65,11 +65,11 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-23",
-					"linecount" : 7,
+					"linecount" : 6,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 23.0, 116.0, 151.0, 100.0 ],
+					"patching_rect" : [ 23.0, 116.0, 154.0, 87.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 4,
 					"presentation_rect" : [ 23.0, 101.0, 256.0, 60.0 ],
@@ -493,7 +493,7 @@
 					"destination" : [ "obj-3", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-2", 0 ]
+					"source" : [ "obj-2", 1 ]
 				}
 
 			}
