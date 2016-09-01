@@ -42,9 +42,9 @@
 
 	<attributelist>
 
-		<attribute name='location' get='1' set='1' type='float64' size='1' >
-			<digest>Location value (default = 0</digest>
-			<description>Location value (default = 0. 0. 0.). Defines the center point of the field.</description>
+		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
+			<digest>Random offset amount (default = 0</digest>
+			<description>Random offset amount (default = 0. 0. 0.). Random position offsets applied based on field strength</description>
 		</attribute>
 
 		<attribute name='falloff' get='1' set='1' type='float64' size='1' >
@@ -62,9 +62,9 @@
 			<description>Radius value (default = 0.5). Radius defines the spherical area around the location affected by the field</description>
 		</attribute>
 
-		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
-			<digest>Random offset amount (default = 0</digest>
-			<description>Random offset amount (default = 0. 0. 0.). Random position offsets applied based on field strength</description>
+		<attribute name='location' get='1' set='1' type='float64' size='1' >
+			<digest>Location value (default = 0</digest>
+			<description>Location value (default = 0. 0. 0.). Defines the center point of the field.</description>
 		</attribute>
 
 		<attribute name='force' get='1' set='1' type='float64' size='1' >

@@ -16,6 +16,7 @@ using namespace jit_mo;
 void jit_mo_time_update_anim(t_object *job, t_atom *a);
 void max_jit_mo_time_int(max_jit_wrapper *mob, long v);
 void max_jit_mo_time_bang(max_jit_wrapper *mob);
+void max_jit_mo_time_assist(void *x, void *b, long m, long a, char *s);
 
 namespace timemodes {
     static const symbol accum = "accum";
@@ -221,8 +222,9 @@ private:
     message maxclass_setup { this, "maxclass_setup", MIN_FUNCTION {
         t_class *c = args[0];
         max_jit_class_wrap_standard(c, this_jit_class, 0);
-        class_addmethod(c, (method)max_jit_mo_time_int, "int", A_LONG, 0);
-        class_addmethod(c, (method)max_jit_mo_time_bang, "bang", A_NOTHING, 0);
+        class_addmethod(c, (method)max_jit_mo_time_int,		"int", A_LONG, 0);
+        class_addmethod(c, (method)max_jit_mo_time_bang,	"bang", A_NOTHING, 0);
+		class_addmethod(c, (method)max_jit_mo_time_assist,	"assist", A_CANT, 0);
         
         return {};
     }};
@@ -307,23 +309,33 @@ private:
 
 MIN_EXTERNAL(jit_mo_time);
 
-void jit_mo_time_update_anim(t_object *job, t_atom *a)
-{
+void jit_mo_time_update_anim(t_object *job, t_atom *a) {
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
     self->min_object.update_animation(a);
 }
 
-void max_jit_mo_time_int(max_jit_wrapper *mob, long v)
-{
+void max_jit_mo_time_int(max_jit_wrapper *mob, long v) {
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
     self->min_object.enable = (bool)v;
 }
 
-void max_jit_mo_time_bang(max_jit_wrapper *mob)
-{
+void max_jit_mo_time_bang(max_jit_wrapper *mob) {
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
     if(!object_attr_getlong(job, sym_automatic))
         self->min_object.update();
+}
+
+void max_jit_mo_time_assist(void *x, void *b, long m, long a, char *s) {
+	if (m == 1) { //input
+		sprintf(s,"bang, messages in");
+	} else {	//output
+		if (a == 0) {
+			sprintf(s,"(float) current time value");
+		}
+		else {
+			sprintf(s,"dumpout");
+		}
+	}
 }
