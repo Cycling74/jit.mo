@@ -125,7 +125,7 @@ public:
 			return {};
 		},
 		"Reset the accumulated time to 0.",
-		A_DEFER_LOW
+		message::types::defer_low
 	};
 	
 	message update { this, "update",
@@ -141,7 +141,7 @@ public:
 			return { atom(update_animation(&av)) };
 		},
 		"Update and output the time or function value when in non-automatic mode.",
-		A_GIMMEBACK
+		message::types::gimmeback
 	};
 	
     double update_animation(t_atom *av) {

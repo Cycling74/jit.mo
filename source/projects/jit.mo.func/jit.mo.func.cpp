@@ -124,7 +124,7 @@ public:
             return {};
         },
 		"Generate new random values for rand_amt offset.",
-		A_DEFER_LOW
+		message::types::defer_low
     };
 
 	// TODO: multiplane
