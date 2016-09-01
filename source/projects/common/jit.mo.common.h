@@ -46,6 +46,10 @@ namespace jit_mo {
         if(loop || pval < 2.0) {
             phase = std::fmod(pval, 2.0);
         }
+		else if(pval >= 2.0) {
+			// animation end notifiy?
+			phase = 2.0;
+		}
         return phase;
     }
     
