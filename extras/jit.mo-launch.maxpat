@@ -5,7 +5,7 @@
 			"major" : 7,
 			"minor" : 2,
 			"revision" : 4,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
@@ -55,10 +55,10 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 1,
-					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 14.0, 14.0, 70.0, 22.0 ],
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 14.0, 14.0, 72.0, 22.0 ],
 					"style" : "",
-					"text" : "loadbang 1"
+					"text" : "loadmess 1"
 				}
 
 			}
@@ -69,7 +69,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 23.0, 116.0, 154.0, 87.0 ],
+					"patching_rect" : [ 23.0, 116.0, 159.0, 87.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 4,
 					"presentation_rect" : [ 23.0, 101.0, 256.0, 60.0 ],
@@ -288,13 +288,13 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 669.0, 242.0, 161.0, 213.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 762.0, 77.0, 122.0, 223.0 ],
+					"presentation_rect" : [ 762.0, 77.0, 145.0, 250.0 ],
 					"rounded" : 9.0,
 					"spacing_x" : 12.0,
 					"spacing_y" : 14.0,
 					"style" : "",
 					"tabcolor" : [ 0.664532, 0.706344, 0.714923, 1.0 ],
-					"tabs" : [ "jit.mo.grid", "jit.mo.slice", "jit.mo.texture" ],
+					"tabs" : [ "jit.mo.grid", "jit.mo.slice", "jit.mo.texture", "jit.mo.circle" ],
 					"textcolor" : [ 0.29971, 0.332965, 0.409308, 1.0 ]
 				}
 
@@ -316,13 +316,13 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 192.0, 242.0, 143.0, 220.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 338.0, 77.0, 161.0, 223.0 ],
+					"presentation_rect" : [ 338.0, 77.0, 161.0, 250.0 ],
 					"rounded" : 9.0,
 					"spacing_x" : 12.0,
 					"spacing_y" : 14.0,
 					"style" : "",
 					"tabcolor" : [ 0.664532, 0.706344, 0.714923, 1.0 ],
-					"tabs" : [ "AudioVisuals", "OrganicMotion", "Worms", "Alphablend", "circle" ],
+					"tabs" : [ "AudioVisuals", "OrganicMotion", "Worms", "Alphablend", "AnimPath", "CircleWorks" ],
 					"textcolor" : [ 0.29971, 0.332965, 0.409308, 1.0 ]
 				}
 
@@ -344,7 +344,7 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 496.0, 242.0, 161.0, 213.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 559.0, 77.0, 145.0, 223.0 ],
+					"presentation_rect" : [ 559.0, 77.0, 145.0, 250.0 ],
 					"rounded" : 9.0,
 					"spacing_x" : 12.0,
 					"spacing_y" : 14.0,

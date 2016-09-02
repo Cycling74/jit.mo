@@ -5,7 +5,7 @@
 			"major" : 7,
 			"minor" : 2,
 			"revision" : 4,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
@@ -38,12 +38,25 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-6",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 163.0, 101.0, 57.0, 22.0 ],
+					"style" : "",
+					"text" : "route init"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-9",
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 496.5, 101.0, 85.0, 22.0 ],
+					"patching_rect" : [ 529.5, 101.0, 85.0, 22.0 ],
 					"style" : "",
 					"text" : "rand_turn 180"
 				}
@@ -56,7 +69,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 289.0, 101.0, 61.0, 22.0 ],
+					"patching_rect" : [ 322.0, 101.0, 61.0, 22.0 ],
 					"style" : "",
 					"text" : "init w 400"
 				}
@@ -69,7 +82,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 413.5, 101.0, 79.0, 22.0 ],
+					"patching_rect" : [ 446.5, 101.0, 79.0, 22.0 ],
 					"style" : "",
 					"text" : "rand_turn 45"
 				}
@@ -88,7 +101,7 @@
 							"major" : 7,
 							"minor" : 2,
 							"revision" : 4,
-							"architecture" : "x64",
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -267,7 +280,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 168.0, 274.5, 43.0, 22.0 ],
+					"patching_rect" : [ 259.0, 274.5, 43.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"description" : "",
 						"digest" : "",
@@ -305,7 +318,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 190.0, 211.5, 80.0, 35.0 ],
+					"patching_rect" : [ 281.0, 211.5, 80.0, 35.0 ],
 					"style" : ""
 				}
 
@@ -317,7 +330,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 370.0, 101.0, 37.0, 22.0 ],
+					"patching_rect" : [ 403.0, 101.0, 37.0, 22.0 ],
 					"style" : "",
 					"text" : "reset"
 				}
@@ -333,7 +346,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 63.0, 171.5, 80.0, 35.0 ],
+					"patching_rect" : [ 30.0, 171.5, 80.0, 35.0 ],
 					"style" : ""
 				}
 
@@ -393,7 +406,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 226.0, 101.0, 61.0, 22.0 ],
+					"patching_rect" : [ 259.0, 101.0, 61.0, 22.0 ],
 					"style" : "",
 					"text" : "init w 100"
 				}
@@ -406,7 +419,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "bang", "" ],
-					"patching_rect" : [ 63.0, 101.0, 125.0, 22.0 ],
+					"patching_rect" : [ 30.0, 101.0, 125.0, 22.0 ],
 					"style" : "",
 					"text" : "jit.world w @enable 1"
 				}
@@ -419,7 +432,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 168.0, 171.5, 102.0, 22.0 ],
+					"patching_rect" : [ 259.0, 171.5, 102.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "jit.mo-worms.js",
 						"parameter_enable" : 0
@@ -437,7 +450,7 @@
 					"numinlets" : 9,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_matrix", "" ],
-					"patching_rect" : [ 168.0, 324.0, 276.0, 22.0 ],
+					"patching_rect" : [ 259.0, 324.0, 276.0, 22.0 ],
 					"style" : "",
 					"text" : "jit.gl.mesh @draw_mode line_strip @line_width 2."
 				}
@@ -450,7 +463,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_matrix", "" ],
-					"patching_rect" : [ 264.375, 274.5, 155.0, 22.0 ],
+					"patching_rect" : [ 355.375, 274.5, 155.0, 22.0 ],
 					"style" : "",
 					"text" : "jit.map @map -40. 40. 0. 1."
 				}
@@ -464,7 +477,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 63.0, 69.0, 125.0, 22.0 ],
+					"patching_rect" : [ 30.0, 69.0, 126.0, 22.0 ],
 					"style" : ""
 				}
 
@@ -512,6 +525,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-2", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-6", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-2", 2 ]
 				}
 
 			}
@@ -589,6 +611,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-4", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-6", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -617,7 +648,7 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "jit.mo-worms.js",
-				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/javascript",
+				"bootpath" : "~/dev/cycling/jit.mo/javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
