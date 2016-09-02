@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 2,
 			"revision" : 4,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 535.0, 160.0, 768.0, 685.0 ],
+		"rect" : [ 655.0, 157.0, 768.0, 685.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -58,7 +58,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 431.0, 365.5, 247.0, 37.0 ],
-					"presentation_rect" : [ 504.0, 409.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "when interpmode set to spline, call calchandles after a matrix is received"
 				}
@@ -74,7 +73,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 426.0, 154.0, 233.0, 39.0 ],
-					"presentation_rect" : [ 441.0, 214.0, 0.0, 0.0 ],
 					"style" : "",
 					"text" : "next 3 planes set the path position values"
 				}
@@ -155,7 +153,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 36.0, 384.0, 126.0, 22.0 ],
-					"presentation_rect" : [ 102.0, 340.0, 0.0, 0.0 ],
 					"style" : "",
 					"text_width" : 59.0
 				}
@@ -196,7 +193,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 36.0, 336.0, 94.0, 22.0 ],
-					"presentation_rect" : [ 153.0, 372.0, 0.0, 0.0 ],
 					"style" : "",
 					"text_width" : 59.0
 				}
@@ -325,9 +321,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 190.0, 441.0, 387.0, 22.0 ],
+					"patching_rect" : [ 190.0, 441.0, 434.0, 22.0 ],
 					"style" : "",
-					"text" : "jit.anim.path @drawpath glp @timemode absolute @interpmode spline"
+					"text" : "jit.anim.path @drawpath glp @timemode absolute @interpmode spline @play 1"
 				}
 
 			}

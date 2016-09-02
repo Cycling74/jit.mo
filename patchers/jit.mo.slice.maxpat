@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 2,
 			"revision" : 4,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 535.0, 179.0, 471.0, 434.0 ],
+		"rect" : [ 354.0, 157.0, 471.0, 452.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,12 +38,74 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"fontsize" : 13.0,
+					"id" : "obj-24",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 234.0, 361.0, 215.0, 36.0 ],
+					"style" : "",
+					"text" : "• first arg sets the amount to slice\n• negative value slices from the end",
+					"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontsize" : 13.0,
+					"id" : "obj-6",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 23.0, 81.0, 78.0, 21.0 ],
+					"presentation_rect" : [ 82.75, 93.0, 0.0, 0.0 ],
+					"style" : "",
+					"text" : "matrix input",
+					"textcolor" : [ 0.239216, 0.254902, 0.278431, 1.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontsize" : 13.0,
+					"id" : "obj-32",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 270.375, 66.0, 55.25, 36.0 ],
+					"style" : "",
+					"text" : "slice amount",
+					"textcolor" : [ 0.239216, 0.254902, 0.278431, 1.0 ],
+					"textjustification" : 1
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"border" : 0,
+					"filename" : "helpdetails.js",
+					"id" : "obj-30",
+					"ignoreclick" : 1,
+					"jsarguments" : [ "jit.mo.slice" ],
+					"maxclass" : "jsui",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 8.0, 15.0, 232.5, 55.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-5",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "bang", "int" ],
-					"patching_rect" : [ 329.5, 223.0, 30.0, 22.0 ],
+					"patching_rect" : [ 326.5, 302.0, 30.0, 22.0 ],
 					"style" : "",
 					"text" : "t b i"
 				}
@@ -51,14 +113,13 @@
 			}
 , 			{
 				"box" : 				{
-					"comment" : "",
+					"comment" : "slice amount",
 					"id" : "obj-4",
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 244.0, 36.0, 30.0, 30.0 ],
-					"presentation_rect" : [ 243.0, 42.0, 0.0, 0.0 ],
+					"patching_rect" : [ 283.0, 100.0, 30.0, 30.0 ],
 					"style" : ""
 				}
 
@@ -70,7 +131,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 111.5, 186.0, 60.0, 22.0 ],
+					"patching_rect" : [ 108.5, 250.0, 60.0, 22.0 ],
 					"style" : "",
 					"text" : "+"
 				}
@@ -83,7 +144,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "", "int", "int" ],
-					"patching_rect" : [ 111.5, 151.0, 60.0, 22.0 ],
+					"patching_rect" : [ 108.5, 215.0, 60.0, 22.0 ],
 					"style" : "",
 					"text" : "change 0"
 				}
@@ -96,7 +157,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 111.5, 127.0, 61.0, 22.0 ],
+					"patching_rect" : [ 108.5, 191.0, 61.0, 22.0 ],
 					"style" : "",
 					"text" : "route dim"
 				}
@@ -109,7 +170,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 111.5, 101.0, 75.0, 22.0 ],
+					"patching_rect" : [ 108.5, 165.0, 75.0, 22.0 ],
 					"style" : "",
 					"text" : "jit.matrixinfo"
 				}
@@ -122,7 +183,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 111.5, 260.0, 77.0, 22.0 ],
+					"patching_rect" : [ 108.5, 302.0, 77.0, 22.0 ],
 					"style" : "",
 					"text" : "prepend dim"
 				}
@@ -135,7 +196,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 329.5, 138.0, 29.5, 22.0 ],
+					"patching_rect" : [ 326.5, 202.0, 29.5, 22.0 ],
 					"style" : "",
 					"text" : "+ 1"
 				}
@@ -148,7 +209,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 329.5, 169.0, 44.0, 22.0 ],
+					"patching_rect" : [ 326.5, 233.0, 44.0, 22.0 ],
 					"style" : "",
 					"text" : "gate 2"
 				}
@@ -161,7 +222,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "int" ],
-					"patching_rect" : [ 286.0, 84.0, 62.5, 22.0 ],
+					"patching_rect" : [ 283.0, 148.0, 62.5, 22.0 ],
 					"style" : "",
 					"text" : "t i i"
 				}
@@ -174,7 +235,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 329.5, 111.0, 29.5, 22.0 ],
+					"patching_rect" : [ 326.5, 175.0, 29.5, 22.0 ],
 					"style" : "",
 					"text" : "> 0"
 				}
@@ -187,7 +248,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 286.0, 40.0, 146.0, 22.0 ],
+					"patching_rect" : [ 325.0, 104.0, 95.0, 22.0 ],
 					"style" : "",
 					"text" : "patcherargs -1"
 				}
@@ -200,7 +261,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_matrix", "" ],
-					"patching_rect" : [ 50.0, 313.0, 75.0, 22.0 ],
+					"patching_rect" : [ 47.0, 368.0, 75.0, 22.0 ],
 					"style" : "",
 					"text" : "jit.submatrix"
 				}
@@ -208,13 +269,13 @@
 			}
 , 			{
 				"box" : 				{
-					"comment" : "",
+					"comment" : "matrix input",
 					"id" : "obj-25",
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "jit_matrix" ],
-					"patching_rect" : [ 50.0, 40.0, 30.0, 30.0 ],
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 47.0, 104.0, 30.0, 30.0 ],
 					"style" : ""
 				}
 
@@ -226,7 +287,7 @@
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 50.0, 363.223633, 30.0, 30.0 ],
+					"patching_rect" : [ 47.0, 399.223633, 30.0, 30.0 ],
 					"style" : ""
 				}
 
@@ -393,6 +454,26 @@
 					"source" : [ "obj-9", 0 ]
 				}
 
+			}
+ ],
+		"dependency_cache" : [ 			{
+				"name" : "helpdetails.js",
+				"bootpath" : "C74:/help/resources",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+ ],
+		"autosave" : 0,
+		"styles" : [ 			{
+				"name" : "helpfile_label-1",
+				"default" : 				{
+					"fontsize" : [ 13.0 ],
+					"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
+					"fontname" : [ "Arial" ]
+				}
+,
+				"parentstyle" : "",
+				"multi" : 0
 			}
  ]
 	}
