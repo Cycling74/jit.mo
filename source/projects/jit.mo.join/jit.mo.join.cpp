@@ -22,9 +22,10 @@ void max_jit_mo_join_int(max_jit_wrapper *mob, long v);
 class jit_mo_join : public object<jit_mo_join>, matrix_operator {
 public:
     MIN_DESCRIPTION { "Combine jit.mo streams and output a multi-plane matrix. Automatically connects to jit.world to drive animations. Inputs add multiple jit.mo/matrix inputs for additive control" };
-    MIN_TAGS		{ "jit.mo, Generators" };
+    MIN_TAGS		{ "jit.mo,Generators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.func, jit.mo.field, jit.mo.time, jit.world" };
+    MIN_RELATED		{ "jit.mo.func,jit.mo.field,jit.mo.time,jit.anim.path,jit.world" };
+	
 	jit_mo_join(const atoms& args = {}) {
         patcher = (t_object *)gensym("#P")->s_thing;
     }
@@ -44,6 +45,10 @@ public:
         
         jit_object_free(animator);
     }
+	
+	argument<number> inletcount	{ this, "Inlet Count", "Set the number of inlets and planecount of output.", false, nullptr};
+	
+	argument<number> dimarg	{ this, "Dimension", "Set the dimension (number of elements) of the output matrix and any attached <o>jit.mo.func</o> objects. jit.mo objects only support matrices with a dimcount of 1.", false, nullptr};
 	
     outlet	output	= { this, "(matrix) Output", "matrix" };
     

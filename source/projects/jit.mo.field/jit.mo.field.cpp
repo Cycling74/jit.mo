@@ -13,9 +13,9 @@ using namespace std;
 class jit_mo_field : public object<jit_mo_field>, matrix_operator {
 public:
     MIN_DESCRIPTION { "Field manipulator for 3 plane jit.mo streams. Deforms position output depending on distance from a defined spatial location. Can be used for sculpting effects and gravity-like animations" };
-    MIN_TAGS		{ "jit.mo, Manipulators" };
+    MIN_TAGS		{ "jit.mo,Manipulators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.join, jit.mo.func" };
+    MIN_RELATED		{ "jit.mo.join,jit.mo.func,jit.mo.time" };
     
     inlet	input	= { this, "(matrix) Input", "matrix" };
 	outlet	output	= { this, "(matrix) Output", "matrix" };

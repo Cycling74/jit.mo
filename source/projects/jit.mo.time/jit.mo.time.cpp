@@ -28,9 +28,9 @@ class jit_mo_time : public object<jit_mo_time>, matrix_operator {
 public:
     
     MIN_DESCRIPTION { "Outputs float time values using specified mode for realtime animation. Can be used to generate control functions in sync with other jit.world and jit.mo objects, time delta between frames, or accumulated running time." };
-    MIN_TAGS		{ "jit.mo, Generators" };
+    MIN_TAGS		{ "jit.mo,Generators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.join, jit.mo.field, jit.mo.func" };
+    MIN_RELATED		{ "jit.mo.join,jit.mo.field,jit.mo.func,jit.anim.drive" };
     
     
     jit_mo_time(const atoms& args = {}) {

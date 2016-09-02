@@ -16,13 +16,15 @@ class jit_mo_func : public object<jit_mo_func>, matrix_operator {
 public:
 
     MIN_DESCRIPTION { "Generate animated single dim matrices using a specified function. Similar in nature to a sound oscillator, jit.mo.func can generate time-varying cell values across a matrix based on a given function." };
-    MIN_TAGS		{ "jit.mo, Generators" };
+    MIN_TAGS		{ "jit.mo,Generators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.join, jit.mo.field" };
+    MIN_RELATED		{ "jit.mo.join,jit.mo.field,jit.mo.time,jit.anim.drive,jit.anim.path" };
     
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 
-    jit_mo_func(const atoms& args = {}) {}
+	argument<number> dimarg	{ this, "Dimension", "Set the dimension (number of elements) of the output matrix. Will be overriden if to attached <o>jit.mo.join</o> object via the <at>join</at> attribute. jit.mo objects only support matrices with a dimcount of 1.", false, nullptr};
+	
+	jit_mo_func(const atoms& args = {}) {}
     
     ~jit_mo_func() {
     
@@ -109,7 +111,7 @@ public:
     
     attribute<symbol> join { this, "join", _jit_sym_nothing, title {"Join name"},
         description {
-            "Sets the <o>jit_mo_join</o> object binding. \
+            "Sets the <o>jit.mo.join</o> object binding. \
             When set, animation parameters are controlled by the named object."
         },
         setter { MIN_FUNCTION {
@@ -123,7 +125,7 @@ public:
             reseed = true;
             return {};
         },
-		"Generate new random values for rand_amt offset.",
+		"Generate new random values for <at>rand_amt</at> offset.",
 		message::types::defer_low
     };
 
