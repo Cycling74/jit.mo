@@ -34,6 +34,8 @@ namespace jit_mo {
         c74::max::atomarray_appendatom(aa, &a);
         c74::max::atom_setsym(&a, c74::max::gensym("init"));
         c74::max::atomarray_appendatom(aa, &a);
+		c74::max::atom_setsym(&a, c74::max::gensym("interfaces"));
+		c74::max::atomarray_appendatom(aa, &a);
         c74::max::atom_setsym(&a, c74::max::gensym("patchers"));
         c74::max::atomarray_appendatom(aa, &a);
         
