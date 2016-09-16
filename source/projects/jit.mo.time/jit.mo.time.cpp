@@ -55,7 +55,7 @@ public:
     attribute<symbol> functype { this, "functype", functypes::line,
         title {"Function Type"},
         description { "The fuction type used when mode = function (default = line). \
-            Line generates linear interpolated values between <at>start</at> and <at>end</at> values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function" },
+            Line generates linear interpolated values between @start and @end values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function" },
         range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
     };
     
@@ -90,7 +90,7 @@ public:
     attribute<double> delta { this, "delta", 0, title {"Delta Time"},
         description {
             "Frame delta time for animating graph (default = 0.0). \
-            When <at>automatic</at> enabled this value is set automatically by the render context."
+            When @automatic enabled this value is set automatically by the render context."
         },
         setter { MIN_FUNCTION {
             double val = args[0];

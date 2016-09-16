@@ -22,7 +22,7 @@ public:
     
 	outlet	output	= { this, "(matrix) Output", "matrix" };
 
-	argument<number> dimarg	{ this, "Dimension", "Set the dimension (number of elements) of the output matrix. Will be overriden if to attached <o>jit.mo.join</o> object via the <at>join</at> attribute. jit.mo objects only support matrices with a dimcount of 1.", false, nullptr};
+	argument<number> dimarg	{ this, "Dimension", "Set the dimension (number of elements) of the output matrix. Will be overriden if to attached [jit.mo.join] object via the @join attribute. jit.mo objects only support matrices with a dimcount of 1.", false, nullptr};
 	
 	jit_mo_func(const atoms& args = {}) {}
     
@@ -73,7 +73,7 @@ public:
 	attribute<double> delta { this, "delta", 0, title {"Delta Time"},
         description {
             "Frame delta time for animating graph (default = 0.0). \
-            When bound to <o>jit.mo.join</o> this value is set automatically."
+            When bound to [jit.mo.join] this value is set automatically."
         },
 		setter { MIN_FUNCTION {
             if(initialized()) {
@@ -111,7 +111,7 @@ public:
     
     attribute<symbol> join { this, "join", _jit_sym_nothing, title {"Join name"},
         description {
-            "Sets the <o>jit.mo.join</o> object binding. \
+            "Sets the [jit.mo.join] object binding. \
             When set, animation parameters are controlled by the named object."
         },
         setter { MIN_FUNCTION {
@@ -125,7 +125,7 @@ public:
             reseed = true;
             return {};
         },
-		"Generate new random values for <at>rand_amt</at> offset.",
+		"Generate new random values for @rand_amt offset.",
 		message::types::defer_low
     };
 

@@ -48,7 +48,7 @@ public:
 	
 	argument<number> inletcount	{ this, "Inlet Count", "Set the number of inlets and planecount of output.", false, nullptr};
 	
-	argument<number> dimarg	{ this, "Dimension", "Set the dimension (number of elements) of the output matrix and any attached <o>jit.mo.func</o> objects. jit.mo objects only support matrices with a dimcount of 1.", false, nullptr};
+	argument<number> dimarg	{ this, "Dimension", "Set the dimension (number of elements) of the output matrix and any attached [jit.mo.func] objects. jit.mo objects only support matrices with a dimcount of 1.", false, nullptr};
 	
     outlet	output	= { this, "(matrix) Output", "matrix" };
     
