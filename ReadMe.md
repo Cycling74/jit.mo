@@ -13,6 +13,6 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/wttpuykqshobsdfa?svg=true)](https://ci.appveyor.com/project/c74/jit-mo)
 
-Development Builds of the package can be downloaded from [S3](https://s3-us-west-2.amazonaws.com/cycling74-ci/index.html?prefix=jit.mograph/)
+Development Builds of the package can be downloaded from [S3](https://s3-us-west-2.amazonaws.com/cycling74-ci/index.html?prefix=jit.mo/)
 
 Use the badges above to go directly to the CI services.
