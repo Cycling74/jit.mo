@@ -68,7 +68,7 @@ public:
         description {"Animation interval (default = 0 ms). Using transport timing notation (4n,2n,etc.) connects animation timing to the Global Transport of Max."}
     };
     
-    attribute<symbol> name { this, "name", _jit_sym_nothing, title {"Name"},
+    attribute<symbol> name { this, "name", symbol(true), title {"Name"},
         description {"Object name (default = UID)."},
         setter { MIN_FUNCTION {
             if(initialized()) {
@@ -260,8 +260,8 @@ private:
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_join_automatic_attrfilter);
 
-        if(name == symbol())
-            name = symbol(true);
+        //if(name == symbol())
+            //name = symbol(true);
 
         return {};
     }};
