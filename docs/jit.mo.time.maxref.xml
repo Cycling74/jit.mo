@@ -7,13 +7,13 @@
 <c74object name='jit.mo.time' category='jit.mo, Generators'>
 
 	<digest>Outputs float time values using specified mode for realtime animation</digest>
-	<description>Outputs float time values using specified mode for realtime animation. Can be used to generate control functions in sync with other jit.world and jit.mo objects, time delta between frames, or accumulated running time.</description>
+	<description>Outputs float time values using specified mode for realtime animation. Can be used to generate control functions in sync with other jit.world and jit.mo objects, time delta between frames, or accumulated running time. </description>
 
 
 	<!--METADATA-->
 
 	<metadatalist>
-		<metadata name='author'>Cycling '74</metadata>
+		<metadata name='author'>Cycling '74 </metadata>
 		<metadata name='tag'>jit.mo</metadata>
 		<metadata name='tag'>Generators</metadata>
 	</metadatalist>
@@ -32,12 +32,12 @@
 
 		<method name='update'>
 			<digest>Update and output the time or function value when in non-automatic mode</digest>
-			<description>Update and output the time or function value when in non-automatic mode.</description>
+			<description>Update and output the time or function value when in non-automatic mode. </description>
 		</method>
 
 		<method name='reset'>
 			<digest>Reset the accumulated time to 0</digest>
-			<description>Reset the accumulated time to 0.</description>
+			<description>Reset the accumulated time to 0. </description>
 		</method>
 
 	</methodlist>
@@ -48,78 +48,78 @@
 	<attributelist>
 
 		<attribute name='start' get='1' set='1' type='float64' size='1' >
-			<digest>Line function start (default = -1</digest>
-			<description>Line function start (default = -1.0).</description>
+			<digest>Line function start (default = -1.0)</digest>
+			<description>Line function start (default = -1.0). </description>
 		</attribute>
 
 		<attribute name='delta' get='1' set='1' type='float64' size='1' >
 			<digest>Frame delta time for animating graph (default = 0.0)</digest>
-			<description>Frame delta time for animating graph (default = 0.0).             When <at>automatic</at> enabled this value is set automatically by the render context.</description>
+			<description>Frame delta time for animating graph (default = 0.0).             When <at>automatic</at> enabled this value is set automatically by the render context. </description>
 		</attribute>
 
 		<attribute name='offset' get='1' set='1' type='float64' size='1' >
-			<digest>Output offset (default = 0</digest>
-			<description>Output offset (default = 0.0).</description>
+			<digest>Output offset (default = 0.0)</digest>
+			<description>Output offset (default = 0.0). </description>
 		</attribute>
 
 		<attribute name='loop' get='1' set='1' type='long' size='1' >
 			<digest>Enable and disable phase looping when animating (default = 1)</digest>
-			<description>Enable and disable phase looping when animating (default = 1). Animation can be reset by setting phase to 0</description>
+			<description>Enable and disable phase looping when animating (default = 1). Animation can be reset by setting phase to 0 </description>
 		</attribute>
 
 		<attribute name='phase' get='1' set='1' type='float64' size='1' >
 			<digest>Output phase offset (default = 0.0)</digest>
-			<description>Output phase offset (default = 0.0). Setting this to 0 will restart an animation</description>
+			<description>Output phase offset (default = 0.0). Setting this to 0 will restart an animation </description>
 		</attribute>
 
 		<attribute name='freq' get='1' set='1' type='float64' size='1' >
 			<digest>Function frequency (default = 1.0)</digest>
-			<description>Function frequency (default = 1.0). Specified in Hz</description>
+			<description>Function frequency (default = 1.0). Specified in Hz </description>
 		</attribute>
 
 		<attribute name='functype' get='1' set='1' type='symbol' size='1' >
 			<digest>The fuction type used when mode = function (default = line)</digest>
-			<description>The fuction type used when mode = function (default = line).             Line generates linear interpolated values between <at>start</at> and <at>end</at> values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function</description>
+			<description>The fuction type used when mode = function (default = line).             Line generates linear interpolated values between <at>start</at> and <at>end</at> values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function </description>
 		</attribute>
 
 		<attribute name='period' get='1' set='1' type='float64' size='1' >
 			<digest>The period length for the perlin noise function (default = 8)</digest>
-			<description>The period length for the perlin noise function (default = 8).</description>
+			<description>The period length for the perlin noise function (default = 8). </description>
 		</attribute>
 
 		<attribute name='end' get='1' set='1' type='float64' size='1' >
-			<digest>Line function end (default = 1</digest>
-			<description>Line function end (default = 1.0).</description>
+			<digest>Line function end (default = 1.0)</digest>
+			<description>Line function end (default = 1.0). </description>
 		</attribute>
 
 		<attribute name='scale' get='1' set='1' type='float64' size='1' >
-			<digest>Output multiplier (default = 1</digest>
-			<description>Output multiplier (default = 1.0).</description>
+			<digest>Output multiplier (default = 1.0)</digest>
+			<description>Output multiplier (default = 1.0). </description>
 		</attribute>
 
 		<attribute name='interval' get='1' set='1' type='time' size='1' >
 			<digest>Animation interval (default = 0 ms)</digest>
-			<description>Animation interval (default = 0 ms).</description>
+			<description>Animation interval (default = 0 ms). </description>
 		</attribute>
 
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
-			<digest>Animation speed multiplier (default = 1</digest>
-			<description>Animation speed multiplier (default = 1.0).</description>
+			<digest>Animation speed multiplier (default = 1.0)</digest>
+			<description>Animation speed multiplier (default = 1.0). </description>
 		</attribute>
 
 		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
-			<digest>Scales the random offset value (default = 0</digest>
-			<description>Scales the random offset value (default = 0.0).</description>
+			<digest>Scales the random offset value (default = 0.0)</digest>
+			<description>Scales the random offset value (default = 0.0). </description>
 		</attribute>
 
 		<attribute name='mode' get='1' set='1' type='symbol' size='1' >
 			<digest>How time output is calculated (default = accum)</digest>
-			<description>How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified functype to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations.</description>
+			<description>How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified functype to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations. </description>
 		</attribute>
 
 		<attribute name='enable' get='1' set='1' type='long' size='1' >
-			<digest></digest>
-			<description></description>
+			<digest>Enable function output (default = 1)</digest>
+			<description>Enable function output (default = 1). </description>
 		</attribute>
 
 	</attributelist>

@@ -20,7 +20,7 @@ public:
     MIN_AUTHOR		{ "Cycling '74" };
     MIN_RELATED		{ "jit.mo.join,jit.mo.field,jit.mo.time,jit.anim.drive,jit.anim.path" };
     
-	outlet	output	= { this, "(matrix) Output", "matrix" };
+	outlet<> output	= { this, "(matrix) Output", "matrix" };
 
 	argument<number> dimarg	{ this, "Dimension", "Set the dimension (number of elements) of the output matrix. Will be overriden if to attached [jit.mo.join] object via the @join attribute. jit.mo objects only support matrices with a dimcount of 1.", false, nullptr};
 	
@@ -120,13 +120,13 @@ public:
         }}
     };
     
-	message rand = { this, "rand",
+	message<> rand = { this, "rand",
         MIN_FUNCTION {
             reseed = true;
             return {};
         },
 		"Generate new random values for @rand_amt offset.",
-		message::types::defer_low
+		message_type::defer_low
     };
 
 	// TODO: multiplane
@@ -182,12 +182,12 @@ public:
 
 private:
 
-    //message jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
+    //message<> jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
         //t_class *c = args[0];
         //jit_class_addmethod(c, (method)jit_mo_func_detach_join, "detach_join", A_CANT, 0);
     //}};
     
-    message setup = { this, "setup", MIN_FUNCTION {
+    message<> setup = { this, "setup", MIN_FUNCTION {
         if (classname() == "jit.mo.line")
             functype = functypes::line;
         else if (classname() == "jit.mo.tri")
@@ -201,7 +201,7 @@ private:
         return {};
     }};
 
-    message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
+    message<> maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
         t_object *mob=maxob_from_jitob(m_maxobj);
         long dim = object_attr_getlong(mob, _jit_sym_dim);
         
@@ -220,7 +220,7 @@ private:
         return {};
     }};
     
-    message fileusage = { this, "fileusage", MIN_FUNCTION {
+    message<> fileusage = { this, "fileusage", MIN_FUNCTION {
         jit_mo::fileusage(args[0]);
         return {};
     }};

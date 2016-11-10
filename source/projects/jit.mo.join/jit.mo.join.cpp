@@ -50,7 +50,7 @@ public:
 	
 	argument<number> dimarg	{ this, "Dimension", "Set the dimension (number of elements) of the output matrix and any attached [jit.mo.func] objects. jit.mo objects only support matrices with a dimcount of 1.", false, nullptr};
 	
-    outlet	output	= { this, "(matrix) Output", "matrix" };
+    outlet<> output	= { this, "(matrix) Output", "matrix" };
     
     attribute<bool> enable { this, "enable", true, title {"Enable Animation"},
         description {"Enable Animation (default = 1). This affects any connected jit.mo.func objects"}
@@ -64,7 +64,7 @@ public:
         description { "Output multiplier (default = 1.0)." }
     };
     
-    attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"},
+    attribute<c74::min::time_value> interval { this, "interval", 0., title {"Timing Interval"},
         description {"Animation interval (default = 0 ms). Using transport timing notation (4n,2n,etc.) connects animation timing to the Global Transport of Max."}
     };
     
@@ -216,7 +216,7 @@ public:
     
 private:
     
-    message jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
+    message<> jitclass_setup = { this, "jitclass_setup", MIN_FUNCTION {
         t_class *c = args[0];
 
         // add mop
@@ -236,7 +236,7 @@ private:
         return {};
     }};
 
-    message maxclass_setup = { this, "maxclass_setup", MIN_FUNCTION {
+    message<> maxclass_setup = { this, "maxclass_setup", MIN_FUNCTION {
         t_class *c = args[0];
         
         max_jit_class_mop_wrap(c, this_jit_class, MAX_JIT_MOP_FLAGS_OWN_JIT_MATRIX|MAX_JIT_MOP_FLAGS_OWN_DIM);
@@ -256,7 +256,7 @@ private:
         return {};
     }};
     
-    message setup = { this, "setup", MIN_FUNCTION {
+    message<> setup = { this, "setup", MIN_FUNCTION {
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_join_automatic_attrfilter);
 
@@ -266,7 +266,7 @@ private:
         return {};
     }};
     
-    message mop_setup = { this, "mop_setup", MIN_FUNCTION {
+    message<> mop_setup = { this, "mop_setup", MIN_FUNCTION {
         void *o = m_maxobj;
         t_object *x = args[args.size()-1];
         
@@ -319,7 +319,7 @@ private:
         return {};
     }};
     
-    message maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
+    message<> maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
         
         long atm = object_attr_getlong(m_maxobj, sym_automatic);
         
@@ -337,7 +337,7 @@ private:
         JPATCHLINE_ORDER=2
     } t_patchline_updatetype;
     
-    message patchlineupdate = { this, "patchlineupdate", MIN_FUNCTION {
+    message<> patchlineupdate = { this, "patchlineupdate", MIN_FUNCTION {
         t_object *x = args[0];
        // t_object *patchline = args[1];
         long updatetype = args[2];
@@ -371,7 +371,7 @@ private:
         return {};
     }};
     
-    message notify = { this, "notify", MIN_FUNCTION {
+    message<> notify = { this, "notify", MIN_FUNCTION {
         symbol s = args[2];
         if(s == sym_dest_closing) {
             if(implicit) {
@@ -382,7 +382,7 @@ private:
         return { JIT_ERR_NONE };
     }};
 
-    message fileusage = { this, "fileusage", MIN_FUNCTION {
+    message<> fileusage = { this, "fileusage", MIN_FUNCTION {
         jit_mo::fileusage(args[0]);
         return {};
     }};

@@ -44,7 +44,9 @@ public:
         jit_object_free(animator);
     }
 
-    attribute<bool> enable { this, "enable", true, title {"Enable Animation"} };
+    attribute<bool> enable { this, "enable", true, title {"Enable Animation"},
+		description {"Enable function output (default = 1)."}
+	};
     
     attribute<symbol> mode { this, "mode", timemodes::accum,
         title {"Time Output Mode"},
@@ -59,7 +61,7 @@ public:
         range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
     };
     
-    attribute<time_value> interval { this, "interval", 0., title {"Timing Interval"},
+    attribute<c74::min::time_value> interval { this, "interval", 0., title {"Timing Interval"},
         description {"Animation interval (default = 0 ms)."}
     };
     
@@ -119,16 +121,16 @@ public:
         }}
     };
     
-    message reset { this, "reset",
+    message<> reset { this, "reset",
 		MIN_FUNCTION {
 			accum_time = 0.;
 			return {};
 		},
 		"Reset the accumulated time to 0.",
-		message::types::defer_low
+		message_type::defer_low
 	};
 	
-	message update { this, "update",
+	message<> update { this, "update",
 		MIN_FUNCTION {
 			long time = gettime();
 			float deltatime;
@@ -141,7 +143,7 @@ public:
 			return { atom(update_animation(&av)) };
 		},
 		"Update and output the time or function value when in non-automatic mode.",
-		message::types::gimmeback
+		message_type::gimmeback
 	};
 	
     double update_animation(t_atom *av) {
@@ -210,7 +212,7 @@ public:
 
 private:
 
-    message jitclass_setup { this, "jitclass_setup", MIN_FUNCTION {
+    message<> jitclass_setup { this, "jitclass_setup", MIN_FUNCTION {
         t_class *c = args[0];
         
         jit_class_addmethod(c, (method)jit_mo_time_update_anim, "update_anim", A_CANT, 0);
@@ -219,7 +221,7 @@ private:
         return {};
     }};
     
-    message maxclass_setup { this, "maxclass_setup", MIN_FUNCTION {
+    message<> maxclass_setup { this, "maxclass_setup", MIN_FUNCTION {
         t_class *c = args[0];
         max_jit_class_wrap_standard(c, this_jit_class, 0);
         class_addmethod(c, (method)max_jit_mo_time_int,		"int", A_LONG, 0);
@@ -229,7 +231,7 @@ private:
         return {};
     }};
     
-    message setup { this, "setup", MIN_FUNCTION {
+    message<> setup { this, "setup", MIN_FUNCTION {
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         //attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_time_automatic_attrfilter);
         
@@ -258,7 +260,7 @@ private:
         return {};
     }};
     
-    message mop_setup { this, "mop_setup", MIN_FUNCTION {
+    message<> mop_setup { this, "mop_setup", MIN_FUNCTION {
         void *o = m_maxobj;
         t_object *x = args[args.size()-1];
 
@@ -269,7 +271,7 @@ private:
         return {};
     }};
     
-    message maxob_setup { this, "maxob_setup", MIN_FUNCTION {
+    message<> maxob_setup { this, "maxob_setup", MIN_FUNCTION {
         long atm = object_attr_getlong(m_maxobj, sym_automatic);
         
         if(atm && object_attr_getsym(m_maxobj, sym_drawto) == _jit_sym_nothing) {
@@ -280,7 +282,7 @@ private:
         return {};
     }};
     
-    message notify { this, "notify", MIN_FUNCTION {
+    message<> notify { this, "notify", MIN_FUNCTION {
         symbol s = args[2];
         if(s == sym_dest_closing) {
             if(implicit) {
@@ -291,7 +293,7 @@ private:
         return { JIT_ERR_NONE };
     }};
     
-    message fileusage = { this, "fileusage", MIN_FUNCTION {
+    message<> fileusage = { this, "fileusage", MIN_FUNCTION {
         jit_mo::fileusage(args[0]);
         return {};
     }};

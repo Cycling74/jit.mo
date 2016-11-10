@@ -7,13 +7,13 @@
 <c74object name='jit.mo.join' category='jit.mo, Generators'>
 
 	<digest>Combine jit.mo streams and output a multi-plane matrix</digest>
-	<description>Combine jit.mo streams and output a multi-plane matrix. Automatically connects to jit.world to drive animations. Inputs add multiple jit.mo/matrix inputs for additive control</description>
+	<description>Combine jit.mo streams and output a multi-plane matrix. Automatically connects to jit.world to drive animations. Inputs add multiple jit.mo/matrix inputs for additive control </description>
 
 
 	<!--METADATA-->
 
 	<metadatalist>
-		<metadata name='author'>Cycling '74</metadata>
+		<metadata name='author'>Cycling '74 </metadata>
 		<metadata name='tag'>jit.mo</metadata>
 		<metadata name='tag'>Generators</metadata>
 	</metadatalist>
@@ -25,12 +25,12 @@
 
 		<objarg name='Inlet Count' optional='1' type='number'>
 			<digest>Set the number of inlets and planecount of output</digest>
-			<description>Set the number of inlets and planecount of output.</description>
+			<description>Set the number of inlets and planecount of output. </description>
 		</objarg>
 
 		<objarg name='Dimension' optional='1' type='number'>
 			<digest>Set the dimension (number of elements) of the output matrix and any attached <o>jit.mo.func</o> objects</digest>
-			<description>Set the dimension (number of elements) of the output matrix and any attached <o>jit.mo.func</o> objects. jit.mo objects only support matrices with a dimcount of 1.</description>
+			<description>Set the dimension (number of elements) of the output matrix and any attached <o>jit.mo.func</o> objects. jit.mo objects only support matrices with a dimcount of 1. </description>
 		</objarg>
 
 	</objarglist>
@@ -49,27 +49,27 @@
 
 		<attribute name='interval' get='1' set='1' type='time' size='1' >
 			<digest>Animation interval (default = 0 ms)</digest>
-			<description>Animation interval (default = 0 ms). Using transport timing notation (4n,2n,etc.) connects animation timing to the Global Transport of Max.</description>
+			<description>Animation interval (default = 0 ms). Using transport timing notation (4n,2n,etc.) connects animation timing to the Global Transport of Max. </description>
 		</attribute>
 
 		<attribute name='scale' get='1' set='1' type='float64' size='1' >
-			<digest>Output multiplier (default = 1</digest>
-			<description>Output multiplier (default = 1.0).</description>
+			<digest>Output multiplier (default = 1.0)</digest>
+			<description>Output multiplier (default = 1.0). </description>
 		</attribute>
 
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
 			<digest>Animation speed (default = 1.)</digest>
-			<description>Animation speed (default = 1.). Scales animation speed of all connected jit.mo.func objects</description>
+			<description>Animation speed (default = 1.). Scales animation speed of all connected jit.mo.func objects </description>
 		</attribute>
 
 		<attribute name='name' get='1' set='1' type='symbol' size='1' >
 			<digest>Object name (default = UID)</digest>
-			<description>Object name (default = UID).</description>
+			<description>Object name (default = UID). </description>
 		</attribute>
 
 		<attribute name='enable' get='1' set='1' type='long' size='1' >
 			<digest>Enable Animation (default = 1)</digest>
-			<description>Enable Animation (default = 1). This affects any connected jit.mo.func objects</description>
+			<description>Enable Animation (default = 1). This affects any connected jit.mo.func objects </description>
 		</attribute>
 
 	</attributelist>

@@ -17,8 +17,8 @@ public:
     MIN_AUTHOR		{ "Cycling '74" };
     MIN_RELATED		{ "jit.mo.join,jit.mo.func,jit.mo.time" };
     
-    inlet	input	= { this, "(matrix) Input", "matrix" };
-	outlet	output	= { this, "(matrix) Output", "matrix" };
+    inlet<>	input	= { this, "(matrix) Input", "matrix" };
+	outlet<>	output	= { this, "(matrix) Output", "matrix" };
 	
 	jit_mo_field(const atoms& args = {}) {}
 	~jit_mo_field() {}
@@ -53,13 +53,13 @@ public:
         description {"Random offset amount (default = 0. 0. 0.). Random position offsets applied based on field strength" },
     };
     
-    message rand = { this, "rand",
+    message<> rand = { this, "rand",
         MIN_FUNCTION {
             reseed = true;
             return {};
         },
 		"Generate new random values for rand_amt offset.",
-		message::types::defer_low
+		message_type::defer_low
     };
     
 	template<class matrix_type, size_t planecount>
@@ -112,7 +112,7 @@ public:
 	
 private:
     
-    message fileusage = { this, "fileusage", MIN_FUNCTION {
+    message<> fileusage = { this, "fileusage", MIN_FUNCTION {
         jit_mo::fileusage(args[0]);
         return {};
     }};

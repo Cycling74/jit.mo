@@ -7,13 +7,13 @@
 <c74object name='jit.mo.field' category='jit.mo, Manipulators'>
 
 	<digest>Field manipulator for 3 plane jit.mo streams</digest>
-	<description>Field manipulator for 3 plane jit.mo streams. Deforms position output depending on distance from a defined spatial location. Can be used for sculpting effects and gravity-like animations</description>
+	<description>Field manipulator for 3 plane jit.mo streams. Deforms position output depending on distance from a defined spatial location. Can be used for sculpting effects and gravity-like animations </description>
 
 
 	<!--METADATA-->
 
 	<metadatalist>
-		<metadata name='author'>Cycling '74</metadata>
+		<metadata name='author'>Cycling '74 </metadata>
 		<metadata name='tag'>jit.mo</metadata>
 		<metadata name='tag'>Manipulators</metadata>
 	</metadatalist>
@@ -32,7 +32,7 @@
 
 		<method name='rand'>
 			<digest>Generate new random values for rand_amt offset</digest>
-			<description>Generate new random values for rand_amt offset.</description>
+			<description>Generate new random values for rand_amt offset. </description>
 		</method>
 
 	</methodlist>
@@ -44,32 +44,32 @@
 
 		<attribute name='location' get='1' set='1' type='float64' size='1' >
 			<digest>Location value (default = 0</digest>
-			<description>Location value (default = 0. 0. 0.). Defines the center point of the field.</description>
+			<description>Location value (default = 0. 0. 0.). Defines the center point of the field. </description>
 		</attribute>
 
 		<attribute name='falloff' get='1' set='1' type='float64' size='1' >
 			<digest>Falloff value (default = 0.5)</digest>
-			<description>Falloff value (default = 0.5). Determines the amount of falloff at the edge of the field, specified as a decimal fraction of the radius</description>
+			<description>Falloff value (default = 0.5). Determines the amount of falloff at the edge of the field, specified as a decimal fraction of the radius </description>
 		</attribute>
 
 		<attribute name='translate' get='1' set='1' type='float64' size='1' >
 			<digest>Translation amount (default = 0</digest>
-			<description>Translation amount (default = 0. 0. 0.). Position offset for points within the field</description>
+			<description>Translation amount (default = 0. 0. 0.). Position offset for points within the field </description>
 		</attribute>
 
 		<attribute name='radius' get='1' set='1' type='float64' size='1' >
 			<digest>Radius value (default = 0.5)</digest>
-			<description>Radius value (default = 0.5). Radius defines the spherical area around the location affected by the field</description>
+			<description>Radius value (default = 0.5). Radius defines the spherical area around the location affected by the field </description>
 		</attribute>
 
 		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
 			<digest>Random offset amount (default = 0</digest>
-			<description>Random offset amount (default = 0. 0. 0.). Random position offsets applied based on field strength</description>
+			<description>Random offset amount (default = 0. 0. 0.). Random position offsets applied based on field strength </description>
 		</attribute>
 
 		<attribute name='force' get='1' set='1' type='float64' size='1' >
 			<digest>Force amount (default = 0.0)</digest>
-			<description>Force amount (default = 0.0). Repulsion (positive) or attraction (negative) to the location point</description>
+			<description>Force amount (default = 0.0). Repulsion (positive) or attraction (negative) to the location point </description>
 		</attribute>
 
 	</attributelist>
