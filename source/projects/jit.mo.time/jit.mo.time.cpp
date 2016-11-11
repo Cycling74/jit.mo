@@ -50,7 +50,7 @@ public:
     
     attribute<symbol> mode { this, "mode", timemodes::accum,
         title {"Time Output Mode"},
-        description { "How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified <at>function</at> attribute to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations." },
+        description { "How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified @function attribute to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations." },
         range { timemodes::accum, timemodes::delta, timemodes::function }
     };
     
