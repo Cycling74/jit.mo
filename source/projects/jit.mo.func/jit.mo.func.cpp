@@ -189,15 +189,15 @@ private:
     
     message<> setup = { this, "setup", MIN_FUNCTION {
         if (classname() == "jit.mo.line")
-            function = functypes::line;
+            jit_mo_func::function = functypes::line;
         else if (classname() == "jit.mo.tri")
-            function = functypes::tri;
+			jit_mo_func::function = functypes::tri;
         else if (classname() == "jit.mo.sin")
-            function = functypes::sin;
+			jit_mo_func::function = functypes::sin;
         else if (classname() == "jit.mo.saw")
-            function = functypes::saw;
+			jit_mo_func::function = functypes::saw;
         else if (classname() == "jit.mo.perlin")
-            function = functypes::perlin;
+			jit_mo_func::function = functypes::perlin;
         return {};
     }};
 

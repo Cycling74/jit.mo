@@ -247,15 +247,15 @@ private:
             mode = timemodes::function;
             
             if (classname() == "jit.time.line")
-                function = functypes::line;
+				jit_mo_time::function = functypes::line;
             else if (classname() == "jit.time.tri")
-                function = functypes::tri;
+				jit_mo_time::function = functypes::tri;
             else if (classname() == "jit.time.sin")
-                function = functypes::sin;
+				jit_mo_time::function = functypes::sin;
             else if (classname() == "jit.time.saw")
-                function = functypes::saw;
+				jit_mo_time::function = functypes::saw;
             else if (classname() == "jit.time.perlin")
-                function = functypes::perlin;
+				jit_mo_time::function = functypes::perlin;
         }
         return {};
     }};
