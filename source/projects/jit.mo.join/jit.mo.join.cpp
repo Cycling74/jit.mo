@@ -71,31 +71,22 @@ public:
     attribute<symbol> name { this, "name", symbol(true), title {"Name"},
         description {"Object name (default = UID)."},
         setter { MIN_FUNCTION {
-            if(initialized()) {
-                t_object *o = nullptr;
-                symbol new_name = args[0];
-                symbol nothing = _jit_sym_nothing;
-                
-                if (name == new_name)
-                    return args;
-                
-                if ((o = (t_object*)object_findregistered(_jit_sym_jitter, new_name))) {
-                    //error("name %s already in use. anode does not allow multiple bindings", new_name->s_name);
-                    symbol old_name = name;
-                    return {old_name};
-                }
-                    
-                if(!(name == nothing))
-                    object_unregister(m_maxobj);
-                
-                if(!(new_name == nothing))
-                    object_register(_jit_sym_jitter, new_name, m_maxobj);
-                
-                for( const auto& n : attached_funcobs )
-                    object_attr_setlong(n.second, gensym("join"), new_name);
-                
-                jit_mo_singleton::instance().check_funcobs(new_name);
-            }
+			
+			t_object *o = nullptr;
+			symbol new_name = args[0];
+			
+			if (name == new_name)
+				return args;
+			
+			if ((o = (t_object*)object_findregistered(_jit_sym_jitter, new_name))) {
+				//error("name %s already in use. anode does not allow multiple bindings", new_name->s_name);
+				symbol old_name = name;
+				return {old_name};
+			}
+			
+			if(initialized()) {
+				register_and_setup(new_name);
+			}
         
             return args;
         }}
@@ -260,8 +251,7 @@ private:
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_join_automatic_attrfilter);
 
-        //if(name == symbol())
-            //name = symbol(true);
+		register_and_setup(name);
 
         return {};
     }};
@@ -386,7 +376,21 @@ private:
         jit_mo::fileusage(args[0]);
         return {};
     }};
-    
+	
+	void register_and_setup(symbol new_name) {
+		symbol nothing = _jit_sym_nothing;
+		if(!(name == nothing))
+			object_unregister(m_maxobj);
+		
+		if(!(new_name == nothing))
+			object_register(_jit_sym_jitter, new_name, m_maxobj);
+
+		for( const auto& n : attached_funcobs )
+			object_attr_setlong(n.second, gensym("join"), new_name);
+		
+		jit_mo_singleton::instance().check_funcobs(new_name);
+	}
+	
     void update_mop_props(void *mob) {
         t_jit_matrix_info info;
         void *mop=max_jit_obex_adornment_get(mob,_jit_sym_jit_mop);
