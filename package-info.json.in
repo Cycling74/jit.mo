@@ -34,8 +34,10 @@
 		"externals" : [ "jit.mo.field.mxe", "jit.mo.field.mxe64", "jit.mo.field.mxo", "jit.mo.func.mxe", "jit.mo.func.mxe64", "jit.mo.func.mxo", "jit.mo.join.mxe", "jit.mo.join.mxe64", "jit.mo.join.mxo", "jit.mo.time.mxe", "jit.mo.time.mxe64", "jit.mo.time.mxo" ],
 		"patchers" : [ "3d-transform.genjit", "jit.mo-Alphablend.maxpat", "jit.mo-AnimPath.maxpat", "jit.mo-AudioVisuals.maxpat", "jit.mo-CircleWorks.maxpat", "jit.mo-OrganicMotion.maxpat", "jit.mo-Worms.maxpat", "jit.mo.circle.maxpat", "jit.mo.grid.maxpat", "jit.mo.slice.maxpat", "jit.mo.texture.maxpat" ],
 		"help" : [ "jit.mo.circle.maxhelp", "jit.mo.field.maxhelp", "jit.mo.func.maxhelp", "jit.mo.grid.maxhelp", "jit.mo.join.maxhelp", "jit.mo.slice.maxhelp", "jit.mo.texture.maxhelp", "jit.mo.time.maxhelp" ],
+		"interfaces" : [ "max.db.json" ],
 		"docs" : [ "jit.mo.field.maxref.xml", "jit.mo.func.maxref.xml", "jit.mo.join.maxref.xml", "jit.mo.time.maxref.xml" ],
 		"javascript" : [ "jit.mo-worms.js" ],
 		"extras" : [ "jit.mo-launch.maxpat" ]
 	}
+
 }
