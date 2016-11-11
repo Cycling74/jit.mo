@@ -721,7 +721,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -1599,7 +1599,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -2477,7 +2477,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -3355,7 +3355,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -4246,7 +4246,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -5137,7 +5137,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -6015,7 +6015,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -6893,7 +6893,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -7771,7 +7771,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}
@@ -8713,7 +8713,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 460.0, 210.0, 295.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0 @end 5. @speed 2. @loop 0"
+									"text" : "jit.time.line @start 0 @end 5. @speed 2. @loop 0"
 								}
 
 							}

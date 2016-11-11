@@ -194,7 +194,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 495.0, -2.0, 176.0, 35.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.perlin @speed 0.01 @scale 0.5"
+									"text" : "jit.time.perlin @speed 0.01 @scale 0.5"
 								}
 
 							}
@@ -208,7 +208,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 523.5, 46.0, 135.0, 35.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.sin @speed 0.1@scale 0.5"
+									"text" : "jit.time.sin @speed 0.1 @scale 0.5"
 								}
 
 							}

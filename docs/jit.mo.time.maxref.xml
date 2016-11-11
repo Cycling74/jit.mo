@@ -52,6 +52,11 @@
 			<description>Line function start (default = -1.0). </description>
 		</attribute>
 
+		<attribute name='function' get='1' set='1' type='symbol' size='1' >
+			<digest>The fuction type used when mode = function (default = line)</digest>
+			<description>The fuction type used when mode = function (default = line).             Line generates linear interpolated values between <at>start</at> and <at>end</at> values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function </description>
+		</attribute>
+
 		<attribute name='delta' get='1' set='1' type='float64' size='1' >
 			<digest>Frame delta time for animating graph (default = 0.0)</digest>
 			<description>Frame delta time for animating graph (default = 0.0).             When <at>automatic</at> enabled this value is set automatically by the render context. </description>
@@ -75,11 +80,6 @@
 		<attribute name='freq' get='1' set='1' type='float64' size='1' >
 			<digest>Function frequency (default = 1.0)</digest>
 			<description>Function frequency (default = 1.0). Specified in Hz </description>
-		</attribute>
-
-		<attribute name='functype' get='1' set='1' type='symbol' size='1' >
-			<digest>The fuction type used when mode = function (default = line)</digest>
-			<description>The fuction type used when mode = function (default = line).             Line generates linear interpolated values between <at>start</at> and <at>end</at> values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function </description>
 		</attribute>
 
 		<attribute name='period' get='1' set='1' type='float64' size='1' >
@@ -114,7 +114,7 @@
 
 		<attribute name='mode' get='1' set='1' type='symbol' size='1' >
 			<digest>How time output is calculated (default = accum)</digest>
-			<description>How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified functype to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations. </description>
+			<description>How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified <at>function</at> attribute to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations. </description>
 		</attribute>
 
 		<attribute name='enable' get='1' set='1' type='long' size='1' >

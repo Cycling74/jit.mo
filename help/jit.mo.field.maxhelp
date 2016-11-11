@@ -115,7 +115,7 @@
 							}
 , 							{
 								"box" : 								{
-									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
+									"color" : [ 0.447059, 0.823529, 0.772549, 1.0 ],
 									"id" : "obj-89",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -125,9 +125,9 @@
 										"fileversion" : 1,
 										"appversion" : 										{
 											"major" : 7,
-											"minor" : 2,
-											"revision" : 5,
-											"architecture" : "x86",
+											"minor" : 3,
+											"revision" : 1,
+											"architecture" : "x64",
 											"modernui" : 1
 										}
 ,
@@ -206,7 +206,7 @@
 													"outlettype" : [ "", "" ],
 													"patching_rect" : [ 123.0, 161.0, 173.0, 22.0 ],
 													"style" : "",
-													"text" : "jit.mo.time.perlin @speed 0.01"
+													"text" : "jit.time.perlin @speed 0.01"
 												}
 
 											}
@@ -232,7 +232,7 @@
 													"outlettype" : [ "", "" ],
 													"patching_rect" : [ 94.5, 131.0, 227.0, 22.0 ],
 													"style" : "",
-													"text" : "jit.mo.time.sin @speed 0.05 @phase 0.5"
+													"text" : "jit.time.sin @speed 0.05 @phase 0.5"
 												}
 
 											}
@@ -245,7 +245,7 @@
 													"outlettype" : [ "", "" ],
 													"patching_rect" : [ 66.0, 99.0, 153.0, 22.0 ],
 													"style" : "",
-													"text" : "jit.mo.time.tri @speed 0.05"
+													"text" : "jit.time.tri @speed 0.05"
 												}
 
 											}
@@ -514,6 +514,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 1,

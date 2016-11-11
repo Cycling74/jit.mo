@@ -50,11 +50,11 @@ public:
     
     attribute<symbol> mode { this, "mode", timemodes::accum,
         title {"Time Output Mode"},
-        description { "How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified functype to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations." },
+        description { "How time output is calculated (default = accum). The different modes are accum, function, and delta. Accum provides accumulated running time. Function uses the specified <at>function</at> attribute to generate a periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. Delta gives the amount of time between frames, which is useful for driving smooth realtime animations." },
         range { timemodes::accum, timemodes::delta, timemodes::function }
     };
     
-    attribute<symbol> functype { this, "functype", functypes::line,
+    attribute<symbol> function { this, "function", functypes::line,
         title {"Function Type"},
         description { "The fuction type used when mode = function (default = line). \
             Line generates linear interpolated values between @start and @end values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function" },
@@ -165,19 +165,19 @@ public:
                 delta = val;
                 double norm = phase / 2.;
                 
-                if(functype == functypes::saw) {
+                if(function == functypes::saw) {
                     val = fmod(norm * freq, 1.);
                 }
-                else if(functype == functypes::sin) {
+                else if(function == functypes::sin) {
                     val = (norm * 2. - 1.) * freq;
                     val = sin(val*M_PI);
                 }
-                else if (functype == functypes::tri) {
+                else if (function == functypes::tri) {
                     val = norm * freq * 2.0;
                     val = math::fold(val, 0., 1.);
                     val = (val * 2.0 - 1.0);
                 }
-                else if (functype == functypes::line) {
+                else if (function == functypes::line) {
                     if(norm == 0.)
                         val = start;
                     else if(norm == 1.)
@@ -185,7 +185,7 @@ public:
                     else
                         val = (start*(1.-norm) + end*norm);
                 }
-                else if (functype == functypes::perlin) {
+                else if (function == functypes::perlin) {
                     val = (fmod(norm * 2. * freq, 2.0) - 1.) * (double)period;
                     val = pnoise1(val, period);
                 }
@@ -235,27 +235,27 @@ private:
         animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
         //attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_time_automatic_attrfilter);
         
-        if(classname() == "jit.mo.time.delta") {
+        if(classname() == "jit.time.delta") {
             mode = timemodes::delta;
         }
 		// currently, if instantiated from JS classname will be empty
 		else if(classname() == symbol()) {
 			mode = timemodes::accum;
 		}
-        else if(!(classname() == "jit.mo.time")) {
+        else if(!(classname() == "jit.mo.time") || !(classname() == "jit.time")) {
             
             mode = timemodes::function;
             
-            if (classname() == "jit.mo.time.line")
-                functype = functypes::line;
-            else if (classname() == "jit.mo.time.tri")
-                functype = functypes::tri;
-            else if (classname() == "jit.mo.time.sin")
-                functype = functypes::sin;
-            else if (classname() == "jit.mo.time.saw")
-                functype = functypes::saw;
-            else if (classname() == "jit.mo.time.perlin")
-                functype = functypes::perlin;
+            if (classname() == "jit.time.line")
+                function = functypes::line;
+            else if (classname() == "jit.time.tri")
+                function = functypes::tri;
+            else if (classname() == "jit.time.sin")
+                function = functypes::sin;
+            else if (classname() == "jit.time.saw")
+                function = functypes::saw;
+            else if (classname() == "jit.time.perlin")
+                function = functypes::perlin;
         }
         return {};
     }};

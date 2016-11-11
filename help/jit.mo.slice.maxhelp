@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 2,
-			"revision" : 4,
+			"minor" : 3,
+			"revision" : 1,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 190.0, 163.0, 486.0, 576.0 ],
+		"rect" : [ 100.0, 100.0, 486.0, 576.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -66,13 +66,13 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 4,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 190.0, 189.0, 486.0, 550.0 ],
+						"rect" : [ 100.0, 126.0, 486.0, 550.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -148,7 +148,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 149.5, 169.0, 152.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.sin @speed 0.1"
+									"text" : "jit.time.sin @speed 0.1"
 								}
 
 							}
@@ -202,8 +202,8 @@
 										"fileversion" : 1,
 										"appversion" : 										{
 											"major" : 7,
-											"minor" : 2,
-											"revision" : 4,
+											"minor" : 3,
+											"revision" : 1,
 											"architecture" : "x86",
 											"modernui" : 1
 										}
@@ -424,6 +424,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
 									"id" : "obj-19",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
@@ -443,7 +444,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 214.5, 266.0, 218.0, 21.0 ],
-									"presentation_rect" : [ 133.5, 132.5, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "a negative value slices from the end",
 									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ]
@@ -633,9 +633,9 @@
 						"styles" : [ 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
-									"fontsize" : [ 13.0 ],
+									"fontname" : [ "Arial" ],
 									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
-									"fontname" : [ "Arial" ]
+									"fontsize" : [ 13.0 ]
 								}
 ,
 								"parentstyle" : "",
@@ -685,8 +685,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 4,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}

@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 2,
-			"revision" : 5,
+			"minor" : 3,
+			"revision" : 1,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 37.0, 79.0, 596.0, 586.0 ],
+		"rect" : [ 100.0, 100.0, 596.0, 586.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -66,13 +66,13 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 5,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 37.0, 105.0, 596.0, 560.0 ],
+						"rect" : [ 100.0, 126.0, 596.0, 560.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -184,6 +184,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
 									"id" : "obj-62",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
@@ -268,7 +269,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 267.0, 379.0, 195.0, 22.0 ],
+									"patching_rect" : [ 267.0, 379.0, 150.0, 22.0 ],
 									"style" : "",
 									"text_width" : 117.0
 								}
@@ -543,8 +544,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 5,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
@@ -612,13 +613,13 @@
 			}
 , 			{
 				"name" : "jit.mo.grid.maxpat",
-				"bootpath" : "~/jit.mo/patchers",
+				"bootpath" : "~/dev/cycling/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "jit.mo.texture.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/patchers",
+				"bootpath" : "~/dev/cycling/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}

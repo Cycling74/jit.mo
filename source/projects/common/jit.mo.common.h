@@ -65,23 +65,23 @@ namespace jit_mo {
         double val = 0;
         //double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
         double inputval = args[0];
-        c74::min::symbol functype = args[1];
+        c74::min::symbol function = args[1];
         double freq = args[2];
         double phase = args[3];
         double start = args[4];
         double end = args[5];
         long period = args[6];
         
-        if(functype == functypes::sin) {
+        if(function == functypes::sin) {
             val = (inputval * 2. - 1.) * freq + phase;
             val = sin(val*M_PI);
         }
-        else if (functype == functypes::tri) {
+        else if (function == functypes::tri) {
             val = inputval * freq * 2.0 + phase;
             val = c74::min::math::fold(val, 0., 1.);
             val = (val * 2.0 - 1.0);
         }
-        else if (functype == functypes::line) {
+        else if (function == functypes::line) {
             if(inputval == 0.)
                 val = start;
             else if(inputval == 1.)
@@ -89,7 +89,7 @@ namespace jit_mo {
             else
                 val = (start*(1.-inputval) + end*inputval);
         }
-        else if (functype == functypes::perlin) {
+        else if (function == functypes::perlin) {
             val = (fmod(inputval * 2. * freq + phase, 2.0) - 1.) * (double)period;
             val = pnoise1(val, period);
         }

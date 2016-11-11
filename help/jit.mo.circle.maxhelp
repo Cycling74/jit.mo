@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 2,
-			"revision" : 4,
+			"minor" : 3,
+			"revision" : 1,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 51.0, 79.0, 486.0, 543.0 ],
+		"rect" : [ 100.0, 100.0, 486.0, 543.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -66,13 +66,13 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 4,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 51.0, 105.0, 486.0, 517.0 ],
+						"rect" : [ 100.0, 126.0, 486.0, 517.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -121,7 +121,6 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 170.0, 240.0, 47.0, 22.0 ],
-									"presentation_rect" : [ 131.5, 227.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "dim $1"
 								}
@@ -135,7 +134,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 225.5, 214.0, 219.0, 21.0 ],
-									"presentation_rect" : [ 187.0, 201.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "messages to jit.mo.join object",
 									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ]
@@ -152,7 +150,6 @@
 									"outlettype" : [ "", "bang" ],
 									"parameter_enable" : 0,
 									"patching_rect" : [ 95.5, 155.0, 50.0, 22.0 ],
-									"presentation_rect" : [ 60.0, 156.0, 0.0, 0.0 ],
 									"style" : ""
 								}
 
@@ -186,6 +183,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
 									"id" : "obj-4",
 									"maxclass" : "newobj",
 									"numinlets" : 3,
@@ -471,16 +469,7 @@
  ],
 						"styles" : [ 							{
 								"name" : "afxyellow",
-								"comment" : 								{
-									"fontsize" : [ 24.0 ],
-									"textcolor" : [ 0.501961, 0.501961, 0.0, 1.0 ],
-									"fontname" : [ "Arial" ]
-								}
-,
 								"message" : 								{
-									"fontsize" : [ 30.0 ],
-									"textcolor_inverse" : [ 1.0, 0.818637, 0.0, 1.0 ],
-									"fontname" : [ "Arial" ],
 									"bgfillcolor" : 									{
 										"type" : "gradient",
 										"color1" : [ 0.204102, 0.125198, 0.002398, 1.0 ],
@@ -490,7 +479,16 @@
 										"proportion" : 0.39,
 										"autogradient" : 0.79
 									}
-
+,
+									"fontname" : [ "Arial" ],
+									"fontsize" : [ 30.0 ],
+									"textcolor_inverse" : [ 1.0, 0.818637, 0.0, 1.0 ]
+								}
+,
+								"comment" : 								{
+									"fontname" : [ "Arial" ],
+									"textcolor" : [ 0.501961, 0.501961, 0.0, 1.0 ],
+									"fontsize" : [ 24.0 ]
 								}
 ,
 								"tab" : 								{
@@ -500,8 +498,8 @@
 								}
 ,
 								"multislider" : 								{
-									"color" : [ 1.0, 0.818637, 0.0, 1.0 ],
-									"bgcolor" : [ 0.204102, 0.125198, 0.002398, 1.0 ]
+									"bgcolor" : [ 0.204102, 0.125198, 0.002398, 1.0 ],
+									"color" : [ 1.0, 0.818637, 0.0, 1.0 ]
 								}
 ,
 								"parentstyle" : "",
@@ -510,9 +508,9 @@
 , 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
-									"fontsize" : [ 13.0 ],
+									"fontname" : [ "Arial" ],
 									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
-									"fontname" : [ "Arial" ]
+									"fontsize" : [ 13.0 ]
 								}
 ,
 								"parentstyle" : "",
@@ -562,8 +560,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 4,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}

@@ -3,9 +3,9 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 2,
-			"revision" : 4,
-			"architecture" : "x64",
+			"minor" : 3,
+			"revision" : 1,
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
@@ -47,9 +47,9 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 4,
-							"architecture" : "x64",
+							"minor" : 3,
+							"revision" : 1,
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -365,9 +365,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "jit_matrix", "" ],
-					"patching_rect" : [ 175.0, 160.0, 159.0, 22.0 ],
+					"patching_rect" : [ 175.0, 160.0, 155.0, 22.0 ],
 					"style" : "",
-					"text" : "jit.mo.func @functype perlin"
+					"text" : "jit.mo.func @function perlin"
 				}
 
 			}
@@ -386,7 +386,7 @@
 			}
 , 			{
 				"box" : 				{
-					"attr" : "functype",
+					"attr" : "function",
 					"id" : "obj-31",
 					"maxclass" : "attrui",
 					"numinlets" : 1,
@@ -573,7 +573,7 @@
 			}
 , 			{
 				"name" : "jit.mo.grid.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/patchers",
+				"bootpath" : "~/dev/cycling/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}

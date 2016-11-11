@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 2,
-			"revision" : 5,
+			"minor" : 3,
+			"revision" : 1,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 51.0, 79.0, 486.0, 576.0 ],
+		"rect" : [ 100.0, 100.0, 486.0, 576.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -66,13 +66,13 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 5,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 51.0, 105.0, 486.0, 550.0 ],
+						"rect" : [ 100.0, 126.0, 486.0, 550.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -109,7 +109,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 10.0, 68.5, 450.5, 38.0 ],
+									"patching_rect" : [ 10.0, 68.5, 453.0, 38.0 ],
 									"style" : "",
 									"text" : "jit.mo.grid repeats the single dimension input matrix n number of times across a normalized distance"
 								}
@@ -220,9 +220,9 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 174.75, 277.0, 160.0, 22.0 ],
+									"patching_rect" : [ 174.75, 277.0, 61.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.line @start -2 @end 2"
+									"text" : "jit.mo.line"
 								}
 
 							}
@@ -259,14 +259,13 @@
 , 							{
 								"box" : 								{
 									"id" : "obj-3",
-									"linecount" : 2,
 									"maxclass" : "newobj",
 									"numinlets" : 9,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 10.0, 501.0, 301.0, 35.0 ],
+									"patching_rect" : [ 10.0, 501.0, 382.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.gl.mesh @color 1 1 1 1 @lighting_enable 1 @draw_mode line_strip_adjacency @scale 0.5 0.5 0.5"
+									"text" : "jit.gl.mesh @color 1 1 1 1 @lighting_enable 1 @draw_mode line_strip"
 								}
 
 							}
@@ -364,6 +363,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 2,
@@ -424,7 +424,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 196.0, 459.0, 231.0, 22.0 ],
+									"patching_rect" : [ 196.0, 459.0, 187.0, 22.0 ],
 									"style" : ""
 								}
 
@@ -700,8 +700,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 5,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
@@ -769,7 +769,7 @@
 			}
 , 			{
 				"name" : "jit.mo.grid.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/patchers",
+				"bootpath" : "~/dev/cycling/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}

@@ -172,9 +172,9 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 436.0, 142.0, 337.0, 33.0 ],
+									"patching_rect" : [ 436.0, 142.0, 352.0, 33.0 ],
 									"style" : "",
-									"text" : "Jit.mo.time can be a good substitute for the bline object when you want to declare a duration instead of a number of frames."
+									"text" : "jit.time.line can be a good substitute for the bline object when you want to declare a duration instead of a number of frames."
 								}
 
 							}
@@ -269,7 +269,7 @@
 									"numoutlets" : 0,
 									"patching_rect" : [ 10.0, 98.567627, 594.0, 20.0 ],
 									"style" : "",
-									"text" : "Functions can be called in the object name, or by setting @mode function and @functype to the desired type. "
+									"text" : "Functions can be called in the object name, or by setting @mode function and @function to the desired type. "
 								}
 
 							}
@@ -321,9 +321,9 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 13.0, 303.5, 188.0, 49.0 ],
+									"patching_rect" : [ 13.0, 303.5, 169.0, 49.0 ],
 									"style" : "",
-									"text" : "jit.mo.time @drawto motime @mode function @functype sin @freq 1. @speed 0.2 @enable 0"
+									"text" : "jit.mo.time @mode function @function sin @speed 0.2 @enable 0"
 								}
 
 							}
@@ -411,9 +411,9 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 443.0, 310.5, 305.0, 22.0 ],
+									"patching_rect" : [ 443.0, 317.0, 305.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.line @start 0. @end 1. @speed 0.1 @loop 0"
+									"text" : "jit.time.line @start 0. @end 1. @speed 0.1 @loop 0"
 								}
 
 							}
@@ -462,14 +462,13 @@
 								"box" : 								{
 									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
 									"id" : "obj-17",
-									"linecount" : 2,
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 241.5, 310.5, 184.5, 35.0 ],
+									"patching_rect" : [ 241.5, 317.0, 194.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.sin @drawto motime @freq 1. @speed 0.2 @enable 0"
+									"text" : "jit.time.sin @speed 0.2 @enable 0"
 								}
 
 							}
@@ -488,7 +487,7 @@
 							}
 , 							{
 								"box" : 								{
-									"attr" : "functype",
+									"attr" : "function",
 									"id" : "obj-8",
 									"maxclass" : "attrui",
 									"numinlets" : 1,
@@ -496,7 +495,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 276.0, 251.5, 150.0, 22.0 ],
 									"style" : "",
-									"text_width" : 72.0
+									"text_width" : 82.0
 								}
 
 							}
@@ -534,7 +533,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 10.0, 10.0, 228.171875, 57.567627 ]
+									"patching_rect" : [ 10.0, 10.0, 228.17186, 57.567627 ]
 								}
 
 							}

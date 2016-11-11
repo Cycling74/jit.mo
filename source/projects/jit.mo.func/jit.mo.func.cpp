@@ -41,7 +41,7 @@ public:
         }
     }
 
-	attribute<symbol> functype { this, "functype", functypes::line, title {"Function Type"},
+	attribute<symbol> function { this, "function", functypes::line, title {"Function Type"},
         description { "The fuction type used for generating matrices. Available functypes are line, sin, saw, tri, perlin" },
 		range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
 	};
@@ -136,19 +136,19 @@ public:
 		double val = 0;
 		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
 
-        if(functype == functypes::saw) {
+        if(function == functypes::saw) {
             val = fmod(norm * freq + phase, 1.);
         }
-        else if(functype == functypes::sin) {
+        else if(function == functypes::sin) {
 			val = (norm * 2. - 1.) * freq + phase;
 			val = sin(val*M_PI);
 		}
-		else if (functype == functypes::tri) {
+		else if (function == functypes::tri) {
 			val = norm * freq * 2.0 + phase;
             val = math::fold(val, 0., 1.);
 			val = (val * 2.0 - 1.0);
 		}
-		else if (functype == functypes::line) {
+		else if (function == functypes::line) {
 			if(norm == 0.)
 				val = start;
 			else if(norm == 1.)
@@ -156,7 +156,7 @@ public:
 			else
 				val = (start*(1.-norm) + end*norm);
 		}
-		else if (functype == functypes::perlin) {
+		else if (function == functypes::perlin) {
             val = (fmod(norm * 2. * freq + phase, 2.0) - 1.) * (double)period;
             val = pnoise1(val, period);
 		}
@@ -189,15 +189,15 @@ private:
     
     message<> setup = { this, "setup", MIN_FUNCTION {
         if (classname() == "jit.mo.line")
-            functype = functypes::line;
+            function = functypes::line;
         else if (classname() == "jit.mo.tri")
-            functype = functypes::tri;
+            function = functypes::tri;
         else if (classname() == "jit.mo.sin")
-            functype = functypes::sin;
+            function = functypes::sin;
         else if (classname() == "jit.mo.saw")
-            functype = functypes::saw;
+            function = functypes::saw;
         else if (classname() == "jit.mo.perlin")
-            functype = functypes::perlin;
+            function = functypes::perlin;
         return {};
     }};
 

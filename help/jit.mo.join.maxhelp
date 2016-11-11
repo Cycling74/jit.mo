@@ -481,7 +481,6 @@
 						"showontab" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
-									"bgcolor" : [ 1.0, 1.0, 1.0, 0.0 ],
 									"id" : "obj-19",
 									"linecount" : 2,
 									"maxclass" : "comment",
@@ -523,7 +522,6 @@
 							}
 , 							{
 								"box" : 								{
-									"bgcolor" : [ 1.0, 1.0, 1.0, 0.0 ],
 									"id" : "obj-41",
 									"linecount" : 2,
 									"maxclass" : "comment",
@@ -636,7 +634,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 213.0, 128.5, 174.0, 37.0 ],
+									"patching_rect" : [ 213.0, 128.5, 175.0, 37.0 ],
 									"style" : "",
 									"text" : "set the dim of all connected jit.mo.func objects"
 								}
@@ -826,6 +824,7 @@
 							}
 , 							{
 								"box" : 								{
+									"color" : [ 0.901961, 0.8, 0.392157, 1.0 ],
 									"id" : "obj-1",
 									"maxclass" : "newobj",
 									"numinlets" : 3,

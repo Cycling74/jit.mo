@@ -128,7 +128,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 300.0, 344.0, 179.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.perlin @speed 0.013"
+									"text" : "jit.time.perlin @speed 0.013"
 								}
 
 							}
@@ -141,7 +141,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 271.0, 320.0, 179.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.perlin @speed 0.012"
+									"text" : "jit.time.perlin @speed 0.012"
 								}
 
 							}
@@ -154,7 +154,7 @@
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 243.0, 295.0, 173.0, 22.0 ],
 									"style" : "",
-									"text" : "jit.mo.time.perlin @speed 0.01"
+									"text" : "jit.time.perlin @speed 0.01"
 								}
 
 							}

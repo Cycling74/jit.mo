@@ -28,11 +28,11 @@ var outputmat = null;
 
 function Jitmo(ctxname) {
 	this.line = new JitterObject("jit.mo.func");
-	this.line.functype = "line";
+	this.line.function = "line";
 	this.sin = new JitterObject("jit.mo.func");
-	this.sin.functype = "sin";
+	this.sin.function = "sin";
 	this.perlin = new JitterObject("jit.mo.func");
-	this.perlin.functype = "perlin";	
+	this.perlin.function = "perlin";	
 
 	this.join = new JitterObject("jit.mo.join");
 

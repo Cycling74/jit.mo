@@ -52,9 +52,19 @@
 			<description>Scales the random offset value (default = 0.0). </description>
 		</attribute>
 
+		<attribute name='start' get='1' set='1' type='float64' size='1' >
+			<digest>Line function start (default = -1.0)</digest>
+			<description>Line function start (default = -1.0). </description>
+		</attribute>
+
 		<attribute name='join' get='1' set='1' type='symbol' size='1' >
 			<digest>Sets the <o>jit.mo.join</o> object binding</digest>
 			<description>Sets the <o>jit.mo.join</o> object binding.             When set, animation parameters are controlled by the named object. </description>
+		</attribute>
+
+		<attribute name='function' get='1' set='1' type='symbol' size='1' >
+			<digest>The fuction type used for generating matrices</digest>
+			<description>The fuction type used for generating matrices. Available functypes are line, sin, saw, tri, perlin </description>
 		</attribute>
 
 		<attribute name='delta' get='1' set='1' type='float64' size='1' >
@@ -100,16 +110,6 @@
 		<attribute name='freq' get='1' set='1' type='float64' size='1' >
 			<digest>Output frequency (default = 1.0)</digest>
 			<description>Output frequency (default = 1.0). Number of times the function is repeated over the width of the matrix </description>
-		</attribute>
-
-		<attribute name='start' get='1' set='1' type='float64' size='1' >
-			<digest>Line function start (default = -1.0)</digest>
-			<description>Line function start (default = -1.0). </description>
-		</attribute>
-
-		<attribute name='functype' get='1' set='1' type='symbol' size='1' >
-			<digest>The fuction type used for generating matrices</digest>
-			<description>The fuction type used for generating matrices. Available functypes are line, sin, saw, tri, perlin </description>
 		</attribute>
 
 	</attributelist>
