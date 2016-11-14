@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 2,
-			"revision" : 5,
+			"minor" : 3,
+			"revision" : 1,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 31.0, 79.0, 784.0, 562.0 ],
+		"rect" : [ 34.0, 79.0, 784.0, 562.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -48,13 +48,13 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 5,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ 31.0, 105.0, 784.0, 536.0 ],
+						"rect" : [ 34.0, 105.0, 784.0, 536.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -84,13 +84,40 @@
 						"showontab" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
+									"hidden" : 1,
+									"id" : "obj-14",
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 183.0, 496.0, 35.0, 22.0 ],
+									"style" : "",
+									"text" : "front"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"hidden" : 1,
+									"id" : "obj-16",
+									"maxclass" : "newobj",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "bang" ],
+									"patching_rect" : [ 183.0, 467.0, 60.0, 22.0 ],
+									"style" : "",
+									"text" : "loadbang"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"bubble" : 1,
 									"id" : "obj-12",
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 270.5, 166.0, 57.0, 24.0 ],
-									"presentation_rect" : [ 270.5, 162.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "on/off"
 								}
@@ -104,7 +131,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 581.585938, 221.5, 114.0, 24.0 ],
-									"presentation_rect" : [ 642.585938, 234.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "repeat last cycle"
 								}
@@ -118,7 +144,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 91.085938, 199.0, 54.0, 24.0 ],
-									"presentation_rect" : [ 84.5, 232.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "reset"
 								}
@@ -145,7 +170,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 615.0, 177.0, 150.0, 37.0 ],
+									"patching_rect" : [ 615.0, 177.0, 151.0, 37.0 ],
 									"style" : "",
 									"text" : "Immediately go from 0. to 1. over 4 seconds."
 								}
@@ -533,7 +558,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 10.0, 10.0, 228.17186, 57.567627 ]
+									"patching_rect" : [ 10.0, 10.0, 228.171875, 57.567627 ]
 								}
 
 							}
@@ -544,6 +569,24 @@
 									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-10", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-3", 0 ],
+									"disabled" : 0,
+									"hidden" : 1,
+									"source" : [ "obj-14", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-14", 0 ],
+									"disabled" : 0,
+									"hidden" : 1,
+									"source" : [ "obj-16", 0 ]
 								}
 
 							}
@@ -695,9 +738,9 @@
 						"styles" : [ 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
-									"fontname" : [ "Arial" ],
+									"fontsize" : [ 13.0 ],
 									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
-									"fontsize" : [ 13.0 ]
+									"fontname" : [ "Arial" ]
 								}
 ,
 								"parentstyle" : "",
@@ -749,8 +792,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 5,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
@@ -791,7 +834,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 326.75, 413.0, 178.0, 24.0 ],
-									"presentation_rect" : [ 254.0, 417.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "reset accumulated time to 0."
 								}
@@ -805,7 +847,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 299.5, 378.0, 104.0, 24.0 ],
-									"presentation_rect" : [ 180.0, 366.5, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "bang to output"
 								}
@@ -819,7 +860,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 299.5, 344.5, 136.0, 24.0 ],
-									"presentation_rect" : [ 220.0, 363.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "set automatic output"
 								}
@@ -833,7 +873,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 121.0, 187.5, 118.0, 24.0 ],
-									"presentation_rect" : [ 141.0, 270.0, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "set interval in ms"
 								}
@@ -847,7 +886,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 146.0, 217.0, 175.0, 24.0 ],
-									"presentation_rect" : [ 170.0, 298.5, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "set a tempo-relative interval"
 								}
@@ -875,7 +913,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 296.5, 313.5, 210.0, 24.0 ],
-									"presentation_rect" : [ 214.0, 207.5, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "set how elapsed time is calculated"
 								}
@@ -888,8 +925,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 54.0, 132.0, 57.0, 24.0 ],
-									"presentation_rect" : [ 68.0, 133.5, 0.0, 0.0 ],
+									"patching_rect" : [ 76.0, 132.0, 57.0, 24.0 ],
 									"style" : "",
 									"text" : "on/off"
 								}
@@ -903,7 +939,6 @@
 									"numinlets" : 1,
 									"numoutlets" : 0,
 									"patching_rect" : [ 257.25, 282.0, 186.0, 24.0 ],
-									"presentation_rect" : [ 211.0, 185.5, 0.0, 0.0 ],
 									"style" : "",
 									"text" : "set animation speed multiplier"
 								}
@@ -988,7 +1023,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 26.0, 132.0, 24.0, 24.0 ],
+									"patching_rect" : [ 26.0, 132.0, 39.0, 39.0 ],
 									"style" : ""
 								}
 
@@ -1196,9 +1231,9 @@
 						"styles" : [ 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
-									"fontname" : [ "Arial" ],
+									"fontsize" : [ 13.0 ],
 									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
-									"fontsize" : [ 13.0 ]
+									"fontname" : [ "Arial" ]
 								}
 ,
 								"parentstyle" : "",
@@ -1248,8 +1283,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 7,
-							"minor" : 2,
-							"revision" : 5,
+							"minor" : 3,
+							"revision" : 1,
 							"architecture" : "x86",
 							"modernui" : 1
 						}

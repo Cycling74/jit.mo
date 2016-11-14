@@ -102,12 +102,40 @@
 						"showontab" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
+									"hidden" : 1,
+									"id" : "obj-12",
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 259.0, 420.0, 35.0, 22.0 ],
+									"style" : "",
+									"text" : "front"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"hidden" : 1,
+									"id" : "obj-3",
+									"maxclass" : "newobj",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "bang" ],
+									"patching_rect" : [ 259.0, 391.0, 60.0, 22.0 ],
+									"style" : "",
+									"text" : "loadbang"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"id" : "obj-35",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 109.5, 345.0, 82.0, 22.0 ],
+									"patching_rect" : [ 108.0, 347.0, 82.0, 22.0 ],
 									"style" : "",
 									"text" : "loadmess 0.1"
 								}
@@ -159,7 +187,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 109.5, 377.0, 115.0, 22.0 ],
+									"patching_rect" : [ 108.0, 379.0, 115.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.matrix 3 float32 1"
 								}
@@ -172,7 +200,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "jit_matrix", "" ],
-									"patching_rect" : [ 51.5, 445.0, 88.0, 22.0 ],
+									"patching_rect" : [ 50.0, 447.0, 88.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.gl.gridshape"
 								}
@@ -185,7 +213,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 51.5, 410.0, 77.0, 22.0 ],
+									"patching_rect" : [ 50.0, 412.0, 77.0, 22.0 ],
 									"style" : "",
 									"text" : "jit.gl.multiple"
 								}
@@ -550,6 +578,15 @@
  ],
 						"lines" : [ 							{
 								"patchline" : 								{
+									"destination" : [ "obj-6", 0 ],
+									"disabled" : 0,
+									"hidden" : 1,
+									"source" : [ "obj-12", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
 									"destination" : [ "obj-26", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
@@ -581,6 +618,15 @@
 									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-28", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-12", 0 ],
+									"disabled" : 0,
+									"hidden" : 1,
+									"source" : [ "obj-3", 0 ]
 								}
 
 							}
@@ -633,9 +679,9 @@
 						"styles" : [ 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
-									"fontname" : [ "Arial" ],
+									"fontsize" : [ 13.0 ],
 									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
-									"fontsize" : [ 13.0 ]
+									"fontname" : [ "Arial" ]
 								}
 ,
 								"parentstyle" : "",
@@ -754,7 +800,7 @@
 			}
 , 			{
 				"name" : "jit.mo.slice.maxpat",
-				"bootpath" : "~/dev/cycling/jit.mo/patchers",
+				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
