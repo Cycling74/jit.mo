@@ -102,6 +102,34 @@
 						"showontab" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
+									"hidden" : 1,
+									"id" : "obj-5",
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 305.0, 409.0, 35.0, 22.0 ],
+									"style" : "",
+									"text" : "front"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"hidden" : 1,
+									"id" : "obj-10",
+									"maxclass" : "newobj",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "bang" ],
+									"patching_rect" : [ 305.0, 380.0, 60.0, 22.0 ],
+									"style" : "",
+									"text" : "loadbang"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"id" : "obj-17",
 									"maxclass" : "number",
 									"numinlets" : 1,
@@ -378,6 +406,15 @@
 							}
 , 							{
 								"patchline" : 								{
+									"destination" : [ "obj-5", 0 ],
+									"disabled" : 0,
+									"hidden" : 1,
+									"source" : [ "obj-10", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
 									"destination" : [ "obj-4", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
@@ -443,6 +480,15 @@
 								"patchline" : 								{
 									"destination" : [ "obj-6", 0 ],
 									"disabled" : 0,
+									"hidden" : 1,
+									"source" : [ "obj-5", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-6", 0 ],
+									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-8", 0 ]
 								}
@@ -469,7 +515,21 @@
  ],
 						"styles" : [ 							{
 								"name" : "afxyellow",
+								"tab" : 								{
+									"elementcolor" : [ 0.451979, 0.451979, 0.451979, 1.0 ],
+									"textcolor_inverse" : [ 0.881305, 0.881305, 0.881305, 1.0 ],
+									"color" : [ 0.679508, 0.55813, 0.006126, 1.0 ]
+								}
+,
+								"comment" : 								{
+									"fontsize" : [ 24.0 ],
+									"textcolor" : [ 0.501961, 0.501961, 0.0, 1.0 ],
+									"fontname" : [ "Arial" ]
+								}
+,
 								"message" : 								{
+									"fontsize" : [ 30.0 ],
+									"textcolor_inverse" : [ 1.0, 0.818637, 0.0, 1.0 ],
 									"bgfillcolor" : 									{
 										"type" : "gradient",
 										"color1" : [ 0.204102, 0.125198, 0.002398, 1.0 ],
@@ -480,26 +540,12 @@
 										"autogradient" : 0.79
 									}
 ,
-									"fontname" : [ "Arial" ],
-									"fontsize" : [ 30.0 ],
-									"textcolor_inverse" : [ 1.0, 0.818637, 0.0, 1.0 ]
-								}
-,
-								"comment" : 								{
-									"fontname" : [ "Arial" ],
-									"textcolor" : [ 0.501961, 0.501961, 0.0, 1.0 ],
-									"fontsize" : [ 24.0 ]
-								}
-,
-								"tab" : 								{
-									"elementcolor" : [ 0.451979, 0.451979, 0.451979, 1.0 ],
-									"color" : [ 0.679508, 0.55813, 0.006126, 1.0 ],
-									"textcolor_inverse" : [ 0.881305, 0.881305, 0.881305, 1.0 ]
+									"fontname" : [ "Arial" ]
 								}
 ,
 								"multislider" : 								{
-									"bgcolor" : [ 0.204102, 0.125198, 0.002398, 1.0 ],
-									"color" : [ 1.0, 0.818637, 0.0, 1.0 ]
+									"color" : [ 1.0, 0.818637, 0.0, 1.0 ],
+									"bgcolor" : [ 0.204102, 0.125198, 0.002398, 1.0 ]
 								}
 ,
 								"parentstyle" : "",
@@ -508,9 +554,9 @@
 , 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
-									"fontname" : [ "Arial" ],
+									"fontsize" : [ 13.0 ],
 									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
-									"fontsize" : [ 13.0 ]
+									"fontname" : [ "Arial" ]
 								}
 ,
 								"parentstyle" : "",
@@ -629,13 +675,13 @@
 			}
 , 			{
 				"name" : "jit.mo.circle.maxpat",
-				"bootpath" : "~/dev/cycling/jit.mo/patchers",
+				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "jit.mo.slice.maxpat",
-				"bootpath" : "~/dev/cycling/jit.mo/patchers",
+				"bootpath" : "~/Documents/Max 7/Packages/jit.mo/patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
