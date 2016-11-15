@@ -242,7 +242,7 @@ private:
 		else if(classname() == symbol()) {
 			mode = timemodes::accum;
 		}
-        else if(!(classname() == "jit.mo.time") || !(classname() == "jit.time")) {
+        else if(!(classname() == "jit.mo.time") && !(classname() == "jit.time")) {
             
             mode = timemodes::function;
             
