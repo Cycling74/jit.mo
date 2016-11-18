@@ -128,7 +128,7 @@ public:
         object_method(in_matrix, _jit_sym_getdata, &in_opinfo.p);
         object_method(out_matrix, _jit_sym_getdata, &out_opinfo.p);
         
-        matrix_info info(&in_minfo, (uchar*)in_opinfo.p, &out_minfo, (uchar*)out_opinfo.p);
+        matrix_info info(&in_minfo, (c74::min::uchar*)in_opinfo.p, &out_minfo, (c74::min::uchar*)out_opinfo.p);
         
         maxob = mob;
         curplane = plane;
