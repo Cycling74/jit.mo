@@ -88,7 +88,7 @@ public:
             else if(reseed)
                 randvals[position.x()] = math::random(-1., 1.);
             
-            if(position.x() == info.out_info->dim[0]-1)
+            if(position.x() == info.m_out_info->dim[0]-1)
                 reseed = false;
         }
 

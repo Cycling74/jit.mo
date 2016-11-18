@@ -134,7 +134,7 @@ public:
 	cell<matrix_type,planecount> calc_cell(cell<matrix_type,planecount> input, const matrix_info& info, matrix_coord& position) {
 		cell<matrix_type,planecount> output;
 		double val = 0;
-		double norm = (double)position.x() / (double)(info.out_info->dim[0]-1);
+		double norm = (double)position.x() / (double)(info.m_out_info->dim[0]-1);
 
         if(function == functypes::saw) {
             val = fmod(norm * freq + phase, 1.);
@@ -169,7 +169,7 @@ public:
 
 			val += randvals[position.x()]*rand_amt;
 
-			if(position.x() == info.out_info->dim[0]-1)
+			if(position.x() == info.m_out_info->dim[0]-1)
 				reseed = false;
 		}
 		

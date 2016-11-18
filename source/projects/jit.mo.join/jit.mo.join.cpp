@@ -102,8 +102,8 @@ public:
     void calculate_vector(const matrix_info& info, long n, t_jit_op_info* inop, t_jit_op_info* outop) {
         auto in = (U*)inop->p;
         auto out = (U*)outop->p;
-        const auto instep = info.in_info->planecount;
-        const auto outstep = info.out_info->planecount;
+        const auto instep = info.m_in_info->planecount;
+        const auto outstep = info.m_out_info->planecount;
         
         // TODO: allow multiplane input
         for (auto j=0; j<n; ++j) {
@@ -128,7 +128,7 @@ public:
         object_method(in_matrix, _jit_sym_getdata, &in_opinfo.p);
         object_method(out_matrix, _jit_sym_getdata, &out_opinfo.p);
         
-        matrix_info info(&in_minfo, (char*)in_opinfo.p, &out_minfo, (char*)out_opinfo.p);
+        matrix_info info(&in_minfo, (uchar*)in_opinfo.p, &out_minfo, (uchar*)out_opinfo.p);
         
         maxob = mob;
         curplane = plane;
