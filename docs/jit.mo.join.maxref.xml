@@ -47,6 +47,11 @@
 
 	<attributelist>
 
+		<attribute name='name' get='1' set='1' type='symbol' size='1' >
+			<digest>Object name (default = UID)</digest>
+			<description>Object name (default = UID). </description>
+		</attribute>
+
 		<attribute name='interval' get='1' set='1' type='time' size='1' >
 			<digest>Animation interval (default = 0 ms)</digest>
 			<description>Animation interval (default = 0 ms). Using transport timing notation (4n,2n,etc.) connects animation timing to the Global Transport of Max. </description>
@@ -60,11 +65,6 @@
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
 			<digest>Animation speed (default = 1.)</digest>
 			<description>Animation speed (default = 1.). Scales animation speed of all connected jit.mo.func objects </description>
-		</attribute>
-
-		<attribute name='name' get='1' set='1' type='symbol' size='1' >
-			<digest>Object name (default = UID)</digest>
-			<description>Object name (default = UID). </description>
 		</attribute>
 
 		<attribute name='enable' get='1' set='1' type='long' size='1' >
