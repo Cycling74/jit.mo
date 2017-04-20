@@ -10,7 +10,7 @@ using namespace c74::min;
 using namespace c74::max;
 using namespace std;
 
-class jit_mo_field : public object<jit_mo_field>, matrix_operator {
+class jit_mo_fieldmask : public object<jit_mo_fieldmask>, matrix_operator {
 public:
     MIN_DESCRIPTION { "Field mask for 3 plane jit.mo streams. Calculates a mask value depending on distance from a defined spatial location. Can be used to perform arbitrary manipulations based on location" };
     MIN_TAGS		{ "jit.mo,Manipulators" };
@@ -20,8 +20,8 @@ public:
     inlet<>	input	= { this, "(matrix) Input", "matrix" };
 	outlet<>	output	= { this, "(matrix) Output", "matrix" };
 	
-	jit_mo_field(const atoms& args = {}) {}
-	~jit_mo_field() {}
+	jit_mo_fieldmask(const atoms& args = {}) {}
+	~jit_mo_fieldmask() {}
     
     attribute<double> radius { this, "radius", 0.5, title {"Radius"},
         description {"Radius value (default = 0.5). Radius defines the spherical area around the location affected by the field" }
@@ -90,5 +90,5 @@ private:
 
 };
 
-MIN_EXTERNAL(jit_mo_field);
+MIN_EXTERNAL(jit_mo_fieldmask);
 
