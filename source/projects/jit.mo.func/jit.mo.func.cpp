@@ -12,7 +12,7 @@ using namespace c74::min;
 using namespace c74::max;
 using namespace jit_mo;
 
-class jit_mo_func : public object<jit_mo_func>, matrix_operator {
+class jit_mo_func : public object<jit_mo_func>, public matrix_operator<> {
 public:
 
     MIN_DESCRIPTION { "Generate animated single dim matrices using a specified function. Similar in nature to a sound oscillator, jit.mo.func can generate time-varying cell values across a matrix based on a given function." };
@@ -35,7 +35,7 @@ public:
         if(unbound) {
             t_object *mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
             if(mojoin) {
-                object_method(mojoin, gensym("removefuncob"), m_maxobj);
+                object_method(mojoin, gensym("removefuncob"), maxobj());
                 object_free(mojoin);
             }
         }
@@ -82,7 +82,7 @@ public:
                 
                 if(loop || pval < 2.0) {
                     phase = std::fmod(pval, 2.0);
-                    object_attr_touch(maxob_from_jitob(m_maxobj), sym_phase);
+                    object_attr_touch(maxob_from_jitob(maxobj()), sym_phase);
                 }
             }
 			return args;
@@ -145,7 +145,7 @@ public:
 		}
 		else if (function == functypes::tri) {
 			val = norm * freq * 2.0 + phase;
-            val = math::fold(val, 0., 1.);
+            val = fold(val, 0., 1.);
 			val = (val * 2.0 - 1.0);
 		}
 		else if (function == functypes::line) {
@@ -163,13 +163,13 @@ public:
 
 		if (rand_amt != 0.0) {
 			if(position.x() >= randvals.size())
-				randvals.push_back(math::random(-1., 1.));
+				randvals.push_back(lib::math::random(-1., 1.));
 			else if(reseed)
-				randvals[position.x()] = math::random(-1., 1.);
+				randvals[position.x()] = lib::math::random(-1., 1.);
 
 			val += randvals[position.x()]*rand_amt;
 
-			if(position.x() == info.m_out_info->dim[0]-1)
+			if (position.x() == info.m_out_info->dim[0]-1)
 				reseed = false;
 		}
 		
@@ -202,7 +202,7 @@ private:
     }};
 
     message<> maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
-        t_object *mob=maxob_from_jitob(m_maxobj);
+        t_object *mob=maxob_from_jitob(maxobj());
         long dim = object_attr_getlong(mob, _jit_sym_dim);
         
         if(join == symbol())
@@ -231,7 +231,7 @@ private:
         if(!(curjoin == symbol(_jit_sym_nothing))) {
             t_object *o = (t_object*)object_findregistered(_jit_sym_jitter, curjoin);
             if(o) {
-                object_method(o, gensym("detach"), m_maxobj);
+                object_method(o, gensym("detach"), maxobj());
             }
         }
         
@@ -239,7 +239,7 @@ private:
             bool success = false;
             t_object *o = (t_object*)object_findregistered(_jit_sym_jitter, name);
             if(o) {
-                if(JIT_ERR_NONE == (t_jit_err)object_method(o, gensym("attach"), m_maxobj)) {
+                if(JIT_ERR_NONE == (t_jit_err)object_method(o, gensym("attach"), maxobj())) {
                     success = true;
                 }
             }
@@ -249,7 +249,7 @@ private:
                 t_object *mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
                 if(mojoin) {
                     unbound = true;
-                    object_method(mojoin, gensym("addfuncob"), m_maxobj);
+                    object_method(mojoin, gensym("addfuncob"), maxobj());
                     object_free(mojoin);
                 }
             }

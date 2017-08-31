@@ -19,7 +19,7 @@ t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv);
 void max_jit_mo_join_int(max_jit_wrapper *mob, long v);
 
-class jit_mo_join : public object<jit_mo_join>, matrix_operator {
+class jit_mo_join : public object<jit_mo_join>, public matrix_operator<> {
 public:
     MIN_DESCRIPTION { "Combine jit.mo streams and output a multi-plane matrix. Automatically connects to jit.world to drive animations. Inputs add multiple jit.mo/matrix inputs for additive control" };
     MIN_TAGS		{ "jit.mo,Generators" };
@@ -41,7 +41,7 @@ public:
         }
         
         if(implicit)
-            jit_mo_singleton::instance().remove_animob(m_maxobj);
+            jit_mo_singleton::instance().remove_animob(maxobj());
         
         jit_object_free(animator);
     }
@@ -154,7 +154,7 @@ public:
         object_method(out_matrix, _jit_sym_lock, out_savelock);
         object_method(in_matrix, _jit_sym_lock, in_savelock);
 		
-		if(plane == 0 && object_attr_getlong(m_maxobj, sym_automatic) == 0) {
+		if(plane == 0 && object_attr_getlong(maxobj(), sym_automatic) == 0) {
 			request_clear = true;
 		}
 		
@@ -164,7 +164,7 @@ public:
     void update_animation(t_atom *av) {
         if(enable) {
             if(i_s.update(speed, interval)) {
-                object_attr_touch(maxob_from_jitob(m_maxobj), gensym("speed"));
+                object_attr_touch(maxob_from_jitob(maxobj()), gensym("speed"));
             }
             
             for( const auto& n : attached_funcobs ) {
@@ -222,7 +222,7 @@ private:
         jit_class_addmethod(c, (method)jit_mo_join_attach,      "attach", A_CANT, 0);
         jit_class_addmethod(c, (method)jit_mo_join_detach,      "detach", A_CANT, 0);
         
-        jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_join>, min_object) + calcoffset(jit_mo_join, animator), 0);
+		jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_join>, m_min_object) + calcoffset(jit_mo_join, animator), 0);
         
         return {};
     }};
@@ -248,7 +248,7 @@ private:
     }};
     
     message<> setup = { this, "setup", MIN_FUNCTION {
-        animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
+        animator = jit_object_new(gensym("jit_anim_animator"), maxobj());
         attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_join_automatic_attrfilter);
 
 		register_and_setup(name);
@@ -257,7 +257,7 @@ private:
     }};
     
     message<> mop_setup = { this, "mop_setup", MIN_FUNCTION {
-        void *o = m_maxobj;
+        void *o = maxobj();
         t_object *x = args[args.size()-1];
         
         t_jit_matrix_info info;
@@ -311,10 +311,10 @@ private:
     
     message<> maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
         
-        long atm = object_attr_getlong(m_maxobj, sym_automatic);
+        long atm = object_attr_getlong(maxobj(), sym_automatic);
         
-        if(atm && object_attr_getsym(m_maxobj, sym_drawto) == _jit_sym_nothing) {
-            jit_mo_singleton::instance().add_animob(m_maxobj, patcher);
+        if(atm && object_attr_getsym(maxobj(), sym_drawto) == _jit_sym_nothing) {
+            jit_mo_singleton::instance().add_animob(maxobj(), patcher);
             implicit = true;
         }
         
@@ -366,7 +366,7 @@ private:
         if(s == sym_dest_closing) {
             if(implicit) {
                 object_attr_setsym(animator, sym_drawto, _jit_sym_nothing);
-                jit_mo_singleton::instance().add_animob(m_maxobj, patcher);
+                jit_mo_singleton::instance().add_animob(maxobj(), patcher);
             }
         }
         return { JIT_ERR_NONE };
@@ -380,10 +380,10 @@ private:
 	void register_and_setup(symbol new_name) {
 		symbol nothing = _jit_sym_nothing;
 		if(!(name == nothing))
-			object_unregister(m_maxobj);
+			object_unregister(maxobj());
 		
 		if(!(new_name == nothing))
-			object_register(_jit_sym_jitter, new_name, m_maxobj);
+			object_register(_jit_sym_jitter, new_name, maxobj());
 
 		for( const auto& n : attached_funcobs )
 			object_attr_setlong(n.second, gensym("join"), new_name);
@@ -425,19 +425,19 @@ MIN_EXTERNAL(jit_mo_join);
 void jit_mo_join_update_anim(t_object *job, t_atom *a)
 {
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-    self->min_object.update_animation(a);
+	self->m_min_object.update_animation(a);
 }
 
 t_jit_err jit_mo_join_attach(t_object *job, t_object *cob)
 {
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-    return self->min_object.attach(cob);
+	return self->m_min_object.attach(cob);
 }
 
 void jit_mo_join_detach(t_object *job, t_object *cob)
 {
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-    self->min_object.detach(cob);
+	self->m_min_object.detach(cob);
 }
 
 void jit_mo_join_automatic_attrfilter(t_object *job, void *attr, long argc, t_atom *argv)
@@ -445,7 +445,7 @@ void jit_mo_join_automatic_attrfilter(t_object *job, void *attr, long argc, t_at
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
     if(argc && argv) {
         long automatic = atom_getlong(argv);
-        self->min_object.automatic_filter(automatic);
+		self->m_min_object.automatic_filter(automatic);
     }
 }
 
@@ -465,7 +465,7 @@ t_jit_err jit_mo_join_matrix_calc(t_object *x, t_object *inputs, t_object *outpu
         auto in_matrix = (t_object*)object_method(inputs, _jit_sym_getindex, (void*)j);
         if (in_matrix && out_matrix) {
             minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)(x);
-            err = job->min_object.matrix_calc(in_matrix, out_matrix, j, nullptr);
+			err = job->m_min_object.matrix_calc(in_matrix, out_matrix, j, nullptr);
         }
         else {
             return JIT_ERR_INVALID_PTR;
@@ -479,7 +479,7 @@ t_jit_err max_jit_mo_join_dim(max_jit_wrapper *mob, t_symbol *attr, long argc, t
     if(argv && argc) {
         void* job = max_jit_obex_jitob_get(mob);
         minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-        self->min_object.update_attached_dim(atom_getlong(argv));
+		self->m_min_object.update_attached_dim(atom_getlong(argv));
         max_jit_mop_dim(mob, attr, argc, argv);
     }
     
@@ -490,7 +490,7 @@ void max_jit_mo_join_int(max_jit_wrapper *mob, long v)
 {
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;
-    self->min_object.enable = (bool)v;
+	self->m_min_object.enable = (bool)v;
 }
 
 t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc, t_atom *argv)
@@ -519,7 +519,7 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper *x, t_symbol *s, long argc,
             
             long plane = max_jit_obex_inletnumber_get(x);
             minwrap<jit_mo_join>* job = (minwrap<jit_mo_join>*)max_jit_obex_jitob_get(x);
-            err = job->min_object.matrix_calc(in_matrix, out_matrix, plane, (t_object*)x);
+            err = job->m_min_object.matrix_calc(in_matrix, out_matrix, plane, (t_object*)x);
 
             if (plane == 0 && object_attr_getlong(job, sym_automatic) == 0) {
                 max_jit_mop_outputmatrix(x);

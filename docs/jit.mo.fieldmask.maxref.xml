@@ -37,11 +37,6 @@
 
 	<attributelist>
 
-		<attribute name='offset' get='1' set='1' type='float64' size='1' >
-			<digest>Output offset (default = 0.0)</digest>
-			<description>Output offset (default = 0.0). </description>
-		</attribute>
-
 		<attribute name='scale' get='1' set='1' type='float64' size='1' >
 			<digest>Output multiplier (default = 1.0)</digest>
 			<description>Output multiplier (default = 1.0). </description>
@@ -55,6 +50,11 @@
 		<attribute name='falloff' get='1' set='1' type='float64' size='1' >
 			<digest>Falloff value (default = 0.5)</digest>
 			<description>Falloff value (default = 0.5). Determines the amount of falloff at the edge of the field, specified as a decimal fraction of the radius </description>
+		</attribute>
+
+		<attribute name='offset' get='1' set='1' type='float64' size='1' >
+			<digest>Output offset (default = 0.0)</digest>
+			<description>Output offset (default = 0.0). </description>
 		</attribute>
 
 		<attribute name='radius' get='1' set='1' type='float64' size='1' >

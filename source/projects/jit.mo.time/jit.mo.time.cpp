@@ -24,7 +24,7 @@ namespace timemodes {
     static const symbol function = "function";
 };
 
-class jit_mo_time : public object<jit_mo_time>, matrix_operator {
+class jit_mo_time : public object<jit_mo_time>, public matrix_operator<> {
 public:
     
     MIN_DESCRIPTION { "Outputs float time values using specified mode for realtime animation. Can be used to generate control functions in sync with other jit.world and jit.mo objects, time delta between frames, or accumulated running time." };
@@ -39,7 +39,7 @@ public:
     
     ~jit_mo_time() {
         if(implicit)
-            jit_mo_singleton::instance().remove_animob(m_maxobj);
+            jit_mo_singleton::instance().remove_animob(maxobj());
 
         jit_object_free(animator);
     }
@@ -149,7 +149,7 @@ public:
     double update_animation(t_atom *av) {
         if(enable) {
             if(i_s.update(speed, interval)) {
-                object_attr_touch(maxob_from_jitob(m_maxobj), gensym("speed"));
+                object_attr_touch(maxob_from_jitob(maxobj()), gensym("speed"));
             }
             
             double val = atom_getfloat(av);
@@ -174,7 +174,7 @@ public:
                 }
                 else if (function == functypes::tri) {
                     val = norm * freq * 2.0;
-                    val = math::fold(val, 0., 1.);
+					val = fold(val, 0., 1.);
                     val = (val * 2.0 - 1.0);
                 }
                 else if (function == functypes::line) {
@@ -191,7 +191,7 @@ public:
                 }
                 
                 if (rand_amt != 0.0) {
-                    val += math::random(-1., 1.)*rand_amt;
+					val += lib::math::random(-1., 1.)*rand_amt;
                 }
                 
                 val *= scale;
@@ -216,7 +216,7 @@ private:
         t_class *c = args[0];
         
         jit_class_addmethod(c, (method)jit_mo_time_update_anim, "update_anim", A_CANT, 0);
-        jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_time>, min_object) + calcoffset(jit_mo_time, animator), 0);
+		jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")), calcoffset(minwrap<jit_mo_time>, m_min_object) + calcoffset(jit_mo_time, animator), 0);
         
         return {};
     }};
@@ -232,7 +232,7 @@ private:
     }};
     
     message<> setup { this, "setup", MIN_FUNCTION {
-        animator = jit_object_new(gensym("jit_anim_animator"), m_maxobj);
+        animator = jit_object_new(gensym("jit_anim_animator"), maxobj());
         //attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")), (method)jit_mo_time_automatic_attrfilter);
         
         if(classname() == "jit.time.delta") {
@@ -261,7 +261,7 @@ private:
     }};
     
     message<> mop_setup { this, "mop_setup", MIN_FUNCTION {
-        void *o = m_maxobj;
+        void *o = maxobj();
         t_object *x = args[args.size()-1];
 
         max_jit_obex_jitob_set(x,o);
@@ -272,10 +272,10 @@ private:
     }};
     
     message<> maxob_setup { this, "maxob_setup", MIN_FUNCTION {
-        long atm = object_attr_getlong(m_maxobj, sym_automatic);
+        long atm = object_attr_getlong(maxobj(), sym_automatic);
         
-        if(atm && object_attr_getsym(m_maxobj, sym_drawto) == _jit_sym_nothing) {
-            jit_mo_singleton::instance().add_animob(m_maxobj, patcher);
+        if(atm && object_attr_getsym(maxobj(), sym_drawto) == _jit_sym_nothing) {
+            jit_mo_singleton::instance().add_animob(maxobj(), patcher);
             implicit = true;
         }
     
@@ -287,7 +287,7 @@ private:
         if(s == sym_dest_closing) {
             if(implicit) {
                 object_attr_setsym(animator, sym_drawto, _jit_sym_nothing);
-                jit_mo_singleton::instance().add_animob(m_maxobj, patcher);
+                jit_mo_singleton::instance().add_animob(maxobj(), patcher);
             }
         }
         return { JIT_ERR_NONE };
@@ -313,20 +313,20 @@ MIN_EXTERNAL(jit_mo_time);
 
 void jit_mo_time_update_anim(t_object *job, t_atom *a) {
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
-    self->min_object.update_animation(a);
+	self->m_min_object.update_animation(a);
 }
 
 void max_jit_mo_time_int(max_jit_wrapper *mob, long v) {
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
-    self->min_object.enable = (bool)v;
+	self->m_min_object.enable = (bool)v;
 }
 
 void max_jit_mo_time_bang(max_jit_wrapper *mob) {
     void* job = max_jit_obex_jitob_get(mob);
     minwrap<jit_mo_time>* self = (minwrap<jit_mo_time>*)job;
     if(!object_attr_getlong(job, sym_automatic))
-        self->min_object.update();
+		self->m_min_object.update();
 }
 
 void max_jit_mo_time_assist(void *x, void *b, long m, long a, char *s) {

@@ -10,7 +10,7 @@ using namespace c74::min;
 using namespace c74::max;
 using namespace std;
 
-class jit_mo_fieldmask : public object<jit_mo_fieldmask>, matrix_operator {
+class jit_mo_fieldmask : public object<jit_mo_fieldmask>, public matrix_operator<> {
 public:
     MIN_DESCRIPTION { "Field mask for 3 plane jit.mo streams. Calculates a mask value depending on distance from a defined spatial location. Can be used to perform arbitrary manipulations based on location" };
     MIN_TAGS		{ "jit.mo,Manipulators" };
@@ -54,13 +54,13 @@ public:
         cell<double,planecount> norm;
         double length = 0;
         
-        for(auto i=0 ; i<info.planecount(); i++) {
+        for(auto i=0 ; i<info.plane_count(); i++) {
             norm[i] = input[i] - location[i];
             length = length+norm[i]*norm[i];
         }
         length = (length!= 0. ? sqrt(length) : 0.);
         
-        for(auto i=0 ; i<info.planecount(); i++)
+        for(auto i=0 ; i<info.plane_count(); i++)
             norm[i] = (norm[i] / length);
         
 		double fradius = radius;
@@ -68,7 +68,7 @@ public:
 		matrix_type diff = matrix_type(fradius - ffalloff);
         auto mix = smoothstep<matrix_type>(matrix_type(double(radius)), diff, length);
         
-        for(auto i=0 ; i<info.planecount(); i++)
+        for(auto i=0 ; i<info.plane_count(); i++)
             output[i] = mix*scale+offset ;
     
 		return output;
