@@ -7,7 +7,7 @@
 	"extensible" : 0,
 	"homepatcher" : "jit.mo-launch.maxpat",
 	"max_version_max" : "none",
-	"max_version_min" : "7.1",
+	"max_version_min" : "7.1", "max_version_max" : "none",
 	"name" : "jit.mo",
 	"os" : 	{
 		"macintosh" : 		{
