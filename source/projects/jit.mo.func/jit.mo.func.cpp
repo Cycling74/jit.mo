@@ -136,10 +136,10 @@ public:
 		double val = 0;
 		double norm = (double)position.x() / (double)(info.m_out_info->dim[0]-1);
 
-        if(function == functypes::saw) {
+        if (function == functypes::saw) {
             val = fmod(norm * freq + phase, 1.);
         }
-        else if(function == functypes::sin) {
+        else if (function == functypes::sin) {
 			val = (norm * 2. - 1.) * freq + phase;
 			val = sin(val*M_PI);
 		}
@@ -202,10 +202,10 @@ private:
     }};
 
     message<> maxob_setup = { this, "maxob_setup", MIN_FUNCTION {
-        t_object *mob=maxob_from_jitob(maxobj());
+        t_object* mob = maxob_from_jitob(maxobj());
         long dim = object_attr_getlong(mob, _jit_sym_dim);
         
-        if(join == symbol())
+        if (join == symbol())
             object_attr_setlong(mob, _jit_sym_dim, args.size()>0 ? (long)args[0] : dim);
         object_attr_setlong(mob, _jit_sym_planecount, 1);
         object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
@@ -228,26 +228,26 @@ private:
     void update_parent (symbol name) {
         symbol curjoin = join;
         
-        if(!(curjoin == symbol(_jit_sym_nothing))) {
+        if (!(curjoin == symbol(_jit_sym_nothing))) {
             t_object *o = (t_object*)object_findregistered(_jit_sym_jitter, curjoin);
             if(o) {
                 object_method(o, gensym("detach"), maxobj());
             }
         }
         
-        if(!(name == symbol(_jit_sym_nothing))) {
+        if (!(name == symbol(_jit_sym_nothing))) {
             bool success = false;
-            t_object *o = (t_object*)object_findregistered(_jit_sym_jitter, name);
-            if(o) {
-                if(JIT_ERR_NONE == (t_jit_err)object_method(o, gensym("attach"), maxobj())) {
+            t_object* o = (t_object*)object_findregistered(_jit_sym_jitter, name);
+            if (o) {
+                if (JIT_ERR_NONE == (t_jit_err)object_method(o, gensym("attach"), maxobj())) {
                     success = true;
                 }
             }
             
-            if(!success) {
+            if (!success) {
                 // add to global list that's checked in join name attr setter
-                t_object *mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
-                if(mojoin) {
+                t_object* mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
+                if (mojoin) {
                     unbound = true;
                     object_method(mojoin, gensym("addfuncob"), maxobj());
                     object_free(mojoin);
