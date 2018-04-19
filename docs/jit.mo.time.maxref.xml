@@ -82,7 +82,7 @@
 			<description>Function frequency (default = 1.0). Specified in Hz </description>
 		</attribute>
 
-		<attribute name='period' get='1' set='1' type='float64' size='1' >
+		<attribute name='period' get='1' set='1' type='long' size='1' >
 			<digest>The period length for the perlin noise function (default = 8)</digest>
 			<description>The period length for the perlin noise function (default = 8). </description>
 		</attribute>
