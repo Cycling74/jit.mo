@@ -24,7 +24,7 @@ namespace jit_mo {
         
     public:
         
-        c74::min::timer metro {nullptr, MIN_FUNCTION {
+        c74::min::timer<> metro {nullptr, MIN_FUNCTION {
             c74::max::defer_low(nullptr, (c74::max::method)check_animobs_defer, nullptr, 0, nullptr);
             return {};
         }};

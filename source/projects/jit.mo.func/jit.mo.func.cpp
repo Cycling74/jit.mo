@@ -101,11 +101,11 @@ public:
         description { "Scales the random offset value (default = 0.0)." }
     };
     
-    attribute<long> period { this, "period", 8, title {"Period Length"},
+    attribute<int> period { this, "period", 8, title {"Period Length"},
         description { "The period length for the perlin noise function (default = 8)." },
         setter { MIN_FUNCTION {
-            long v = args[0];
-            return { std::max(v, 1L) };
+            int v = args[0];
+            return { std::max(v, 1) };
         }}
     };
     
