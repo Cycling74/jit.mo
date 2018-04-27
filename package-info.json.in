@@ -1,43 +1,24 @@
 {
 	"author" : "Cycling '74",
-	"authors" : [  ],
-	"description" : "A series of objects for generative motion graphics in Jitter, optimized for use with jit.gl.multiple and jit.gl.mesh. The jit.mo objects provide smooth time-varying animations that sync to the jit.world context.",
-	"displayname" : "",
-	"extends" : "",
-	"extensible" : 0,
-	"homepatcher" : "jit.mo-launch.maxpat",
-	"max_version_max" : "none",
+	"description" : "Lightweight reference implementation of a package built using the Min-API.",
+	"homepatcher" : "Min Object Development Kit.maxpat",
 	"max_version_min" : "7.1", "max_version_max" : "none",
-	"name" : "jit.mo",
-	"os" : 	{
-		"macintosh" : 		{
+	"name" : "@C74_PACKAGE_NAME@",
+	"os" : {
+		"macintosh" : {
+			"platform" : [ "ia32", "x64" ],
+			"min_version" : "none"
+		},
+		"windows" : {
 			"platform" : [ "ia32", "x64" ],
 			"min_version" : "none"
 		}
-,
-		"windows" : 		{
-			"platform" : [ "ia32", "x64" ],
-			"min_version" : "none"
-		}
-
-	}
-,
-	"package_extra" : 	{
+	},
+	"package_extra" : {
 		"reverse_domain" : "com.cycling74",
 		"copyright" : "Copyright (c) 2016 Cycling '74"
-	}
-,
-	"tags" : [ "motion", "graphics", "animation", "multiples", "lfo", "time", "visualization" ],
-	"version" : "1.0.0",
-	"website" : "https://cycling74.com/",
-	"filelist" : 	{
-		"externals" : [ "jit.mo.field.mxe", "jit.mo.field.mxe64", "jit.mo.field.mxo", "jit.mo.func.mxe", "jit.mo.func.mxe64", "jit.mo.func.mxo", "jit.mo.join.mxe", "jit.mo.join.mxe64", "jit.mo.join.mxo", "jit.mo.time.mxe", "jit.mo.time.mxe64", "jit.mo.time.mxo" ],
-		"patchers" : [ "3d-transform.genjit", "jit.mo-Alphablend.maxpat", "jit.mo-AnimPath.maxpat", "jit.mo-AudioVisuals.maxpat", "jit.mo-CircleWorks.maxpat", "jit.mo-OrganicMotion.maxpat", "jit.mo-Worms.maxpat", "jit.mo.circle.maxpat", "jit.mo.grid.maxpat", "jit.mo.slice.maxpat", "jit.mo.texture.maxpat" ],
-		"help" : [ "jit.mo.circle.maxhelp", "jit.mo.field.maxhelp", "jit.mo.func.maxhelp", "jit.mo.grid.maxhelp", "jit.mo.join.maxhelp", "jit.mo.slice.maxhelp", "jit.mo.texture.maxhelp", "jit.mo.time.maxhelp" ],
-		"interfaces" : [ "max.db.json" ],
-		"docs" : [ "jit.mo.field.maxref.xml", "jit.mo.func.maxref.xml", "jit.mo.join.maxref.xml", "jit.mo.time.maxref.xml" ],
-		"javascript" : [ "jit.mo-worms.js" ],
-		"extras" : [ "jit.mo-launch.maxpat" ]
-	}
-
+	},
+	"tags" : [ ],
+	"version" : "@GIT_VERSION_MAJ@.@GIT_VERSION_MIN@.@GIT_VERSION_SUB@",
+	"website" : "http://www.github.com/Cycling74/min-devkit"
 }
