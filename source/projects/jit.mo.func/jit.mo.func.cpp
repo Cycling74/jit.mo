@@ -1,11 +1,8 @@
-/// @file	
-///	@copyright	Copyright (c) 2016, Cycling '74
-/// @author		Rob Ramirez
-///	@license	Usage of this file and its contents is governed by the MIT License
+/// @file
+///	@copyright	Copyright 2018 The Jit.Mo Authors. All rights reserved.
+///	@license	Use of this source code is governed by the MIT License found in the License.md file.
 
 #include "jit.mo.common.h"
-
-// taken from: https://github.com/stegu/perlin-noise
 #include "noise1234.h"
 
 using namespace c74::min;
@@ -15,10 +12,12 @@ using namespace jit_mo;
 class jit_mo_func : public object<jit_mo_func>, public matrix_operator<> {
 public:
 
-    MIN_DESCRIPTION { "Generate animated single dim matrices using a specified function. Similar in nature to a sound oscillator, jit.mo.func can generate time-varying cell values across a matrix based on a given function." };
-    MIN_TAGS		{ "jit.mo,Generators" };
+    MIN_DESCRIPTION { "Generate animated single dim matrices using a specified function. "
+					  "Similar in nature to a sound oscillator, "
+					  "jit.mo.func can generate time-varying cell values across a matrix based on a given function." };
+    MIN_TAGS		{ "jit.mo, Generators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.join,jit.mo.field,jit.mo.time,jit.anim.drive,jit.anim.path" };
+    MIN_RELATED		{ "jit.mo.join, jit.mo.field, jit.mo.time, jit.anim.drive, jit.anim.path" };
     
 	outlet<> output	= { this, "(matrix) Output", "matrix" };
 
@@ -28,13 +27,13 @@ public:
     
     ~jit_mo_func() {
     
-        if(!(join == symbol())) {
+        if (!(join == symbol())) {
             update_parent(symbol());
         }
     
-        if(unbound) {
+        if (unbound) {
             t_object *mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
-            if(mojoin) {
+            if (mojoin) {
                 object_method(mojoin, gensym("removefuncob"), maxobj());
                 object_free(mojoin);
             }
@@ -76,11 +75,11 @@ public:
             When bound to [jit.mo.join] this value is set automatically."
         },
 		setter { MIN_FUNCTION {
-            if(initialized()) {
+            if (initialized()) {
                 double val = args[0];
                 double pval = phase + (val * speed * 2.0); // default is one cycle / second
                 
-                if(loop || pval < 2.0) {
+                if (loop || pval < 2.0) {
                     phase = std::fmod(pval, 2.0);
                     object_attr_touch(maxob_from_jitob(maxobj()), sym_phase);
                 }
@@ -149,9 +148,9 @@ public:
 			val = (val * 2.0 - 1.0);
 		}
 		else if (function == functypes::line) {
-			if(norm == 0.)
+			if (norm == 0.)
 				val = start;
-			else if(norm == 1.)
+			else if (norm == 1.)
 				val = end;
 			else
 				val = (start*(1.-norm) + end*norm);
@@ -162,9 +161,9 @@ public:
 		}
 
 		if (rand_amt != 0.0) {
-			if(position.x() >= randvals.size())
+			if (position.x() >= randvals.size())
 				randvals.push_back(lib::math::random(-1., 1.));
-			else if(reseed)
+			else if (reseed)
 				randvals[position.x()] = lib::math::random(-1., 1.);
 
 			val += randvals[position.x()]*rand_amt;
@@ -209,14 +208,6 @@ private:
             object_attr_setlong(mob, _jit_sym_dim, args.size()>0 ? (long)args[0] : dim);
         object_attr_setlong(mob, _jit_sym_planecount, 1);
         object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
-        
-        /*if(args.size() < 1)
-         object_attr_setlong(mob, _jit_sym_planecount, 1);
-         if(args.size() < 2)
-         object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
-         if(args.size() < 3)
-         object_attr_setlong(mob, _jit_sym_dim, 10);*/
-        
         return {};
     }};
     

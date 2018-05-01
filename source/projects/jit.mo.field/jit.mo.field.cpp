@@ -1,7 +1,6 @@
 /// @file
-///	@copyright	Copyright (c) 2016, Cycling '74
-/// @author		Rob Ramirez
-///	@license	Usage of this file and its contents is governed by the MIT License
+///	@copyright	Copyright 2018 The Jit.Mo Authors. All rights reserved.
+///	@license	Use of this source code is governed by the MIT License found in the License.md file.
 
 #include "c74_min.h"
 #include "jit.mo.common.h"
@@ -12,10 +11,13 @@ using namespace std;
 
 class jit_mo_field : public object<jit_mo_field>, public matrix_operator<> {
 public:
-    MIN_DESCRIPTION { "Field manipulator for 3 plane jit.mo streams. Deforms position output depending on distance from a defined spatial location. Can be used for sculpting effects and gravity-like animations" };
-    MIN_TAGS		{ "jit.mo,Manipulators" };
+	
+    MIN_DESCRIPTION { "Field manipulator for 3 plane jit.mo streams. "
+					  "Deforms position output depending on distance from a defined spatial location. "
+					  "Can be used for sculpting effects and gravity-like animations." };
+    MIN_TAGS		{ "jit.mo, Manipulators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.join,jit.mo.func,jit.mo.time" };
+    MIN_RELATED		{ "jit.mo.join, jit.mo.func, jit.mo.time" };
     
     inlet<>		input	= { this, "(matrix) Input", "matrix" };
 	outlet<>	output	= { this, "(matrix) Output", "matrix" };
@@ -83,9 +85,9 @@ public:
         const bool dorand(rand_amt[0] || rand_amt[1] || rand_amt[2]);
         
         if (dorand) {
-            if(position.x() >= randvals.size())
+            if (position.x() >= randvals.size())
 				randvals.push_back(lib::math::random(-1., 1.));
-            else if(reseed)
+            else if (reseed)
 				randvals[position.x()] = lib::math::random(-1., 1.);
             
             if (position.x() == info.m_out_info->dim[0]-1)
@@ -97,7 +99,7 @@ public:
 		matrix_type diff = matrix_type(fradius - ffalloff);
         auto mix = smoothstep<matrix_type>(matrix_type(double(radius)), diff, length);
         
-        for(auto i=0 ; i<info.plane_count(); i++)
+        for (auto i=0 ; i<info.plane_count(); i++)
             output[i] = input[i] + (norm[i]*mix) + (translate[i]*mix) + (dorand ? (randvals[position.x()]*rand_amt[i]*mix) : 0);
         
 		return output;

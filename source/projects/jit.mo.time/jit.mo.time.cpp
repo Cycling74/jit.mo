@@ -1,13 +1,10 @@
 /// @file
-///	@copyright	Copyright (c) 2016, Cycling '74
-/// @author		Rob Ramirez
-///	@license	Usage of this file and its contents is governed by the MIT License
+///	@copyright	Copyright 2018 The Jit.Mo Authors. All rights reserved.
+///	@license	Use of this source code is governed by the MIT License found in the License.md file.
 
 #include "jit.mo.common.h"
 #include "jit.mo.singleton.h"
-
-// taken from: https://github.com/stegu/perlin-noise
-#include "noise1234.h"
+#include "noise1234.h" // https://github.com/stegu/perlin-noise
 
 using namespace c74::min;
 using namespace c74::max;
@@ -27,10 +24,12 @@ namespace timemodes {
 class jit_mo_time : public object<jit_mo_time>, public matrix_operator<> {
 public:
     
-    MIN_DESCRIPTION { "Outputs float time values using specified mode for realtime animation. Can be used to generate control functions in sync with other jit.world and jit.mo objects, time delta between frames, or accumulated running time." };
-    MIN_TAGS		{ "jit.mo,Generators" };
+    MIN_DESCRIPTION { "Outputs float time values using specified mode for realtime animation. "
+					  "Can be used to generate control functions in sync with other jit.world and jit.mo objects, "
+					  "time delta between frames, or accumulated running time." };
+    MIN_TAGS		{ "jit.mo, Generators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.join,jit.mo.field,jit.mo.func,jit.anim.drive" };
+    MIN_RELATED		{ "jit.mo.join, jit.mo.field, jit.mo.func, jit.anim.drive" };
     
     
     jit_mo_time(const atoms& args = {}) {

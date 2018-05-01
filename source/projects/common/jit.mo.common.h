@@ -1,7 +1,6 @@
 /// @file
-///	@copyright	Copyright (c) 2016, Cycling '74
-/// @author		Rob Ramirez
-///	@license	Usage of this file and its contents is governed by the MIT License
+///	@copyright	Copyright 2018 The Jit.Mo Authors. All rights reserved.
+///	@license	Use of this source code is governed by the MIT License found in the License.md file.
 
 #pragma once
 

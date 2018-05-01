@@ -1,7 +1,6 @@
 /// @file
-///	@copyright	Copyright (c) 2016, Cycling '74
-/// @author		Rob Ramirez
-///	@license	Usage of this file and its contents is governed by the MIT License
+///	@copyright	Copyright 2018 The Jit.Mo Authors. All rights reserved.
+///	@license	Use of this source code is governed by the MIT License found in the License.md file.
 
 #include "c74_min.h"
 #include "jit.mo.common.h"
@@ -12,10 +11,13 @@ using namespace std;
 
 class jit_mo_fieldmask : public object<jit_mo_fieldmask>, public matrix_operator<> {
 public:
-    MIN_DESCRIPTION { "Field mask for 3 plane jit.mo streams. Calculates a mask value depending on distance from a defined spatial location. Can be used to perform arbitrary manipulations based on location" };
-    MIN_TAGS		{ "jit.mo,Manipulators" };
+	
+    MIN_DESCRIPTION { "Field mask for 3 plane jit.mo streams. "
+					  "Calculates a mask value depending on distance from a defined spatial location. "
+					  "Can be used to perform arbitrary manipulations based on location." };
+    MIN_TAGS		{ "jit.mo, Manipulators" };
     MIN_AUTHOR		{ "Cycling '74" };
-    MIN_RELATED		{ "jit.mo.join,jit.mo.func,jit.mo.time,jit.mo.field" };
+    MIN_RELATED		{ "jit.mo.join, jit.mo.func, jit.mo.time, jit.mo.field" };
     
     inlet<>	input	= { this, "(matrix) Input", "matrix" };
 	outlet<>	output	= { this, "(matrix) Output", "matrix" };
