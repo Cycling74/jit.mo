@@ -14,41 +14,47 @@ public:
 	MIN_DESCRIPTION {"Field manipulator for 3 plane jit.mo streams. "
 					"Deforms position output depending on distance from a defined spatial location. "
 					"Can be used for sculpting effects and gravity-like animations."};
-	MIN_TAGS {"jit.mo, Manipulators"};
-	MIN_AUTHOR {"Cycling '74"};
-	MIN_RELATED {"jit.mo.join, jit.mo.func, jit.mo.time"};
+	MIN_TAGS		{"jit.mo, Manipulators"};
+	MIN_AUTHOR		{"Cycling '74"};
+	MIN_RELATED		{"jit.mo.join, jit.mo.func, jit.mo.time"};
 
-	inlet<>  input  = {this, "(matrix) Input", "matrix"};
-	outlet<> output = {this, "(matrix) Output", "matrix"};
+	inlet<>  input  {this, "(matrix) Input", "matrix"};
+	outlet<> output {this, "(matrix) Output", "matrix"};
 
-	attribute<double> force {this, "force", 0, title {"Force"},
+	attribute<double> force {this, "force", 0,
+		title {"Force"},
 		description {
-			"Force amount (default = 0.0). Repulsion (positive) or attraction (negative) to the location point"}};
+			"Force amount (default = 0.0). Repulsion (positive) or attraction (negative) to the location point"}
+	};
 
-	attribute<double> radius {this, "radius", 0.5, title {"Radius"},
+	attribute<double> radius {this, "radius", 0.5,
+		title {"Radius"},
 		description {"Radius value (default = 0.5). Radius defines the spherical area around the location affected by "
-					"the field"}};
+					"the field"}
+	};
 
-	attribute<double> falloff {this, "falloff", 0.5, title {"Fall off"},
+	attribute<double> falloff {this, "falloff", 0.5,
+		title {"Fall off"},
 		description {"Falloff value (default = 0.5). Determines the amount of falloff at the edge of the field, "
 					"specified as a decimal fraction of the radius"},
 		setter { MIN_FUNCTION {
 			return {std::fmax(args[0], 0.00001)};
-		}}};
+		}}
+	};
 
-	attribute<vector<double>> translate {this, "translate", {0.0, 0.0, 0.0}, title {"Translate"},
-		description {"Translation amount (default = 0. 0. 0.). Position offset for points within the field"}};
+	attribute<vector<double>> translate {this, "translate", {0.0, 0.0, 0.0},
+		title {"Translate"},
+		description {"Translation amount (default = 0. 0. 0.). Position offset for points within the field"}
+	};
 
-	attribute<vector<double>> location {this, "location", {0.0, 0.0, 0.0}, title {"Location"},
-		description {"Location value (default = 0. 0. 0.). Defines the center point of the field."}};
+	attribute<vector<double>> location {this, "location", {0.0, 0.0, 0.0},
+		title {"Location"},
+		description {"Location value (default = 0. 0. 0.). Defines the center point of the field."}
+	};
 
-	attribute<vector<double>> rand_amt {
-		this,
-		"rand_amt",
-		{0.0, 0.0, 0.0},
+	attribute<vector<double>> rand_amt {this, "rand_amt", {0.0, 0.0, 0.0},
 		title {"Random Amount"},
-		description {
-			"Random offset amount (default = 0. 0. 0.). Random position offsets applied based on field strength"},
+		description {"Random offset amount (default = 0. 0. 0.). Random position offsets applied based on field strength"},
 	};
 
 	message<> rand = {this, "rand",
@@ -56,11 +62,12 @@ public:
 			reseed = true;
 			return {};
 		},
-		"Generate new random values for rand_amt offset.", message_type::defer_low};
+		"Generate new random values for rand_amt offset.",
+		message_type::defer_low
+	};
 
 	template<class matrix_type, size_t planecount>
-	cell<matrix_type, planecount> calc_cell(
-		cell<matrix_type, planecount> input, const matrix_info& info, matrix_coord& position) {
+	cell<matrix_type, planecount> calc_cell(cell<matrix_type, planecount> input, const matrix_info& info, matrix_coord& position) {
 		const vector<double>&         location  = this->location;
 		const vector<double>&         translate = this->translate;
 		const vector<double>&         rand_amt  = this->rand_amt;
@@ -109,14 +116,13 @@ public:
 
 
 private:
-	message<> fileusage
-		= {this, "fileusage", MIN_FUNCTION {
-			   jit_mo::fileusage(args[0]);
-			   return {};
-		   }};
+	message<> fileusage {this, "fileusage", MIN_FUNCTION {
+		jit_mo::fileusage(args[0]);
+		return {};
+	}};
 
 	vector<double> randvals;
-	bool           reseed = true;
+	bool           reseed {true};
 };
 
 MIN_EXTERNAL(jit_mo_field);

@@ -14,11 +14,11 @@ public:
 	MIN_DESCRIPTION {"Generate animated single dim matrices using a specified function. "
 					"Similar in nature to a sound oscillator, "
 					"jit.mo.func can generate time-varying cell values across a matrix based on a given function."};
-	MIN_TAGS {"jit.mo, Generators"};
-	MIN_AUTHOR {"Cycling '74"};
-	MIN_RELATED {"jit.mo.join, jit.mo.field, jit.mo.time, jit.anim.drive, jit.anim.path"};
+	MIN_TAGS		{"jit.mo, Generators"};
+	MIN_AUTHOR		{"Cycling '74"};
+	MIN_RELATED		{"jit.mo.join, jit.mo.field, jit.mo.time, jit.anim.drive, jit.anim.path"};
 
-	outlet<> output = {this, "(matrix) Output", "matrix"};
+	outlet<> output	{this, "(matrix) Output", "matrix"};
 
 	argument<number> dimarg {this, "Dimension",
 		"Set the dimension (number of elements) of the output matrix. Will be overriden if to attached [jit.mo.join] "
@@ -39,31 +39,51 @@ public:
 		}
 	}
 
-	attribute<symbol> function {this, "function", functypes::line, title {"Function Type"},
-		description {
-			"The fuction type used for generating matrices. Available functypes are line, sin, saw, tri, perlin"},
-		range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}};
+	attribute<symbol> function {this, "function", functypes::line,
+		title {"Function Type"},
+		description {"The fuction type used for generating matrices. Available functypes are line, sin, saw, tri, perlin"},
+		range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
+	};
 
-	attribute<bool> loop {this, "loop", true, title {"Loop"},
+	attribute<bool> loop {this, "loop", true,
+		title {"Loop"},
 		description {"Enable and disable phase looping when animating (default = 1). Non-looped animation can be reset "
-					"by setting phase to 0"}};
+					"by setting phase to 0"}
+	};
 
-	attribute<double> scale {this, "scale", 1, title {"Scale"}, description {"Output multiplier (default = 1.0)."}};
+	attribute<double> scale {this, "scale", 1,
+		title {"Scale"},
+		description {"Output multiplier (default = 1.0)."}
+	};
 
-	attribute<double> freq {this, "freq", 1, title {"Frequency"},
+	attribute<double> freq {this, "freq", 1,
+		title {"Frequency"},
 		description {
-			"Output frequency (default = 1.0). Number of times the function is repeated over the width of the matrix"}};
+			"Output frequency (default = 1.0). Number of times the function is repeated over the width of the matrix"
+		}
+	};
 
-	attribute<double> phase {this, "phase", 0, title {"Phase"}, description {"Output phase offset (default = 0.0)."}};
+	attribute<double> phase {this, "phase", 0,
+		title {"Phase"},
+		description {"Output phase offset (default = 0.0)."}
+	};
 
-	attribute<double> speed {
-		this, "speed", 0, title {"Speed"}, description {"Animation speed multiplier (default = 0.0)."}};
+	attribute<double> speed {this, "speed", 0,
+		title {"Speed"},
+		description {"Animation speed multiplier (default = 0.0)."}
+	};
 
-	attribute<double> offset {this, "offset", 0, title {"Offset"}, description {"Output offset (default = 0.0)."}};
+	attribute<double> offset {this, "offset", 0,
+		title {"Offset"},
+		description {"Output offset (default = 0.0)."}
+	};
 
-	attribute<double> delta {this, "delta", 0, title {"Delta Time"},
-		description {"Frame delta time for animating graph (default = 0.0). \
-            When bound to [jit.mo.join] this value is set automatically."},
+	attribute<double> delta {this, "delta", 0,
+		title {"Delta Time"},
+		description {
+			"Frame delta time for animating graph (default = 0.0). "
+            "When bound to [jit.mo.join] this value is set automatically."
+		},
 		setter { MIN_FUNCTION {
 			if (initialized()) {
 				double val  = args[0];
@@ -75,42 +95,57 @@ public:
 				}
 			}
 			return args;
-		}}};
+		}}
+	};
 
-	attribute<double> start {
-		this, "start", -1., title {"Start Line"}, description {"Line function start (default = -1.0)."}};
+	attribute<double> start {this, "start", -1.,
+		title {"Start Line"},
+		description {"Line function start (default = -1.0)."}
+	};
 
-	attribute<double> end {this, "end", 1., title {"End Line"}, description {"Line function end (default = 1.0)."}};
+	attribute<double> end {this, "end", 1.,
+		title {"End Line"},
+		description {"Line function end (default = 1.0)."}
+	};
 
-	attribute<double> rand_amt {
-		this, "rand_amt", 0, title {"Random Amount"}, description {"Scales the random offset value (default = 0.0)."}};
+	attribute<double> rand_amt {this, "rand_amt", 0,
+		title {"Random Amount"},
+		description {"Scales the random offset value (default = 0.0)."}
+	};
 
-	attribute<int> period {this, "period", 8, title {"Period Length"},
+	attribute<int> period {this, "period", 8,
+		title {"Period Length"},
 		description {"The period length for the perlin noise function (default = 8)."},
 		setter { MIN_FUNCTION {
 			int v = args[0];
 			return {std::max(v, 1)};
-		}}};
+		}}
+	};
 
-	attribute<symbol> join {this, "join", _jit_sym_nothing, title {"Join name"},
-		description {"Sets the [jit.mo.join] object binding. \
-            When set, animation parameters are controlled by the named object."},
+	attribute<symbol> join {this, "join", _jit_sym_nothing,
+		title {"Join name"},
+		description {
+			"Sets the [jit.mo.join] object binding. "
+            "When set, animation parameters are controlled by the named object."
+		},
 		setter { MIN_FUNCTION {
 			update_parent(args[0]);
 			return args;
-		}}};
+		}}
+	};
 
 	message<> rand = {this, "rand",
 		MIN_FUNCTION {
 			reseed = true;
 			return {};
 		},
-		"Generate new random values for @rand_amt offset.", message_type::defer_low};
+		"Generate new random values for @rand_amt offset.",
+		message_type::defer_low
+	};
 
 	// TODO: multiplane
 	template<class matrix_type, size_t planecount>
-	cell<matrix_type, planecount> calc_cell(
-		cell<matrix_type, planecount> input, const matrix_info& info, matrix_coord& position) {
+	cell<matrix_type, planecount> calc_cell(cell<matrix_type, planecount> input, const matrix_info& info, matrix_coord& position) {
 		cell<matrix_type, planecount> output;
 		double                        val  = 0;
 		double                        norm = (double)position.x() / (double)(info.m_out_info->dim[0] - 1);
@@ -160,38 +195,35 @@ public:
 	}
 
 private:
-	message<> setup
-		= {this, "setup", MIN_FUNCTION {
-			   if (classname() == "jit.mo.line")
-				   jit_mo_func::function = functypes::line;
-			   else if (classname() == "jit.mo.tri")
-				   jit_mo_func::function = functypes::tri;
-			   else if (classname() == "jit.mo.sin")
-				   jit_mo_func::function = functypes::sin;
-			   else if (classname() == "jit.mo.saw")
-				   jit_mo_func::function = functypes::saw;
-			   else if (classname() == "jit.mo.perlin")
-				   jit_mo_func::function = functypes::perlin;
-			   return {};
-		   }};
+	message<> setup {this, "setup", MIN_FUNCTION {
+	   if (classname() == "jit.mo.line")
+		   jit_mo_func::function = functypes::line;
+	   else if (classname() == "jit.mo.tri")
+		   jit_mo_func::function = functypes::tri;
+	   else if (classname() == "jit.mo.sin")
+		   jit_mo_func::function = functypes::sin;
+	   else if (classname() == "jit.mo.saw")
+		   jit_mo_func::function = functypes::saw;
+	   else if (classname() == "jit.mo.perlin")
+		   jit_mo_func::function = functypes::perlin;
+	   return {};
+	}};
 
-	message<> maxob_setup
-		= {this, "maxob_setup", MIN_FUNCTION {
-			   t_object* mob = maxob_from_jitob(maxobj());
-			   long      dim = object_attr_getlong(mob, _jit_sym_dim);
+	message<> maxob_setup {this, "maxob_setup", MIN_FUNCTION {
+	   t_object* mob = maxob_from_jitob(maxobj());
+	   long      dim = object_attr_getlong(mob, _jit_sym_dim);
 
-			   if (join == symbol())
-				   object_attr_setlong(mob, _jit_sym_dim, args.size() > 0 ? (long)args[0] : dim);
-			   object_attr_setlong(mob, _jit_sym_planecount, 1);
-			   object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
-			   return {};
-		   }};
+	   if (join == symbol())
+		   object_attr_setlong(mob, _jit_sym_dim, args.size() > 0 ? (long)args[0] : dim);
+	   object_attr_setlong(mob, _jit_sym_planecount, 1);
+	   object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
+	   return {};
+   }};
 
-	message<> fileusage
-		= {this, "fileusage", MIN_FUNCTION {
-			   jit_mo::fileusage(args[0]);
-			   return {};
-		   }};
+	message<> fileusage {this, "fileusage", MIN_FUNCTION {
+	   jit_mo::fileusage(args[0]);
+	   return {};
+	}};
 
 	void update_parent(symbol name) {
 		symbol curjoin = join;
@@ -225,8 +257,8 @@ private:
 	}
 
 	std::vector<double> randvals;
-	bool                reseed  = true;
-	bool                unbound = false;
+	bool                reseed  {true};
+	bool                unbound {false};
 };
 
 MIN_EXTERNAL(jit_mo_func);

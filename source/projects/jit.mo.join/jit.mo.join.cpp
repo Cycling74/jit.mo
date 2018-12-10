@@ -24,53 +24,71 @@ public:
 	MIN_DESCRIPTION {"Combine jit.mo streams and output a multi-plane matrix. "
 					"Automatically connects to jit.world to drive animations. "
 					"Inputs add multiple jit.mo/matrix inputs for additive control."};
-	MIN_TAGS {"jit.mo, Generators"};
-	MIN_AUTHOR {"Cycling '74"};
-	MIN_RELATED {"jit.mo.func, jit.mo.field, jit.mo.time, jit.anim.path, jit.world"};
+	MIN_TAGS		{"jit.mo, Generators"};
+	MIN_AUTHOR		{"Cycling '74"};
+	MIN_RELATED		{"jit.mo.func, jit.mo.field, jit.mo.time, jit.anim.path, jit.world"};
 
+	
+	outlet<> output {this, "(matrix) Output", "matrix"};
+
+	
+	argument<number> inletcount {this, "Inlet Count", "Set the number of inlets and planecount of output.", false, nullptr};
+
+	argument<number> dimarg {this, "Dimension",
+		"Set the dimension (number of elements) of the output matrix and any attached [jit.mo.func] objects. jit.mo "
+		"objects only support matrices with a dimcount of 1.",
+		false, nullptr
+	};
+
+
+	
 	jit_mo_join(const atoms& args = {}) {
 		patcher = (t_object*)gensym("#P")->s_thing;
 	}
-
+	
 	~jit_mo_join() {
 		freeing  = true;
 		symbol n = name;
-
+		
 		for (auto a : attached_funcobs) {
 			// setting attached objects join attribute to this name while freeing will add them to unbound list
 			// will ensure that deletion followed by undo will still function
 			object_attr_setsym(a.second, gensym("join"), n);
 		}
-
+		
 		if (implicit)
 			jit_mo_singleton::instance().remove_animob(maxobj());
-
+		
 		jit_object_free(animator);
 	}
 
-	argument<number> inletcount {
-		this, "Inlet Count", "Set the number of inlets and planecount of output.", false, nullptr};
+	
+	attribute<bool> enable {this, "enable", true,
+		title {"Enable Animation"},
+		description {"Enable Animation (default = 1). This affects any connected jit.mo.func objects"}
+	};
 
-	argument<number> dimarg {this, "Dimension",
-		"Set the dimension (number of elements) of the output matrix and any attached [jit.mo.func] objects. jit.mo "
-		"objects only support matrices with a dimcount of 1.",
-		false, nullptr};
+	attribute<double> speed {this, "speed", 1.0,
+		title {"Speed"},
+		description {"Animation speed (default = 1.). Scales animation speed of all connected jit.mo.func objects"}
+	};
 
-	outlet<> output {this, "(matrix) Output", "matrix"};
+	attribute<double> scale {this, "scale", 1,
+		title {"Scale"},
+		description {"Output multiplier (default = 1.0)."}
+	};
 
-	attribute<bool> enable {this, "enable", true, title {"Enable Animation"},
-		description {"Enable Animation (default = 1). This affects any connected jit.mo.func objects"}};
+	attribute<c74::min::time_value> interval {this, "interval", 0.,
+		title {"Timing Interval"},
+		description {
+			"Animation interval (default = 0 ms). Using transport timing notation (4n,2n,etc.) connects "
+			"animation timing to the Global Transport of Max."
+		}
+	};
 
-	attribute<double> speed {this, "speed", 1.0, title {"Speed"},
-		description {"Animation speed (default = 1.). Scales animation speed of all connected jit.mo.func objects"}};
-
-	attribute<double> scale {this, "scale", 1, title {"Scale"}, description {"Output multiplier (default = 1.0)."}};
-
-	attribute<c74::min::time_value> interval {this, "interval", 0., title {"Timing Interval"},
-		description {"Animation interval (default = 0 ms). Using transport timing notation (4n,2n,etc.) connects "
-					"animation timing to the Global Transport of Max."}};
-
-	attribute<symbol> name {this, "name", symbol(true), title {"Name"}, description {"Object name (default = UID)."},
+	attribute<symbol> name {this, "name", symbol(true),
+		title {"Name"},
+		description {"Object name (default = UID)."},
 		setter { MIN_FUNCTION {
 			t_object* o        = nullptr;
 			symbol    new_name = args[0];
@@ -88,11 +106,11 @@ public:
 			}
 
 			return args;
-		}}};
+		}}
+	};
 
 	template<class matrix_type, size_t planecount>
-	cell<matrix_type, planecount> calc_cell(
-		cell<matrix_type, planecount> input, const matrix_info& info, matrix_coord& position) {
+	cell<matrix_type, planecount> calc_cell(cell<matrix_type, planecount> input, const matrix_info& info, matrix_coord& position) {
 		cell<matrix_type, planecount> output;
 		return output;
 	}
@@ -205,123 +223,119 @@ public:
 	}
 
 private:
-	message<> jitclass_setup {
-		this, "jitclass_setup", MIN_FUNCTION {
-			t_class* c = args[0];
+	message<> jitclass_setup {this, "jitclass_setup", MIN_FUNCTION {
+		t_class* c = args[0];
 
-			// add mop
-			auto mop = jit_object_new(_jit_sym_jit_mop, -1, 1);
-			auto o   = object_method(mop, _jit_sym_getoutput, (void*)1);
-			jit_attr_setlong(o, _jit_sym_planelink, 0);
-			jit_class_addadornment(c, mop);
+		// add mop
+		auto mop = jit_object_new(_jit_sym_jit_mop, -1, 1);
+		auto o   = object_method(mop, _jit_sym_getoutput, (void*)1);
+		jit_attr_setlong(o, _jit_sym_planelink, 0);
+		jit_class_addadornment(c, mop);
 
-			// add methods
-			jit_class_addmethod(c, (method)jit_mo_join_matrix_calc, "matrix_calc", A_CANT,
-				0);    // handles case where used in JS
-			jit_class_addmethod(c, (method)jit_mo_join_update_anim, "update_anim", A_CANT, 0);
-			jit_class_addmethod(c, (method)jit_mo_join_attach, "attach", A_CANT, 0);
-			jit_class_addmethod(c, (method)jit_mo_join_detach, "detach", A_CANT, 0);
+		// add methods
+		jit_class_addmethod(c, (method)jit_mo_join_matrix_calc, "matrix_calc", A_CANT,
+			0);    // handles case where used in JS
+		jit_class_addmethod(c, (method)jit_mo_join_update_anim, "update_anim", A_CANT, 0);
+		jit_class_addmethod(c, (method)jit_mo_join_attach, "attach", A_CANT, 0);
+		jit_class_addmethod(c, (method)jit_mo_join_detach, "detach", A_CANT, 0);
 
-			jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")),
-				calcoffset(minwrap<jit_mo_join>, m_min_object) + calcoffset(jit_mo_join, animator), 0);
+		jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")),
+			calcoffset(minwrap<jit_mo_join>, m_min_object) + calcoffset(jit_mo_join, animator), 0);
 
-			return {};
-		}};
+		return {};
+	}};
 
-	message<> maxclass_setup {
-		this, "maxclass_setup", MIN_FUNCTION {
-			t_class* c = args[0];
+	message<> maxclass_setup {this, "maxclass_setup", MIN_FUNCTION {
+		t_class* c = args[0];
 
-			max_jit_class_mop_wrap(c, this_jit_class, MAX_JIT_MOP_FLAGS_OWN_JIT_MATRIX | MAX_JIT_MOP_FLAGS_OWN_DIM);
-			max_jit_class_wrap_standard(c, this_jit_class, 0);
+		max_jit_class_mop_wrap(c, this_jit_class, MAX_JIT_MOP_FLAGS_OWN_JIT_MATRIX | MAX_JIT_MOP_FLAGS_OWN_DIM);
+		max_jit_class_wrap_standard(c, this_jit_class, 0);
 
-			auto attr = jit_object_new(_jit_sym_jit_attr_offset_array, "dim", _jit_sym_long, JIT_MATRIX_MAX_DIMCOUNT,
-				ATTR_GET_DEFER_LOW | ATTR_SET_USURP_LOW, (method)max_jit_mop_getdim, (method)max_jit_mo_join_dim, 0);
-			max_jit_class_addattr(c, attr);
+		auto attr = jit_object_new(_jit_sym_jit_attr_offset_array, "dim", _jit_sym_long, JIT_MATRIX_MAX_DIMCOUNT,
+			ATTR_GET_DEFER_LOW | ATTR_SET_USURP_LOW, (method)max_jit_mop_getdim, (method)max_jit_mo_join_dim, 0);
+		max_jit_class_addattr(c, attr);
 
-			class_addmethod(c, (method)max_jit_mo_join_jit_matrix, "jit_matrix", A_GIMME, 0);
-			class_addmethod(c, (method)max_jit_mo_join_int, "int", A_LONG, 0);
-			class_addmethod(c, (method)max_jit_mo_addfuncob, "addfuncob", A_CANT, 0);
-			class_addmethod(c, (method)max_jit_mo_removefuncob, "removefuncob", A_CANT, 0);
+		class_addmethod(c, (method)max_jit_mo_join_jit_matrix, "jit_matrix", A_GIMME, 0);
+		class_addmethod(c, (method)max_jit_mo_join_int, "int", A_LONG, 0);
+		class_addmethod(c, (method)max_jit_mo_addfuncob, "addfuncob", A_CANT, 0);
+		class_addmethod(c, (method)max_jit_mo_removefuncob, "removefuncob", A_CANT, 0);
 
-			class_addmethod(c, (method)max_jit_mop_assist, "assist", A_CANT,
-				0);    // standard matrix-operator (mop) assist fn
+		class_addmethod(c, (method)max_jit_mop_assist, "assist", A_CANT,
+			0);    // standard matrix-operator (mop) assist fn
 
-			return {};
-		}};
+		return {};
+	}};
 
 	message<> setup {this, "setup", MIN_FUNCTION {
-						animator = jit_object_new(gensym("jit_anim_animator"), maxobj());
-						attr_addfilterset_proc(
-							object_attr_get(animator, symbol("automatic")), (method)jit_mo_join_automatic_attrfilter);
+		animator = jit_object_new(gensym("jit_anim_animator"), maxobj());
+		attr_addfilterset_proc(
+			object_attr_get(animator, symbol("automatic")), (method)jit_mo_join_automatic_attrfilter);
 
-						register_and_setup(name);
+		register_and_setup(name);
 
-						return {};
-					}};
+		return {};
+	}};
 
-	message<> mop_setup {
-		this, "mop_setup", MIN_FUNCTION {
-			void*     o = maxobj();
-			t_object* x = args[args.size() - 1];
+	message<> mop_setup {this, "mop_setup", MIN_FUNCTION {
+		void*     o = maxobj();
+		t_object* x = args[args.size() - 1];
 
-			t_jit_matrix_info info;
-			long              i, n;
+		t_jit_matrix_info info;
+		long              i, n;
 
-			max_jit_obex_jitob_set(x, o);
-			max_jit_obex_dumpout_set(x, outlet_new(x, NULL));
-			max_jit_mop_setup(x);
+		max_jit_obex_jitob_set(x, o);
+		max_jit_obex_dumpout_set(x, outlet_new(x, NULL));
+		max_jit_mop_setup(x);
 
-			// add fake inputs + one real input
-			if (args.size() > 1) {
-				n = clamp<int>(args[0], 1, JIT_MATRIX_MAX_PLANECOUNT);
-			}
-			else {
-				n = 3;
-			}
+		// add fake inputs + one real input
+		if (args.size() > 1) {
+			n = clamp<int>(args[0], 1, JIT_MATRIX_MAX_PLANECOUNT);
+		}
+		else {
+			n = 3;
+		}
 
-			for (i = n; i > 1; i--)
-				max_jit_obex_proxy_new(x, i - 1);    // right to left
+		for (i = n; i > 1; i--)
+			max_jit_obex_proxy_new(x, i - 1);    // right to left
 
-			max_jit_mop_variable_addinputs(x, 1);    // only used to fake out the matrix calc method
-			max_jit_mop_inputs(x);
-			max_jit_mop_outputs(x);
+		max_jit_mop_variable_addinputs(x, 1);    // only used to fake out the matrix calc method
+		max_jit_mop_inputs(x);
+		max_jit_mop_outputs(x);
 
-			jit_attr_setsym(x, _jit_sym_type, _jit_sym_float32);
+		jit_attr_setsym(x, _jit_sym_type, _jit_sym_float32);
 
-			// set planecount since it is not linked.
-			void* m = max_jit_mop_getoutput(x, 1);
-			jit_attr_setlong(m, _jit_sym_planecount, n);
+		// set planecount since it is not linked.
+		void* m = max_jit_mop_getoutput(x, 1);
+		jit_attr_setlong(m, _jit_sym_planecount, n);
 
-			if (args.size() > 3) {
-				long   argc = 3;
-				t_atom argv[3];
+		if (args.size() > 3) {
+			long   argc = 3;
+			t_atom argv[3];
 
-				for (int i = 0; i < 3; i++)
-					argv[i] = args[i];
+			for (int i = 0; i < 3; i++)
+				argv[i] = args[i];
 
-				max_jit_mop_matrix_args(x, argc, argv);
-			}
-			else {
-				long dim = (args.size() > 2 ? (long)args[1] : 1);
-				jit_attr_setlong(x, _jit_sym_dim, dim);
-			}
+			max_jit_mop_matrix_args(x, argc, argv);
+		}
+		else {
+			long dim = (args.size() > 2 ? (long)args[1] : 1);
+			jit_attr_setlong(x, _jit_sym_dim, dim);
+		}
 
-			update_mop_props(x);
-			return {};
-		}};
+		update_mop_props(x);
+		return {};
+	}};
 
-	message<> maxob_setup {
-		this, "maxob_setup", MIN_FUNCTION {
-			long atm = object_attr_getlong(maxobj(), sym_automatic);
+	message<> maxob_setup {this, "maxob_setup", MIN_FUNCTION {
+		long atm = object_attr_getlong(maxobj(), sym_automatic);
 
-			if (atm && object_attr_getsym(maxobj(), sym_drawto) == _jit_sym_nothing) {
-				jit_mo_singleton::instance().add_animob(maxobj(), patcher);
-				implicit = true;
-			}
+		if (atm && object_attr_getsym(maxobj(), sym_drawto) == _jit_sym_nothing) {
+			jit_mo_singleton::instance().add_animob(maxobj(), patcher);
+			implicit = true;
+		}
 
-			return {};
-		}};
+		return {};
+	}};
 
 	typedef enum _patchline_updatetype {
 		JPATCHLINE_DISCONNECT = 0,
@@ -329,58 +343,55 @@ private:
 		JPATCHLINE_ORDER      = 2
 	} t_patchline_updatetype;
 
-	message<> patchlineupdate {
-		this, "patchlineupdate", MIN_FUNCTION {
-			t_object* x = args[0];
-			// t_object *patchline = args[1];
-			long      updatetype = args[2];
-			t_object* src        = args[3];
-			long      srcout     = args[4];
-			t_object* dst        = args[5];
-			// long dstin = args[6];
-			symbol n = name;
+	message<> patchlineupdate {this, "patchlineupdate", MIN_FUNCTION {
+		t_object* x = args[0];
+		// t_object *patchline = args[1];
+		long      updatetype = args[2];
+		t_object* src        = args[3];
+		long      srcout     = args[4];
+		t_object* dst        = args[5];
+		// long dstin = args[6];
+		symbol n = name;
 
-			// TODO: we could allow setting dim on any object with a dim attribute
-			if (x == dst && srcout == 0 && object_classname_compare(src, gensym("jit.mo.func"))) {
+		// TODO: we could allow setting dim on any object with a dim attribute
+		if (x == dst && srcout == 0 && object_classname_compare(src, gensym("jit.mo.func"))) {
 
-				switch (updatetype) {
-					// TODO: create patchcord_join attribute to distiguish from explicit user setting
-					case JPATCHLINE_CONNECT:
-						// attached_funcobs.insert( {name, src});
-						// object_attr_setlong(src, _jit_sym_planecount, 1);
-						// object_attr_setsym(src, _jit_sym_type, type);
-						object_attr_setlong(src, _jit_sym_dim, count);
-						object_attr_setsym(src, gensym("join"), n);
+			switch (updatetype) {
+				// TODO: create patchcord_join attribute to distiguish from explicit user setting
+				case JPATCHLINE_CONNECT:
+					// attached_funcobs.insert( {name, src});
+					// object_attr_setlong(src, _jit_sym_planecount, 1);
+					// object_attr_setsym(src, _jit_sym_type, type);
+					object_attr_setlong(src, _jit_sym_dim, count);
+					object_attr_setsym(src, gensym("join"), n);
 
-						break;
-					case JPATCHLINE_DISCONNECT:
-						// attached_funcobs.erase(name);
-						object_attr_setsym(src, gensym("join"), _jit_sym_nothing);
-						break;
-					case JPATCHLINE_ORDER:
-						break;
-				}
+					break;
+				case JPATCHLINE_DISCONNECT:
+					// attached_funcobs.erase(name);
+					object_attr_setsym(src, gensym("join"), _jit_sym_nothing);
+					break;
+				case JPATCHLINE_ORDER:
+					break;
 			}
-			return {};
-		}};
+		}
+		return {};
+	}};
 
-	message<> notify {
-		this, "notify", MIN_FUNCTION {
-			symbol s = args[2];
-			if (s == sym_dest_closing) {
-				if (implicit) {
-					object_attr_setsym(animator, sym_drawto, _jit_sym_nothing);
-					jit_mo_singleton::instance().add_animob(maxobj(), patcher);
-				}
+	message<> notify {this, "notify", MIN_FUNCTION {
+		symbol s = args[2];
+		if (s == sym_dest_closing) {
+			if (implicit) {
+				object_attr_setsym(animator, sym_drawto, _jit_sym_nothing);
+				jit_mo_singleton::instance().add_animob(maxobj(), patcher);
 			}
-			return {JIT_ERR_NONE};
-		}};
+		}
+		return {JIT_ERR_NONE};
+	}};
 
-	message<> fileusage {
-		this, "fileusage", MIN_FUNCTION {
-			jit_mo::fileusage(args[0]);
-			return {};
-		}};
+	message<> fileusage {this, "fileusage", MIN_FUNCTION {
+		jit_mo::fileusage(args[0]);
+		return {};
+	}};
 
 	void register_and_setup(symbol new_name) {
 		symbol nothing = _jit_sym_nothing;
@@ -411,20 +422,20 @@ private:
 		return ss.str();
 	}
 
-	std::unordered_map<std::string, t_object*> attached_funcobs;
-	t_object*                                  patcher       = nullptr;
-	t_object*                                  animator      = nullptr;
-	t_object*                                  maxob         = nullptr;
-	bool                                       implicit      = false;
-	int                                        curplane      = 0;
-	bool                                       request_clear = true;
-	long                                       count         = 1;
-	bool                                       freeing       = false;
-
-	interval_speed i_s;
+	std::unordered_map<std::string, t_object*>	attached_funcobs;
+	t_object*                                 	patcher       { nullptr };
+	t_object*                                  	animator      { nullptr };
+	t_object*                                  	maxob         { nullptr };
+	bool                                       	implicit      { false };
+	int                                        	curplane      { 0 };
+	bool                                       	request_clear { true };
+	long                                       	count         { 1 };
+	bool                                      	freeing       { false };
+	interval_speed								i_s;
 };
 
 MIN_EXTERNAL(jit_mo_join);
+
 
 void jit_mo_join_update_anim(t_object* job, t_atom* a) {
 	minwrap<jit_mo_join>* self = (minwrap<jit_mo_join>*)job;

@@ -21,14 +21,15 @@ namespace timemodes {
 	static const symbol function = "function";
 };    // namespace timemodes
 
+
 class jit_mo_time : public object<jit_mo_time>, public matrix_operator<> {
 public:
 	MIN_DESCRIPTION {"Outputs float time values using specified mode for realtime animation. "
 					"Can be used to generate control functions in sync with other jit.world and jit.mo objects, "
 					"time delta between frames, or accumulated running time."};
-	MIN_TAGS {"jit.mo, Generators"};
-	MIN_AUTHOR {"Cycling '74"};
-	MIN_RELATED {"jit.mo.join, jit.mo.field, jit.mo.func, jit.anim.drive"};
+	MIN_TAGS		{"jit.mo, Generators"};
+	MIN_AUTHOR		{"Cycling '74"};
+	MIN_RELATED		{"jit.mo.join, jit.mo.field, jit.mo.func, jit.anim.drive"};
 
 
 	jit_mo_time(const atoms& args = {}) {
@@ -43,72 +44,115 @@ public:
 	}
 
 
-	attribute<bool> enable {
-		this, "enable", true, title {"Enable Animation"}, description {"Enable function output (default = 1)."}};
+	attribute<bool> enable {this, "enable", true,
+		title {"Enable Animation"},
+		description {"Enable function output (default = 1)."}
+	};
 
-	attribute<symbol> mode {this, "mode", timemodes::accum, title {"Time Output Mode"},
+	attribute<symbol> mode {this, "mode", timemodes::accum,
+		title {"Time Output Mode"},
 		description {
 			"How time output is calculated (default = accum). The different modes are accum, function, and delta. "
 			"Accum provides accumulated running time. Function uses the specified @function attribute to generate a "
 			"periodic function and can be used to generate float LFOs and ramps in sync with the animation graph. "
-			"Delta gives the amount of time between frames, which is useful for driving smooth realtime animations."},
-		range {timemodes::accum, timemodes::delta, timemodes::function}};
+			"Delta gives the amount of time between frames, which is useful for driving smooth realtime animations."
+		},
+		range {timemodes::accum, timemodes::delta, timemodes::function}
+	};
 
-	attribute<symbol> function {this, "function", functypes::line, title {"Function Type"},
-		description {"The fuction type used when mode = function (default = line). \
-            Line generates linear interpolated values between @start and @end values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function"},
-		range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}};
+	attribute<symbol> function {this, "function", functypes::line,
+		title {"Function Type"},
+		description {
+			"The fuction type used when mode = function (default = line). "
+            "Line generates linear interpolated values between @start and @end values, sin outputs a sine function, "
+			"saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function"
+		},
+		range {functypes::line, functypes::sin, functypes::saw, functypes::tri, functypes::perlin}
+	};
 
-	attribute<c74::min::time_value> interval {
-		this, "interval", 0., title {"Timing Interval"}, description {"Animation interval (default = 0 ms)."}};
+	attribute<c74::min::time_value> interval {this, "interval", 0.,
+		title {"Timing Interval"},
+		description {"Animation interval (default = 0 ms)."}
+	};
 
-	attribute<bool> loop {this, "loop", true, title {"Loop"},
-		description {"Enable and disable phase looping when animating (default = 1). Animation can be reset by setting "
-					"phase to 0"}};
+	attribute<bool> loop {this, "loop", true,
+		title {"Loop"},
+		description {
+			"Enable and disable phase looping when animating (default = 1). Animation can be reset by setting "
+			"phase to 0"
+		}
+	};
 
-	attribute<double> scale {this, "scale", 1, title {"Scale"}, description {"Output multiplier (default = 1.0)."}};
+	attribute<double> scale {this, "scale", 1,
+		title {"Scale"},
+		description {"Output multiplier (default = 1.0)."}
+	};
 
-	attribute<double> freq {
-		this, "freq", 1, title {"Frequency"}, description {"Function frequency (default = 1.0). Specified in Hz"}};
+	attribute<double> freq {this, "freq", 1,
+		title {"Frequency"},
+		description {"Function frequency (default = 1.0). Specified in Hz"}
+	};
 
-	attribute<double> phase {this, "phase", 0, title {"Phase"},
-		description {"Output phase offset (default = 0.0). Setting this to 0 will restart an animation"}};
+	attribute<double> phase {this, "phase", 0,
+		title {"Phase"},
+		description {"Output phase offset (default = 0.0). Setting this to 0 will restart an animation"}
+	};
 
-	attribute<double> speed {
-		this, "speed", 1., title {"Speed"}, description {"Animation speed multiplier (default = 1.0)."}};
+	attribute<double> speed {this, "speed", 1.,
+		title {"Speed"},
+		description {"Animation speed multiplier (default = 1.0)."}
+	};
 
-	attribute<double> offset {this, "offset", 0, title {"Offset"}, description {"Output offset (default = 0.0)."}};
+	attribute<double> offset {this, "offset", 0,
+		title {"Offset"},
+		description {"Output offset (default = 0.0)."}
+	};
 
-	attribute<double> delta {this, "delta", 0, title {"Delta Time"},
-		description {"Frame delta time for animating graph (default = 0.0). \
-            When @automatic enabled this value is set automatically by the render context."},
+	attribute<double> delta {this, "delta", 0,
+		title {"Delta Time"},
+		description {
+			"Frame delta time for animating graph (default = 0.0). "
+            "When @automatic enabled this value is set automatically by the render context."
+		},
 		setter { MIN_FUNCTION {
 			double val = args[0];
 			phase      = update_phase_frome_delta(val, phase, speed, loop);
 			return args;
-		}}};
+		}}
+	};
 
-	attribute<double> start {
-		this, "start", -1., title {"Start Line"}, description {"Line function start (default = -1.0)."}};
+	attribute<double> start {this, "start", -1.,
+		title {"Start Line"},
+		description {"Line function start (default = -1.0)."}
+	};
 
-	attribute<double> end {this, "end", 1., title {"End Line"}, description {"Line function end (default = 1.0)."}};
+	attribute<double> end {this, "end", 1.,
+		title {"End Line"},
+		description {"Line function end (default = 1.0)."}
+	};
 
-	attribute<double> rand_amt {
-		this, "rand_amt", 0, title {"Random Amount"}, description {"Scales the random offset value (default = 0.0)."}};
+	attribute<double> rand_amt {this, "rand_amt", 0,
+		title {"Random Amount"},
+		description {"Scales the random offset value (default = 0.0)."}
+	};
 
-	attribute<int> period {this, "period", 8, title {"Period Length"},
+	attribute<int> period {this, "period", 8,
+		title {"Period Length"},
 		description {"The period length for the perlin noise function (default = 8)."},
 		setter { MIN_FUNCTION {
 			int v = args[0];
 			return {std::max(v, 1)};
-		}}};
+		}}
+	};
 
 	message<> reset {this, "reset",
 		MIN_FUNCTION {
 			accum_time = 0.;
 			return {};
 		},
-		"Reset the accumulated time to 0.", message_type::defer_low};
+		"Reset the accumulated time to 0.",
+		message_type::defer_low
+	};
 
 	message<> update {this, "update",
 		MIN_FUNCTION {
@@ -124,7 +168,9 @@ public:
 
 			return {atom(update_animation(&av))};
 		},
-		"Update and output the time or function value when in non-automatic mode.", message_type::gimmeback};
+		"Update and output the time or function value when in non-automatic mode.",
+		message_type::gimmeback
+	};
 
 	double update_animation(t_atom* av) {
 		if (enable) {
@@ -192,16 +238,15 @@ public:
 	}
 
 private:
-	message<> jitclass_setup {
-		this, "jitclass_setup", MIN_FUNCTION {
-			t_class* c = args[0];
+	message<> jitclass_setup {this, "jitclass_setup", MIN_FUNCTION {
+		t_class* c = args[0];
 
-			jit_class_addmethod(c, (method)jit_mo_time_update_anim, "update_anim", A_CANT, 0);
-			jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")),
-				calcoffset(minwrap<jit_mo_time>, m_min_object) + calcoffset(jit_mo_time, animator), 0);
+		jit_class_addmethod(c, (method)jit_mo_time_update_anim, "update_anim", A_CANT, 0);
+		jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")),
+			calcoffset(minwrap<jit_mo_time>, m_min_object) + calcoffset(jit_mo_time, animator), 0);
 
-			return {};
-		}};
+		return {};
+	}};
 
 	message<> maxclass_setup {this, "maxclass_setup",
 		MIN_FUNCTION {
@@ -212,37 +257,38 @@ private:
 			class_addmethod(c, (method)max_jit_mo_time_assist, "assist", A_CANT, 0);
 
 			return {};
-		}};
+		}
+	};
 
 	message<> setup {this, "setup", MIN_FUNCTION {
-						animator = jit_object_new(gensym("jit_anim_animator"), maxobj());
-						// attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")),
-						// (method)jit_mo_time_automatic_attrfilter);
+		animator = jit_object_new(gensym("jit_anim_animator"), maxobj());
+		// attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")),
+		// (method)jit_mo_time_automatic_attrfilter);
 
-						if (classname() == "jit.time.delta") {
-							mode = timemodes::delta;
-						}
-						// currently, if instantiated from JS classname will be empty
-						else if (classname() == symbol()) {
-							mode = timemodes::accum;
-						}
-						else if (!(classname() == "jit.mo.time") && !(classname() == "jit.time")) {
+		if (classname() == "jit.time.delta") {
+			mode = timemodes::delta;
+		}
+		// currently, if instantiated from JS classname will be empty
+		else if (classname() == symbol()) {
+			mode = timemodes::accum;
+		}
+		else if (!(classname() == "jit.mo.time") && !(classname() == "jit.time")) {
 
-							mode = timemodes::function;
+			mode = timemodes::function;
 
-							if (classname() == "jit.time.line")
-								jit_mo_time::function = functypes::line;
-							else if (classname() == "jit.time.tri")
-								jit_mo_time::function = functypes::tri;
-							else if (classname() == "jit.time.sin")
-								jit_mo_time::function = functypes::sin;
-							else if (classname() == "jit.time.saw")
-								jit_mo_time::function = functypes::saw;
-							else if (classname() == "jit.time.perlin")
-								jit_mo_time::function = functypes::perlin;
-						}
-						return {};
-					}};
+			if (classname() == "jit.time.line")
+				jit_mo_time::function = functypes::line;
+			else if (classname() == "jit.time.tri")
+				jit_mo_time::function = functypes::tri;
+			else if (classname() == "jit.time.sin")
+				jit_mo_time::function = functypes::sin;
+			else if (classname() == "jit.time.saw")
+				jit_mo_time::function = functypes::saw;
+			else if (classname() == "jit.time.perlin")
+				jit_mo_time::function = functypes::perlin;
+		}
+		return {};
+	}};
 
 	message<> mop_setup {this, "mop_setup",
 		MIN_FUNCTION {
@@ -254,7 +300,8 @@ private:
 			timeoutlet = outlet_new(x, NULL);
 
 			return {};
-		}};
+		}
+	};
 
 	message<> maxob_setup {this, "maxob_setup",
 		MIN_FUNCTION {
@@ -266,7 +313,8 @@ private:
 			}
 
 			return {};
-		}};
+		}
+	};
 
 	message<> notify {this, "notify",
 		MIN_FUNCTION {
@@ -278,23 +326,22 @@ private:
 				}
 			}
 			return {JIT_ERR_NONE};
-		}};
+		}
+	};
 
-	message<> fileusage
-		= {this, "fileusage", MIN_FUNCTION {
-			   jit_mo::fileusage(args[0]);
-			   return {};
-		   }};
+	message<> fileusage {this, "fileusage", MIN_FUNCTION {
+	   jit_mo::fileusage(args[0]);
+	   return {};
+   	}};
 
 private:
-	t_object* patcher     = nullptr;
-	t_object* animator    = nullptr;
-	void*     timeoutlet  = nullptr;
-	bool      implicit    = false;
-	double    accum_time  = 0.;
-	long      prevtime_ms = 0;
-
-	interval_speed i_s;
+	t_object* 		patcher     { nullptr };
+	t_object* 		animator    { nullptr };
+	void*     		timeoutlet  { nullptr };
+	bool      		implicit    { false };
+	double    		accum_time  { 0. };
+	long      		prevtime_ms { 0 };
+	interval_speed	i_s;
 };
 
 MIN_EXTERNAL(jit_mo_time);
