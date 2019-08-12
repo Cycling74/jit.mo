@@ -148,7 +148,7 @@ public:
 	cell<matrix_type, planecount> calc_cell(cell<matrix_type, planecount> input, const matrix_info& info, matrix_coord& position) {
 		cell<matrix_type, planecount> output;
 		double                        val  = 0;
-		double                        norm = (double)position.x() / (double)(info.m_out_info->dim[0] - 1);
+		double                        norm = (info.m_out_info->dim[0] > 1 ? (double)position.x() / (double)(info.m_out_info->dim[0] - 1) : 0);
 
 		if (function == functypes::saw) {
 			val = fmod(norm * freq + phase, 1.);
