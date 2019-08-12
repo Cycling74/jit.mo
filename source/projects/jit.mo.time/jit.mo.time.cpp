@@ -192,7 +192,12 @@ public:
 				double norm = phase / 2.;
 
 				if (function == functypes::saw) {
-					val = fmod(norm * freq, 1.);
+					if (norm == 0.)
+						val = 0.;
+					else if (norm == 1.)
+						val = 1.;
+					else
+						val = fmod(norm * freq, 1.);
 				}
 				else if (function == functypes::sin) {
 					val = (norm * 2. - 1.) * freq;
