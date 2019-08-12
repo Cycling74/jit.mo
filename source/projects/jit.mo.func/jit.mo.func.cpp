@@ -89,9 +89,15 @@ public:
 				double val  = args[0];
 				double pval = phase + (val * speed * 2.0);    // default is one cycle / second
 
-				if (loop || pval < 2.0) {
+				if (loop || (pval < 2.0 && pval > -2.)) {
 					phase = std::fmod(pval, 2.0);
 					object_attr_touch(maxob_from_jitob(maxobj()), sym_phase);
+				}
+				else if(speed < 0) {
+					phase = -2.0;
+				}
+				else {
+					phase = 2.0;
 				}
 			}
 			return args;

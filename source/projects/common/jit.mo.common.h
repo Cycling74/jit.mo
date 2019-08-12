@@ -43,13 +43,20 @@ namespace jit_mo {
 
 	double update_phase_frome_delta(double delta, double phase, double speed, bool loop) {
 		double pval = phase + (delta * speed * 2.0);    // default is one cycle / second
-
 		if (loop || pval < 2.0) {
 			phase = std::fmod(pval, 2.0);
 		}
 		else if (pval >= 2.0) {
-			// animation end notifiy?
 			phase = 2.0;
+		}
+		
+		if(speed < 0 && phase < 0) {
+			if(loop) {
+				phase += 2.;
+			}
+			else {
+				phase = 0.;
+			}
 		}
 		return phase;
 	}
