@@ -402,7 +402,7 @@ private:
 			object_register(_jit_sym_jitter, new_name, maxobj());
 
 		for (const auto& n : attached_funcobs)
-			object_attr_setlong(n.second, gensym("join"), new_name);
+			object_attr_setsym(n.second, gensym("join"), new_name);
 
 		jit_mo_singleton::instance().check_funcobs(new_name);
 	}
