@@ -88,6 +88,14 @@ public:
 		}
 	};
 
+	attribute<bool> loopreport {this, "loopreport", true,
+		title {"Loop Report"},
+		description {
+			"Enable animation loop reporting (default = 0). When enabled the symbol loopnotify is sent out the dumpout "
+			"when the animation loops."
+		}
+	};
+	
 	attribute<double> scale {this, "scale", 1,
 		title {"Scale"},
 		description {"Output multiplier (default = 1.0)."}
@@ -105,7 +113,14 @@ public:
 
 	attribute<double> speed {this, "speed", 1.,
 		title {"Speed"},
-		description {"Animation speed multiplier (default = 1.0)."}
+		description {"Animation speed multiplier (default = 1.0)."},
+		setter { MIN_FUNCTION {
+			double val = args[0];
+			if((speed >= 0) != (val >= 0)) {
+				speeddirchanged = true;
+			}
+			return args;
+		}}
 	};
 
 	attribute<double> offset {this, "offset", 0,
@@ -195,6 +210,25 @@ public:
 			else {
 				delta       = val;
 				double norm = phase / 2.;
+				
+				if(loopreport && !speeddirchanged) {
+					bool doreport = false;
+					if(loop) {
+						if((speed > 0. && norm < prevnormval) || (speed < 0. && norm > prevnormval)) {
+							doreport = true;
+						}
+					}
+					else if(norm != prevnormval) {
+						if((speed > 0. && norm == 1.) || (speed < 0. && norm == 0.)) {
+							doreport = true;
+						}
+					}
+					if(doreport) {
+						outlet_anything(dumpoutlet, gensym("loopnotify"), 0, NULL);
+					}
+				}
+				speeddirchanged = false;
+				prevnormval = norm;
 
 				if (function == functypes::saw) {
 					if (norm == 0.)
@@ -306,7 +340,8 @@ private:
 			t_object* x = args[args.size() - 1];
 
 			max_jit_obex_jitob_set(x, o);
-			max_jit_obex_dumpout_set(x, outlet_new(x, NULL));
+			dumpoutlet = outlet_new(x, NULL);
+			max_jit_obex_dumpout_set(x, dumpoutlet);
 			timeoutlet = outlet_new(x, NULL);
 
 			return {};
@@ -348,10 +383,14 @@ private:
 	t_object* 		patcher     { nullptr };
 	t_object* 		animator    { nullptr };
 	void*     		timeoutlet  { nullptr };
+	void*     		dumpoutlet  { nullptr };
 	bool      		implicit    { false };
 	double    		accum_time  { 0. };
 	long      		prevtime_ms { 0 };
 	interval_speed	i_s;
+	
+	double			prevnormval { 0. };
+	bool			speeddirchanged { false };
 };
 
 MIN_EXTERNAL(jit_mo_time);

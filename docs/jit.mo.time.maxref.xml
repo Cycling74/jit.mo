@@ -52,16 +52,6 @@
 			<description>Line function start (default = -1.0). </description>
 		</attribute>
 
-		<attribute name='function' get='1' set='1' type='symbol' size='1' >
-			<digest>The fuction type used when mode = function (default = line)</digest>
-			<description>The fuction type used when mode = function (default = line). Line generates linear interpolated values between <at>start</at> and <at>end</at> values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function </description>
-		</attribute>
-
-		<attribute name='delta' get='1' set='1' type='float64' size='1' >
-			<digest>Frame delta time for animating graph (default = 0.0)</digest>
-			<description>Frame delta time for animating graph (default = 0.0). When <at>automatic</at> enabled this value is set automatically by the render context. </description>
-		</attribute>
-
 		<attribute name='offset' get='1' set='1' type='float64' size='1' >
 			<digest>Output offset (default = 0.0)</digest>
 			<description>Output offset (default = 0.0). </description>
@@ -80,6 +70,16 @@
 		<attribute name='freq' get='1' set='1' type='float64' size='1' >
 			<digest>Function frequency (default = 1.0)</digest>
 			<description>Function frequency (default = 1.0). Specified in Hz </description>
+		</attribute>
+
+		<attribute name='delta' get='1' set='1' type='float64' size='1' >
+			<digest>Frame delta time for animating graph (default = 0.0)</digest>
+			<description>Frame delta time for animating graph (default = 0.0). When <at>automatic</at> enabled this value is set automatically by the render context. </description>
+		</attribute>
+
+		<attribute name='function' get='1' set='1' type='symbol' size='1' >
+			<digest>The fuction type used when mode = function (default = line)</digest>
+			<description>The fuction type used when mode = function (default = line). Line generates linear interpolated values between <at>start</at> and <at>end</at> values, sin outputs a sine function, saw gives a phasor-like repeating ramp, and perlin uses a Perlin Noise function </description>
 		</attribute>
 
 		<attribute name='period' get='1' set='1' type='long' size='1' >
@@ -105,6 +105,11 @@
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >
 			<digest>Animation speed multiplier (default = 1.0)</digest>
 			<description>Animation speed multiplier (default = 1.0). </description>
+		</attribute>
+
+		<attribute name='loopreport' get='1' set='1' type='long' size='1' >
+			<digest>Enable animation loop reporting (default = 0)</digest>
+			<description>Enable animation loop reporting (default = 0). When enabled the symbol loopnotify is sent out the dumpout when the animation loops. </description>
 		</attribute>
 
 		<attribute name='rand_amt' get='1' set='1' type='float64' size='1' >
