@@ -70,14 +70,21 @@ namespace jit_mo {
 	struct interval_speed {
 		bool update(c74::min::attribute<double>& speed, const c74::min::attribute<c74::min::time_value>& interval) {
 			double msecs = interval;
-			if (msecs != interval_ms) {
-				interval_ms = msecs;
-				speed       = 1.0 / (msecs / 1000.);
-				return true;
+			if(msecs > 0) {
+				if (msecs != interval_ms || speed != last_interval_speed) {
+					interval_ms = msecs;
+					speed       = 1.0 / (msecs / 1000.);
+					last_interval_speed = speed;
+					return true;
+				}
+			}
+			else {
+				interval_ms = 0;
 			}
 			return false;
 		};
 		double interval_ms = 0;
+		double last_interval_speed { 0. };
 	};
 
 }    // namespace jit_mo

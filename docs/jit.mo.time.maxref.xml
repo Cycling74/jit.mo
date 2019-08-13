@@ -99,7 +99,7 @@
 
 		<attribute name='interval' get='1' set='1' type='time' size='1' >
 			<digest>Animation interval (default = 0 ms)</digest>
-			<description>Animation interval (default = 0 ms). </description>
+			<description>Animation interval (default = 0 ms). This attribute uses the Max time format syntax, so the interval can be either fixed or tempo-relative.When set to a non-zero value, the speed attribute is no longer user settable, and will be automatically set based on the interval value. </description>
 		</attribute>
 
 		<attribute name='speed' get='1' set='1' type='float64' size='1' >

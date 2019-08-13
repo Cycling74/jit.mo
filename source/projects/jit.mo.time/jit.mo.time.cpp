@@ -72,7 +72,12 @@ public:
 
 	attribute<c74::min::time_value> interval {this, "interval", 0.,
 		title {"Timing Interval"},
-		description {"Animation interval (default = 0 ms)."}
+		description {
+			"Animation interval (default = 0 ms). "
+			"This attribute uses the Max time format syntax, so the interval can be either fixed or tempo-relative."
+			"When set to a non-zero value, the speed attribute is no longer user settable, and will be automatically "
+			"set based on the interval value."
+		}
 	};
 
 	attribute<bool> loop {this, "loop", true,
