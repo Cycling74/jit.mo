@@ -77,6 +77,16 @@
 			<description>Output offset (default = 0.0). </description>
 		</attribute>
 
+		<attribute name='loop' get='1' set='1' type='long' size='1' >
+			<digest>Enable and disable phase looping when animating (default = 1)</digest>
+			<description>Enable and disable phase looping when animating (default = 1). Non-looped animation can be reset by setting phase to 0 </description>
+		</attribute>
+
+		<attribute name='phase' get='1' set='1' type='float64' size='1' >
+			<digest>Output phase offset (default = 0.0)</digest>
+			<description>Output phase offset (default = 0.0). </description>
+		</attribute>
+
 		<attribute name='period' get='1' set='1' type='long' size='1' >
 			<digest>The period length for the perlin noise function (default = 8)</digest>
 			<description>The period length for the perlin noise function (default = 8). </description>
@@ -97,14 +107,9 @@
 			<description>Animation speed multiplier (default = 0.0). </description>
 		</attribute>
 
-		<attribute name='loop' get='1' set='1' type='long' size='1' >
-			<digest>Enable and disable phase looping when animating (default = 1)</digest>
-			<description>Enable and disable phase looping when animating (default = 1). Non-looped animation can be reset by setting phase to 0 </description>
-		</attribute>
-
-		<attribute name='phase' get='1' set='1' type='float64' size='1' >
-			<digest>Output phase offset (default = 0.0)</digest>
-			<description>Output phase offset (default = 0.0). </description>
+		<attribute name='loopreport' get='1' set='1' type='long' size='1' >
+			<digest>Enable animation loop reporting (default = 0)</digest>
+			<description>Enable animation loop reporting (default = 0). When enabled the symbol loopnotify is sent out the dumpout when the animation loops. </description>
 		</attribute>
 
 		<attribute name='freq' get='1' set='1' type='float64' size='1' >

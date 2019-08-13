@@ -50,6 +50,14 @@ public:
 		description {"Enable and disable phase looping when animating (default = 1). Non-looped animation can be reset "
 					"by setting phase to 0"}
 	};
+	
+	attribute<bool> loopreport {this, "loopreport", false,
+		title {"Loop Report"},
+		description {
+			"Enable animation loop reporting (default = 0). When enabled the symbol loopnotify is sent out the dumpout "
+			"when the animation loops."
+		}
+	};
 
 	attribute<double> scale {this, "scale", 1,
 		title {"Scale"},
@@ -70,7 +78,14 @@ public:
 
 	attribute<double> speed {this, "speed", 0,
 		title {"Speed"},
-		description {"Animation speed multiplier (default = 0.0)."}
+		description {"Animation speed multiplier (default = 0.0)."},
+		setter { MIN_FUNCTION {
+			double val = args[0];
+			if((speed >= 0) != (val >= 0)) {
+				speeddirchanged = true;
+			}
+			return args;
+		}}
 	};
 
 	attribute<double> offset {this, "offset", 0,
@@ -99,6 +114,25 @@ public:
 				else {
 					phase = 2.0;
 				}
+				
+				if(loopreport && !speeddirchanged) {
+					bool doreport = false;
+					if(loop) {
+						if((speed > 0. && phase < prevnormval) || (speed < 0. && phase > prevnormval)) {
+							doreport = true;
+						}
+					}
+					else if(phase != prevnormval) {
+						if((speed > 0. && phase == 2.) || (speed < 0. && phase == -2.)) {
+							doreport = true;
+						}
+					}
+					if(doreport) {
+						outlet_anything(dumpoutlet, gensym("loopnotify"), 0, NULL);
+					}
+				}
+				prevnormval = phase;
+				speeddirchanged = false;
 			}
 			return args;
 		}}
@@ -155,7 +189,7 @@ public:
 		cell<matrix_type, planecount> output;
 		double                        val  = 0;
 		double                        norm = (info.m_out_info->dim[0] > 1 ? (double)position.x() / (double)(info.m_out_info->dim[0] - 1) : 0);
-
+		
 		if (function == functypes::saw) {
 			val = fmod(norm * freq + phase, 1.);
 		}
@@ -223,6 +257,9 @@ private:
 		   object_attr_setlong(mob, _jit_sym_dim, args.size() > 0 ? (long)args[0] : dim);
 	   object_attr_setlong(mob, _jit_sym_planecount, 1);
 	   object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
+		   
+	   dumpoutlet = max_jit_obex_dumpout_get(mob);
+		   
 	   return {};
    }};
 
@@ -265,6 +302,10 @@ private:
 	std::vector<double> randvals;
 	bool                reseed  {true};
 	bool                unbound {false};
+	void*     			dumpoutlet  { nullptr };
+	double				prevnormval { 0. };
+	bool				speeddirchanged { false };
+
 };
 
 MIN_EXTERNAL(jit_mo_func);

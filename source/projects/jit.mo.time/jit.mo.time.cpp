@@ -88,7 +88,7 @@ public:
 		}
 	};
 
-	attribute<bool> loopreport {this, "loopreport", true,
+	attribute<bool> loopreport {this, "loopreport", false,
 		title {"Loop Report"},
 		description {
 			"Enable animation loop reporting (default = 0). When enabled the symbol loopnotify is sent out the dumpout "
