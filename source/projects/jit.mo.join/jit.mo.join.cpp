@@ -39,12 +39,6 @@ public:
 		"objects only support matrices with a dimcount of 1.",
 		false, nullptr
 	};
-
-
-	
-	jit_mo_join(const atoms& args = {}) {
-		patcher = (t_object*)gensym("#P")->s_thing;
-	}
 	
 	~jit_mo_join() {
 		freeing  = true;
@@ -56,9 +50,7 @@ public:
 			object_attr_setsym(a.second, gensym("join"), n);
 		}
 		
-		if (implicit)
-			jit_mo_singleton::instance().remove_animob(maxobj());
-		
+		if(implicit_ctx) jit_object_free(implicit_ctx);
 		jit_object_free(animator);
 	}
 
@@ -219,9 +211,7 @@ public:
 	}
 
 	void automatic_filter(long automatic) {
-		if (implicit) {
-			// TODO: remove or add to implicit check list
-		}
+		// TODO: remove or add to implicit check list
 	}
 
 private:
@@ -250,7 +240,7 @@ private:
 	message<> maxclass_setup {this, "maxclass_setup", MIN_FUNCTION {
 		t_class* c = args[0];
 
-		max_jit_class_mop_wrap(c, this_jit_class, MAX_JIT_MOP_FLAGS_OWN_JIT_MATRIX | MAX_JIT_MOP_FLAGS_OWN_DIM);
+		max_jit_class_mop_wrap(c, this_jit_class, MAX_JIT_MOP_FLAGS_OWN_JIT_MATRIX | MAX_JIT_MOP_FLAGS_OWN_DIM | MAX_JIT_MOP_FLAGS_OWN_NOTIFY);
 		max_jit_class_wrap_standard(c, this_jit_class, 0);
 
 		auto attr = jit_object_new(_jit_sym_jit_attr_offset_array, "dim", _jit_sym_long, JIT_MATRIX_MAX_DIMCOUNT,
@@ -262,9 +252,7 @@ private:
 		class_addmethod(c, (method)max_jit_mo_addfuncob, "addfuncob", A_CANT, 0);
 		class_addmethod(c, (method)max_jit_mo_removefuncob, "removefuncob", A_CANT, 0);
 
-		class_addmethod(c, (method)max_jit_mop_assist, "assist", A_CANT,
-			0);    // standard matrix-operator (mop) assist fn
-
+		class_addmethod(c, (method)max_jit_mop_assist, "assist", A_CANT, 0);    // standard matrix-operator (mop) assist fn
 		return {};
 	}};
 
@@ -330,10 +318,11 @@ private:
 
 	message<> maxob_setup {this, "maxob_setup", MIN_FUNCTION {
 		long atm = object_attr_getlong(maxobj(), sym_automatic);
-
+		
 		if (atm && object_attr_getsym(maxobj(), sym_drawto) == _jit_sym_nothing) {
-			jit_mo_singleton::instance().add_animob(maxobj(), patcher);
-			implicit = true;
+			implicit_ctx = jit_object_new(gensym("jit_gl_implicit"));
+			ictx_name = object_attr_getsym(implicit_ctx, _jit_sym_name);
+			jit_object_attach(ictx_name, maxob_from_jitob(maxobj()));
 		}
 
 		return {};
@@ -380,13 +369,19 @@ private:
 	}};
 
 	message<> notify {this, "notify", MIN_FUNCTION {
-		symbol s = args[2];
-		if (s == sym_dest_closing) {
-			if (implicit) {
-				object_attr_setsym(animator, sym_drawto, _jit_sym_nothing);
-				jit_mo_singleton::instance().add_animob(maxobj(), patcher);
+		if(implicit_ctx) {
+			symbol sendername = args[1];
+			symbol msg = args[2];
+			void* sender = args[3];
+			void* data = args[4];
+			if(sendername == ictx_name && msg == sym_attr_modified) {
+				symbol attrname = (t_symbol*)object_method((t_object*)data, _jit_sym_getname);
+				if(attrname == sym_drawto) {
+					object_attr_setsym(maxobj(), sym_drawto, object_attr_getsym(sender, sym_drawto));
+				}
 			}
 		}
+		max_jit_mop_notify(args[0], args[1], args[2]);
 		return {JIT_ERR_NONE};
 	}};
 
@@ -425,10 +420,10 @@ private:
 	}
 
 	std::unordered_map<std::string, t_object*>	attached_funcobs;
-	t_object*                                 	patcher       { nullptr };
 	t_object*                                  	animator      { nullptr };
 	t_object*                                  	maxob         { nullptr };
-	bool                                       	implicit      { false };
+	t_object* 									implicit_ctx { nullptr };
+	symbol										ictx_name;
 	int                                        	curplane      { 0 };
 	bool                                       	request_clear { true };
 	long                                       	count         { 1 };

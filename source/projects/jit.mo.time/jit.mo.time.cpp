@@ -31,16 +31,9 @@ public:
 	MIN_AUTHOR		{"Cycling '74"};
 	MIN_RELATED		{"jit.mo.join, jit.mo.field, jit.mo.func, jit.anim.drive"};
 
-
-	jit_mo_time(const atoms& args = {}) {
-		patcher = (t_object*)gensym("#P")->s_thing;
-	}
-
 	~jit_mo_time() {
-		if (implicit)
-			jit_mo_singleton::instance().remove_animob(maxobj());
-
 		jit_object_free(animator);
+		if(implicit_ctx) jit_object_free(implicit_ctx);
 	}
 
 
@@ -353,8 +346,9 @@ private:
 			long atm = object_attr_getlong(maxobj(), sym_automatic);
 
 			if (atm && object_attr_getsym(maxobj(), sym_drawto) == _jit_sym_nothing) {
-				jit_mo_singleton::instance().add_animob(maxobj(), patcher);
-				implicit = true;
+				implicit_ctx = jit_object_new(gensym("jit_gl_implicit"));
+				ictx_name = object_attr_getsym(implicit_ctx, _jit_sym_name);
+				jit_object_attach(ictx_name, maxob_from_jitob(maxobj()));
 			}
 
 			return {};
@@ -363,11 +357,16 @@ private:
 
 	message<> notify {this, "notify",
 		MIN_FUNCTION {
-			symbol s = args[2];
-			if (s == sym_dest_closing) {
-				if (implicit) {
-					object_attr_setsym(animator, sym_drawto, _jit_sym_nothing);
-					jit_mo_singleton::instance().add_animob(maxobj(), patcher);
+			if(implicit_ctx) {
+				symbol sendername = args[1];
+				symbol msg = args[2];
+				void* sender = args[3];
+				void* data = args[4];
+				if(sendername == ictx_name && msg == sym_attr_modified) {
+					symbol attrname = (t_symbol*)object_method((t_object*)data, _jit_sym_getname);
+					if(attrname == sym_drawto) {
+						object_attr_setsym(maxobj(), sym_drawto, object_attr_getsym(sender, sym_drawto));
+					}
 				}
 			}
 			return {JIT_ERR_NONE};
@@ -380,11 +379,11 @@ private:
    	}};
 
 private:
-	t_object* 		patcher     { nullptr };
 	t_object* 		animator    { nullptr };
+	t_object* 		implicit_ctx { nullptr };
+	symbol			ictx_name;
 	void*     		timeoutlet  { nullptr };
 	void*     		dumpoutlet  { nullptr };
-	bool      		implicit    { false };
 	double    		accum_time  { 0. };
 	long      		prevtime_ms { 0 };
 	interval_speed	i_s;

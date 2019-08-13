@@ -94,8 +94,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 476.5, 221.0, 124.0, 52.0 ],
-									"presentation_linecount" : 2,
+									"patching_rect" : [ 476.5, 221.0, 127.0, 52.0 ],
 									"text" : "enable loop reporting out the dump outlet"
 								}
 
@@ -108,7 +107,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 367.0, 403.0, 24.0, 24.0 ]
+									"patching_rect" : [ 266.0, 413.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -119,7 +118,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 367.0, 376.0, 91.0, 22.0 ],
+									"patching_rect" : [ 266.0, 386.0, 91.0, 22.0 ],
 									"text" : "route loopnotify"
 								}
 
@@ -172,7 +171,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 31.0, 403.0, 254.0, 27.0 ],
+									"patching_rect" : [ 31.0, 386.0, 164.0, 24.0 ],
 									"size" : 1.0
 								}
 
@@ -185,8 +184,8 @@
 									"numinlets" : 1,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 31.0, 347.0, 355.0, 22.0 ],
-									"text" : "jit.time.line @start 0 @end 1 @drawto motime"
+									"patching_rect" : [ 31.0, 347.0, 254.0, 22.0 ],
+									"text" : "jit.time.line @start 0 @end 1"
 								}
 
 							}
@@ -470,9 +469,9 @@
 						"styles" : [ 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
+									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
 									"fontsize" : [ 13.0 ],
-									"fontname" : [ "Arial" ],
-									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ]
+									"fontname" : [ "Arial" ]
 								}
 ,
 								"parentstyle" : "",
@@ -1080,9 +1079,9 @@
 						"styles" : [ 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
+									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
 									"fontsize" : [ 13.0 ],
-									"fontname" : [ "Arial" ],
-									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ]
+									"fontname" : [ "Arial" ]
 								}
 ,
 								"parentstyle" : "",
@@ -1530,9 +1529,9 @@
 						"styles" : [ 							{
 								"name" : "helpfile_label-1",
 								"default" : 								{
+									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ],
 									"fontsize" : [ 13.0 ],
-									"fontname" : [ "Arial" ],
-									"textcolor" : [ 0.501961, 0.501961, 0.501961, 1.0 ]
+									"fontname" : [ "Arial" ]
 								}
 ,
 								"parentstyle" : "",
