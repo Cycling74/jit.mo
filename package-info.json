@@ -1,0 +1,43 @@
+{
+	"name" : "jit.mo",
+	"displayname" : "",
+	"version" : "1.1.2",
+	"author" : "Cycling '74",
+	"authors" : [  ],
+	"description" : "A series of objects for generative motion graphics in Jitter, optimized for use with jit.gl.multiple and jit.gl.mesh. The jit.mo objects provide smooth time-varying animations that sync to the jit.world context.",
+	"tags" : [ "jitter", "graphics", "visuals" ],
+	"website" : "http://www.github.com/Cycling74/jit.mo",
+	"extends" : "",
+	"extensible" : 0,
+	"max_version_min" : "8.0",
+	"max_version_max" : "none",
+	"os" : 	{
+		"macintosh" : 		{
+			"min_version" : "none",
+			"platform" : [ "x64" ]
+		}
+,
+		"windows" : 		{
+			"min_version" : "none",
+			"platform" : [ "x64" ]
+		}
+
+	}
+,
+	"homepatcher" : "jit.mo-launch.maxpat",
+	"package_extra" : 	{
+		"reverse_domain" : "com.cycling74",
+		"copyright" : "Copyright (c) 2018 Cycling '74"
+	}
+,
+	"filelist" : 	{
+		"externals" : [ "jit.mo.field.mxe64", "jit.mo.field.mxo", "jit.mo.fieldmask.mxe64", "jit.mo.fieldmask.mxo", "jit.mo.func.mxe64", "jit.mo.func.mxo", "jit.mo.join.mxe64", "jit.mo.join.mxo", "jit.mo.time.mxe64", "jit.mo.time.mxo" ],
+		"patchers" : [ "3d-transform.genjit", "jit.mo-Alphablend.maxpat", "jit.mo-AnimPath.maxpat", "jit.mo-AudioVisuals.maxpat", "jit.mo-CircleWorks.maxpat", "jit.mo-OrganicMotion.maxpat", "jit.mo-Worms.maxpat", "jit.mo.circle.maxpat", "jit.mo.grid.maxpat", "jit.mo.slice.maxpat", "jit.mo.texture.maxpat" ],
+		"help" : [ "jit.mo.circle.maxhelp", "jit.mo.field.maxhelp", "jit.mo.fieldmask.maxhelp", "jit.mo.func.maxhelp", "jit.mo.grid.maxhelp", "jit.mo.join.maxhelp", "jit.mo.slice.maxhelp", "jit.mo.texture.maxhelp", "jit.mo.time.maxhelp" ],
+		"interfaces" : [ "max.db.json" ],
+		"docs" : [ "jit.mo.field.maxref.xml", "jit.mo.fieldmask.maxref.xml", "jit.mo.func.maxref.xml", "jit.mo.join.maxref.xml", "jit.mo.time.maxref.xml" ],
+		"javascript" : [ "jit.mo-worms.js" ],
+		"extras" : [ "jit.mo-launch.maxpat" ]
+	}
+
+}
