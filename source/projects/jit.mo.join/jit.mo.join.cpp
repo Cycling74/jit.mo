@@ -385,10 +385,14 @@ private:
 		return {JIT_ERR_NONE};
 	}};
 
-	message<> fileusage {this, "fileusage", MIN_FUNCTION {
-		jit_mo::fileusage(args[0]);
-		return {};
-	}};
+    
+    message<> fileusage {this, "fileusage",
+        MIN_FUNCTION {
+            fileusage_addpackage(args, "link", {{"externals", "init", "interfaces", "patchers"}});
+            return {};
+       }
+    };
+
 
 	void register_and_setup(symbol new_name) {
 		symbol nothing = _jit_sym_nothing;

@@ -116,10 +116,13 @@ public:
 
 
 private:
-	message<> fileusage {this, "fileusage", MIN_FUNCTION {
-		jit_mo::fileusage(args[0]);
-		return {};
-	}};
+    
+    message<> fileusage {this, "fileusage",
+        MIN_FUNCTION {
+            fileusage_addpackage(args, "link", {{"externals", "init", "interfaces", "patchers"}});
+            return {};
+       }
+    };
 
 	vector<double> randvals;
 	bool           reseed {true};

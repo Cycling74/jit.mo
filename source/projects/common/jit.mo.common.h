@@ -26,21 +26,6 @@ namespace jit_mo {
 		static const c74::min::symbol function = "function";
 	};    // namespace functypes
 
-	void fileusage(void* w) {
-		c74::max::t_atom       a;
-		c74::max::t_atomarray* aa = c74::max::atomarray_new(0, NULL);
-
-		c74::max::atom_setsym(&a, c74::max::gensym("externals"));
-		c74::max::atomarray_appendatom(aa, &a);
-		c74::max::atom_setsym(&a, c74::max::gensym("init"));
-		c74::max::atomarray_appendatom(aa, &a);
-		c74::max::atom_setsym(&a, c74::max::gensym("interfaces"));
-		c74::max::atomarray_appendatom(aa, &a);
-		c74::max::atom_setsym(&a, c74::max::gensym("patchers"));
-		c74::max::atomarray_appendatom(aa, &a);
-
-		c74::max::fileusage_addpackage(w, "jit.mo", (c74::max::t_object*)aa);
-	}
 
 	double update_phase_frome_delta(double delta, double phase, double speed, bool loop) {
 		double pval = phase + (delta * speed * 2.0);    // default is one cycle / second

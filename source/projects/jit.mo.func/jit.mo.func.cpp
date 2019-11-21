@@ -263,10 +263,14 @@ private:
 	   return {};
    }};
 
-	message<> fileusage {this, "fileusage", MIN_FUNCTION {
-	   jit_mo::fileusage(args[0]);
-	   return {};
-	}};
+    
+    message<> fileusage {this, "fileusage",
+        MIN_FUNCTION {
+            fileusage_addpackage(args, "link", {{"externals", "init", "interfaces", "patchers"}});
+            return {};
+       }
+    };
+
 
 	void update_parent(symbol name) {
 		symbol curjoin = join;
