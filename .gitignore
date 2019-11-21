@@ -12,3 +12,5 @@ tests
 *.dylib
 tmp
 .DS_Store
+
+package-info.json
