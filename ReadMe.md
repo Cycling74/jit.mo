@@ -1,11 +1,7 @@
 # jit.mo
+![CI](https://github.com/Cycling74/link/workflows/CI/badge.svg)
+
 Generate realtime motion graphics in Jitter
-
-[![Build Status](https://travis-ci.org/Cycling74/jit.mo.svg?branch=master)](https://travis-ci.org/Cycling74/jit.mo)
-[![Build status](https://ci.appveyor.com/api/projects/status/wttpuykqshobsdfa/branch/master?svg=true)](https://ci.appveyor.com/project/c74/jit-mo/branch/master)
-
-
-The latest bleeding-edge builds can be found [here](https://s3-us-west-1.amazonaws.com/cycling74-ci-public/index.html?prefix=jit.mo/).
 
 This package contains a series of new externals to ease creation of generative animations and geometry multiples in Jitter. The jit.mo objects all tie into a global animation graph and are implicitly connected to jit.world. This allows for smooth and continuous realtime animations that factor in framerate imperfections. The jit.mo package is optimized for use with **jit.gl.multiple** or **jit.gl.mesh** to create complex generative animations with a minimum of patching.
 
