@@ -388,7 +388,7 @@ private:
     
     message<> fileusage {this, "fileusage",
         MIN_FUNCTION {
-            fileusage_addpackage(args, "link", {{"externals", "init", "interfaces", "patchers"}});
+            fileusage_addpackage(args, "jit.mo", {{"externals", "init", "interfaces", "patchers"}});
             return {};
        }
     };
