@@ -6,9 +6,20 @@
 #include "jit.mo.singleton.h"
 #include "noise1234.h"    // https://github.com/stegu/perlin-noise
 
+using namespace c74;
 using namespace c74::min;
-using namespace c74::max;
 using namespace jit_mo;
+
+using max::t_object;
+using max::t_symbol;
+using max::t_atom;
+using max::t_class;
+using max::method;
+using max::gensym;
+using max::gettime;
+using max::outlet_float;
+using max::object_attr_getlong;
+using max::max_jit_obex_jitob_get;
 
 void jit_mo_time_update_anim(t_object* job, t_atom* a);
 void max_jit_mo_time_int(max_jit_wrapper* mob, long v);
@@ -278,7 +289,7 @@ private:
 	message<> jitclass_setup {this, "jitclass_setup", MIN_FUNCTION {
 		t_class* c = args[0];
 
-		jit_class_addmethod(c, (method)jit_mo_time_update_anim, "update_anim", A_CANT, 0);
+		jit_class_addmethod(c, (method)jit_mo_time_update_anim, "update_anim", max::A_CANT, 0);
 		jit_class_addinterface(c, jit_class_findbyname(gensym("jit_anim_animator")),
 			calcoffset(minwrap<jit_mo_time>, m_min_object) + calcoffset(jit_mo_time, animator), 0);
 
@@ -289,16 +300,16 @@ private:
 		MIN_FUNCTION {
 			t_class* c = args[0];
 			max_jit_class_wrap_standard(c, this_jit_class, 0);
-			class_addmethod(c, (method)max_jit_mo_time_int, "int", A_LONG, 0);
-			class_addmethod(c, (method)max_jit_mo_time_bang, "bang", A_NOTHING, 0);
-			class_addmethod(c, (method)max_jit_mo_time_assist, "assist", A_CANT, 0);
+			class_addmethod(c, (method)max_jit_mo_time_int, "int", max::A_LONG, 0);
+			class_addmethod(c, (method)max_jit_mo_time_bang, "bang", max::A_NOTHING, 0);
+			class_addmethod(c, (method)max_jit_mo_time_assist, "assist", max::A_CANT, 0);
 
 			return {};
 		}
 	};
 
 	message<> setup {this, "setup", MIN_FUNCTION {
-		animator = jit_object_new(gensym("jit_anim_animator"), maxobj());
+		animator = (t_object*)max::jit_object_new(gensym("jit_anim_animator"), maxobj());
 		// attr_addfilterset_proc(object_attr_get(animator, symbol("automatic")),
 		// (method)jit_mo_time_automatic_attrfilter);
 
@@ -345,9 +356,9 @@ private:
 		MIN_FUNCTION {
 			long atm = object_attr_getlong(maxobj(), sym_automatic);
 
-			if (atm && object_attr_getsym(maxobj(), sym_drawto) == _jit_sym_nothing) {
-				implicit_ctx = jit_object_new(gensym("jit_gl_implicit"));
-				ictx_name = object_attr_getsym(implicit_ctx, _jit_sym_name);
+			if (atm && object_attr_getsym(maxobj(), sym_drawto) == max::_jit_sym_nothing) {
+				implicit_ctx = (t_object*)max::jit_object_new(gensym("jit_gl_implicit"));
+				ictx_name = object_attr_getsym(implicit_ctx, max::_jit_sym_name);
 				jit_object_attach(ictx_name, maxob_from_jitob(maxobj()));
 			}
 
@@ -363,13 +374,13 @@ private:
 				void* sender = args[3];
 				void* data = args[4];
 				if(sendername == ictx_name && msg == sym_attr_modified) {
-					symbol attrname = (t_symbol*)object_method((t_object*)data, _jit_sym_getname);
+					symbol attrname = (t_symbol*)max::object_method((t_object*)data, max::_jit_sym_getname);
 					if(attrname == sym_drawto) {
-						object_attr_setsym(maxobj(), sym_drawto, object_attr_getsym(sender, sym_drawto));
+						object_attr_setsym(maxobj(), sym_drawto, max::object_attr_getsym(sender, sym_drawto));
 					}
 				}
 			}
-			return {JIT_ERR_NONE};
+			return {max::JIT_ERR_NONE};
 		}
 	};
 

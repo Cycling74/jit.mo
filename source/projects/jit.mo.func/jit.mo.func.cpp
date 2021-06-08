@@ -5,11 +5,16 @@
 #include "jit.mo.common.h"
 #include "noise1234.h"
 
+using namespace c74;
 using namespace c74::min;
-using namespace c74::max;
 using namespace jit_mo;
 
-class jit_mo_func : public object<jit_mo_func>, public matrix_operator<> {
+using max::t_object;
+using max::gensym;
+using max::newinstance;
+using max::object_findregistered;
+
+class jit_mo_func : public c74::min::object<jit_mo_func>, public matrix_operator<> {
 public:
 	MIN_DESCRIPTION {"Generate animated single dim matrices using a specified function. "
 					"Similar in nature to a sound oscillator, "
@@ -33,7 +38,7 @@ public:
 		if (unbound) {
 			t_object* mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
 			if (mojoin) {
-				object_method(mojoin, gensym("removefuncob"), maxobj());
+				max::object_method(mojoin, gensym("removefuncob"), maxobj());
 				object_free(mojoin);
 			}
 		}
@@ -162,7 +167,7 @@ public:
 		}}
 	};
 
-	attribute<symbol> join {this, "join", _jit_sym_nothing,
+	attribute<symbol> join {this, "join", max::_jit_sym_nothing,
 		title {"Join name"},
 		description {
 			"Sets the [jit.mo.join] object binding. "
@@ -251,12 +256,12 @@ private:
 
 	message<> maxob_setup {this, "maxob_setup", MIN_FUNCTION {
 	   t_object* mob = maxob_from_jitob(maxobj());
-	   long      dim = object_attr_getlong(mob, _jit_sym_dim);
+	   long      dim = object_attr_getlong(mob, max::_jit_sym_dim);
 
 	   if (join == symbol())
-		   object_attr_setlong(mob, _jit_sym_dim, args.size() > 0 ? (long)args[0] : dim);
-	   object_attr_setlong(mob, _jit_sym_planecount, 1);
-	   object_attr_setsym(mob, _jit_sym_type, _jit_sym_float32);
+		   object_attr_setlong(mob, max::_jit_sym_dim, args.size() > 0 ? (long)args[0] : dim);
+	   object_attr_setlong(mob, max::_jit_sym_planecount, 1);
+	   object_attr_setsym(mob, max::_jit_sym_type, max::_jit_sym_float32);
 		   
 	   dumpoutlet = max_jit_obex_dumpout_get(mob);
 		   
@@ -275,18 +280,18 @@ private:
 	void update_parent(symbol name) {
 		symbol curjoin = join;
 
-		if (!(curjoin == symbol(_jit_sym_nothing))) {
-			t_object* o = (t_object*)object_findregistered(_jit_sym_jitter, curjoin);
+		if (!(curjoin == symbol(max::_jit_sym_nothing))) {
+			t_object* o = (t_object*)object_findregistered(sym_jitter, curjoin);
 			if (o) {
-				object_method(o, gensym("detach"), maxobj());
+				max::object_method(o, gensym("detach"), maxobj());
 			}
 		}
 
-		if (!(name == symbol(_jit_sym_nothing))) {
+		if (!(name == symbol(max::_jit_sym_nothing))) {
 			bool      success = false;
-			t_object* o       = (t_object*)object_findregistered(_jit_sym_jitter, name);
+			t_object* o       = (t_object*)object_findregistered(sym_jitter, name);
 			if (o) {
-				if (JIT_ERR_NONE == (t_jit_err)object_method(o, gensym("attach"), maxobj())) {
+				if (max::JIT_ERR_NONE == (max::t_jit_err)max::object_method(o, gensym("attach"), maxobj())) {
 					success = true;
 				}
 			}
@@ -296,7 +301,7 @@ private:
 				t_object* mojoin = (t_object*)newinstance(symbol("jit.mo.join"), 0, NULL);
 				if (mojoin) {
 					unbound = true;
-					object_method(mojoin, gensym("addfuncob"), maxobj());
+					max::object_method(mojoin, gensym("addfuncob"), maxobj());
 					object_free(mojoin);
 				}
 			}

@@ -16,6 +16,7 @@ namespace jit_mo {
 	static const c74::min::symbol sym_dest_closing = "dest_closing";
 	static const c74::min::symbol sym_phase        = "phase";
 	static const c74::min::symbol sym_attr_modified = "attr_modified";
+	static const c74::min::symbol sym_jitter = "jitter";
 
 	namespace functypes {
 		static const c74::min::symbol sin      = "sin";

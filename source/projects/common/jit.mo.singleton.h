@@ -11,18 +11,17 @@
 namespace jit_mo {
 
 	using namespace c74::min;
-	using namespace c74::max;
 
 	// static singleton class to manage unbound mo.func objects
 	// mo.func obs are checked when any jit.mo.join name attribute is set.
 
 	class jit_mo_singleton {
 	public:
-		void add_funcob(t_object* o) {
+		void add_funcob(c74::max::t_object* o) {
 			funcobs.push_back(o);
 		}
 
-		void remove_funcob(t_object* o) {
+		void remove_funcob(c74::max::t_object* o) {
 			int i = 0;
 			for (auto a : funcobs) {
 				if (a == o) {
@@ -33,18 +32,18 @@ namespace jit_mo {
 			}
 		}
 
-		void check_funcobs(t_symbol* joinname) {
+		void check_funcobs(c74::max::t_symbol* joinname) {
 			if (funcobs.size()) {
-				typedef std::vector<t_object*>::iterator fobitr;
+				typedef std::vector<c74::max::t_object*>::iterator fobitr;
 
 				fobitr iter = funcobs.begin();
 				while (iter != funcobs.end()) {
-					t_object* o       = *iter;
-					t_symbol* joinsym = object_attr_getsym(o, gensym("join"));
+					c74::max::t_object* o       = *iter;
+					c74::max::t_symbol* joinsym = c74::max::object_attr_getsym(o, c74::max::gensym("join"));
 					if (joinname == joinsym) {
-						t_object* joinob = (t_object*)object_findregistered(_jit_sym_jitter, joinname);
+						c74::max::t_object* joinob = (c74::max::t_object*)object_findregistered(sym_jitter, joinname);
 						if (joinob) {
-							object_method(joinob, gensym("attach"), o);
+							c74::max::object_method(joinob, c74::max::gensym("attach"), o);
 							iter = funcobs.erase(iter);
 							continue;
 						}
@@ -64,11 +63,11 @@ namespace jit_mo {
 		std::vector<c74::max::t_object*>                             funcobs;
 	};
 
-	void max_jit_mo_addfuncob(max_jit_wrapper* mob, t_object* ob) {
+	void max_jit_mo_addfuncob(max_jit_wrapper* mob, c74::max::t_object* ob) {
 		jit_mo_singleton::instance().add_funcob(ob);
 	}
 
-	void max_jit_mo_removefuncob(max_jit_wrapper* mob, t_object* ob) {
+	void max_jit_mo_removefuncob(max_jit_wrapper* mob, c74::max::t_object* ob) {
 		jit_mo_singleton::instance().remove_funcob(ob);
 	}
 

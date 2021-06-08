@@ -6,8 +6,6 @@
 #include "jit.mo.common.h"
 
 using namespace c74::min;
-using namespace c74::max;
-using namespace std;
 
 class jit_mo_field : public object<jit_mo_field>, public matrix_operator<> {
 public:
