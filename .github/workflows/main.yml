@@ -1,6 +1,7 @@
-name: CI
+name: Release
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
 
 jobs:
   package:
@@ -15,8 +16,8 @@ jobs:
       with:
         submodules: 'recursive'
         fetch-depth: '0'
-      
-    - uses: benjlevesque/short-sha@v1.1
+
+    - uses: benjlevesque/short-sha@v1.2
       id: short-sha
       with:
         length: 7
@@ -52,6 +53,7 @@ jobs:
         PACKAGE_CONFIG=`echo $GITHUB_CONFIG`
         mkdir -p $PACKAGE_NAME
         if [ -e package-info.json ]; then cp package-info.json $PACKAGE_NAME; fi
+        if [ -e package-info.json.in ]; then cp package-info.json.in $PACKAGE_NAME; fi
         for f in *.md; do [ -e "$f" ] && cp "$f" $PACKAGE_NAME ; done
         if [ -e icon.png ]; then cp icon.png $PACKAGE_NAME; fi
         if [ -e CMakeLists.txt ]; then cp CMakeLists.txt $PACKAGE_NAME; fi
@@ -70,6 +72,7 @@ jobs:
         if [ -d media ]; then cp -r media $PACKAGE_NAME; fi
         if [ -d misc ]; then cp -r misc $PACKAGE_NAME; fi
         if [ -d patchers ]; then cp -r patchers $PACKAGE_NAME; fi
+        if [ -d script ]; then cp -r script $PACKAGE_NAME; fi
         if [ -d support ]; then cp -r support $PACKAGE_NAME; fi
         if [ -d source ]; then cp -r source $PACKAGE_NAME; fi
         if [ -d tests ]; then cp -r tests $PACKAGE_NAME; fi
