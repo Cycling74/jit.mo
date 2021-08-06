@@ -106,6 +106,10 @@ jobs:
     if: ${{ contains( github.ref, 'refs/tags/' ) }}
 
     steps:
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
     - uses: benjlevesque/short-sha@v1.2
       id: short-sha
       with:
@@ -121,15 +125,15 @@ jobs:
       working-directory: ${{ github.event.repository.name }}
 
     - name: zip
-      run: zip -r ${{ github.event.repository.name }}-package-for-max-${{ steps.short-sha.outputs.sha }}.zip ${{ github.event.repository.name }}
+      run: zip -r ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.VERSION }}.zip ${{ github.event.repository.name }}
 
     - uses: actions/upload-artifact@v2
       with:
-        name: ${{ github.event.repository.name }}-${{ steps.short-sha.outputs.sha }}-zipped-release
-        path: ${{ github.event.repository.name }}-package-for-max-${{ steps.short-sha.outputs.sha }}.zip
+        name: ${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}-zipped-release
+        path: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.VERSION }}.zip
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{ github.event.repository.name }}-package-for-max-${{ steps.short-sha.outputs.sha }}.zip
+        artifacts: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.VERSION }}.zip
         body: "Max Package for all supported platforms"
         token: ${{ secrets.GITHUB_TOKEN }}
