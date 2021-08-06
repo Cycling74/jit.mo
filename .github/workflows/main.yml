@@ -107,7 +107,7 @@ jobs:
     #if: ${{ contains( github.ref, 'refs/tags/' ) }}
 
     steps:
-    - uses: benjlevesque/short-sha@v1.1
+    - uses: benjlevesque/short-sha@v1.2
       id: short-sha
       with:
         length: 7
@@ -129,7 +129,7 @@ jobs:
         name: ${{ github.event.repository.name }}-${{ steps.short-sha.outputs.sha }}-zipped-release
         path: ${{ github.event.repository.name }}-package-for-max-${{ steps.short-sha.outputs.sha }}.zip
 
-    - uses: ncipollo/release-action@v1.7.1
+    - uses: ncipollo/release-action@v1
       with:
         artifacts: ${{ github.event.repository.name }}-package-for-max-${{ steps.short-sha.outputs.sha }}.zip
         body: "Max Package for all supported platforms"
