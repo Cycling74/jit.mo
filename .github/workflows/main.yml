@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
-        config: [debug, release]
+        config: release
 
     steps:
     - uses: actions/checkout@v2
@@ -60,7 +60,7 @@ jobs:
         if [ -e ReadMe.md ]; then cp ReadMe.md $PACKAGE_NAME; fi
         if [ -e icon.png ]; then cp icon.png $PACKAGE_NAME; fi
         # if [ -e CMakeLists.txt ]; then cp CMakeLists.txt $PACKAGE_NAME; fi
-        # if [ -d code ]; then cp -r code $PACKAGE_NAME; fi
+        if [ -d code ]; then cp -r code $PACKAGE_NAME; fi
         if [ -d docs ]; then cp -r docs $PACKAGE_NAME; fi
         if [ -d examples ]; then cp -r examples $PACKAGE_NAME; fi
         if [ -d extensions ]; then cp -r extensions $PACKAGE_NAME; fi
@@ -104,7 +104,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: package
-    #if: ${{ contains( github.ref, 'refs/tags/' ) }}
+    if: ${{ contains( github.ref, 'refs/tags/' ) }}
 
     steps:
     - uses: benjlevesque/short-sha@v1.2
