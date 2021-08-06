@@ -1,5 +1,5 @@
 # jit.mo
-![CI](https://github.com/Cycling74/link/workflows/CI/badge.svg)
+![CI](https://github.com/Cycling74/jit.mo/workflows/CI/badge.svg)
 
 Generate realtime motion graphics in Jitter
 
