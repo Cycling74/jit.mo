@@ -74,6 +74,7 @@ jobs:
         if [ -d java-classes ]; then cp -r java-classes $PACKAGE_NAME; fi
         if [ -d java-doc ]; then cp -r java-doc $PACKAGE_NAME; fi
         if [ -d javascript ]; then cp -r javascript $PACKAGE_NAME; fi
+        if [ -d jsextensions ]; then cp -r jsextensions $PACKAGE_NAME; fi
         if [ -d jsui ]; then cp -r jsui $PACKAGE_NAME; fi
         if [ -d media ]; then cp -r media $PACKAGE_NAME; fi
         if [ -d misc ]; then cp -r misc $PACKAGE_NAME; fi
@@ -112,10 +113,9 @@ jobs:
       with:
         submodules: 'recursive'
         fetch-depth: '0'
-            
-    - name: Get the version
+        
+    - uses: battila7/get-version-action@v2
       id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
     - uses: benjlevesque/short-sha@v1.2
       id: short-sha
@@ -132,15 +132,15 @@ jobs:
       working-directory: ${{ github.event.repository.name }}
 
     - name: zip
-      run: zip -r ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.VERSION }}.zip ${{ github.event.repository.name }}
+      run: zip -r ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip ${{ github.event.repository.name }}
 
     - uses: actions/upload-artifact@v2
       with:
-        name: ${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}-zipped-release
-        path: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.VERSION }}.zip
+        name: ${{ github.event.repository.name }}-${{ steps.get_version.outputs.version }}-zipped-release
+        path: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.VERSION }}.zip
+        artifacts: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip
         body: "Max Package for all supported platforms"
         token: ${{ secrets.GITHUB_TOKEN }}
