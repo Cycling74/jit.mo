@@ -13,5 +13,6 @@ tests
 *.dylib
 tmp
 .DS_Store
+.vscode
 
 package-info.json
