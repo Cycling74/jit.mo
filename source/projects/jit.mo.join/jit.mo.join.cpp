@@ -196,7 +196,7 @@ public:
 
 			for (const auto& n : attached_funcobs) {
 				object_attr_setfloat(n.second, sym_delta, atom_getfloat(av) * (speed));
-				max::object_method(maxob_from_jitob(n.second), sym_bang);
+				max::object_method(maxob_from_jitob(n.second), (t_symbol*)sym_bang);
 			}
 
 			if (maxob)
@@ -537,8 +537,8 @@ t_jit_err max_jit_mo_join_jit_matrix(max_jit_wrapper* x, t_symbol* s, long argc,
 				(t_object*)max::object_method((t_object*)mop, max::_jit_sym_getinputlist), max::_jit_sym_getindex, 0);
 			auto out_mop_io = (t_object*)max::object_method(
 				(t_object*)max::object_method((t_object*)mop, max::_jit_sym_getoutputlist), max::_jit_sym_getindex, 0);
-			auto in_matrix  = (t_object*)max::object_method(in_mop_io, k_sym_getmatrix);
-			auto out_matrix = (t_object*)max::object_method(out_mop_io, k_sym_getmatrix);
+			auto in_matrix  = (t_object*)max::object_method(in_mop_io, (t_symbol*)k_sym_getmatrix);
+			auto out_matrix = (t_object*)max::object_method(out_mop_io, (t_symbol*)k_sym_getmatrix);
 
 			if (!in_matrix || !out_matrix)
 				return max::JIT_ERR_INVALID_PTR;
