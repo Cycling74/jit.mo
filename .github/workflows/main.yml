@@ -15,7 +15,7 @@ jobs:
         config: [release]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         submodules: 'recursive'
         fetch-depth: '0'
@@ -99,9 +99,9 @@ jobs:
         if exist support cp -r support %PACKAGE_NAME%
         if exist tests cp -r tests %PACKAGE_NAME%
         
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
-        name: ${{ github.event.repository.name }}-${{ steps.short-sha.outputs.sha }}-${{ matrix.config }}
+        name: ${{ github.event.repository.name }}-${{ steps.short-sha.outputs.sha }}-${{ matrix.config }}-${{ matrix.os }}
         path: ${{ github.event.repository.name }}
 
   release:
@@ -109,7 +109,7 @@ jobs:
     needs: package
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         submodules: 'recursive'
         fetch-depth: '0'
@@ -122,7 +122,7 @@ jobs:
       with:
         length: 7
 
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
         name: ${{ github.event.repository.name }}-${{ steps.short-sha.outputs.sha }}-release
         path: ${{ github.event.repository.name }}
@@ -134,7 +134,7 @@ jobs:
     - name: zip
       run: zip -r ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip ${{ github.event.repository.name }}
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: ${{ github.event.repository.name }}-${{ steps.get_version.outputs.version }}-zipped-release
         path: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip
