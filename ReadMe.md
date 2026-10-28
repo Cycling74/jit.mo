@@ -1,5 +1,6 @@
 # jit.mo
-![CI](https://github.com/Cycling74/jit.mo/actions/workflows/test.yml/badge.svg)
+
+> Note: This repository is an archive that is out of date with the current jit.mo package bundled with Max. It remains as a public learning resource for developers of Max externals. For issues and support, please contact [Cycling '74 support](https://cycling74.com/support/contact).
 
 Generate realtime motion graphics in Jitter
 
@@ -14,8 +15,3 @@ This package contains a series of new externals to ease creation of generative a
 ## Contributors / Acknowledgements
 
 * See the [GitHub Contributor Graph](https://github.com/Cycling74/jit.mo/graphs/contributors)
-
-## Support
-
-For support, please use the developer forums at:
-http://cycling74.com/forums/
