@@ -1,7 +1,7 @@
 name: Release
 
 on:
-  create:
+  push:
     tags:
       - v*
   workflow_dispatch:
@@ -87,17 +87,14 @@ jobs:
 
     - name: package_windows
       if: matrix.os == 'windows-latest'
-      shell: cmd
+      shell: bash
       env:
-        GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
-        GITHUB_CONFIG: ${{ matrix.config }}
+        PACKAGE_NAME: ${{ github.event.repository.name }}
       run: |
-        set PACKAGE_NAME=%GITHUB_REPOSITORY_NAME%
-        mkdir %PACKAGE_NAME%
-        if exist extensions cp -r extensions %PACKAGE_NAME%
-        if exist externals cp -r externals %PACKAGE_NAME%
-        if exist support cp -r support %PACKAGE_NAME%
-        if exist tests cp -r tests %PACKAGE_NAME%
+        mkdir -p $PACKAGE_NAME
+        if [ -d extensions ]; then cp -r extensions $PACKAGE_NAME; fi
+        if [ -d externals ]; then cp -r externals $PACKAGE_NAME; fi
+        if [ -d support ]; then cp -r support $PACKAGE_NAME; fi
         
     - uses: actions/upload-artifact@v4
       with:
@@ -114,33 +111,26 @@ jobs:
         submodules: 'recursive'
         fetch-depth: '0'
         
-    - uses: battila7/get-version-action@v2
-      id: get_version
-
-    - uses: benjlevesque/short-sha@v1.2
-      id: short-sha
-      with:
-        length: 7
-
     - uses: actions/download-artifact@v4
       with:
-        name: ${{ github.event.repository.name }}-${{ steps.short-sha.outputs.sha }}-release
+        pattern: ${{ github.event.repository.name }}-*-release-*
+        merge-multiple: true
         path: ${{ github.event.repository.name }}
     
     - name: Display structure of downloaded files
       run: ls -R
       working-directory: ${{ github.event.repository.name }}
 
-    - name: zip
-      run: zip -r ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip ${{ github.event.repository.name }}
+    - name: maxpack
+      run: zip -r ${{ github.event.repository.name }}.maxpack ${{ github.event.repository.name }}
 
     - uses: actions/upload-artifact@v4
       with:
-        name: ${{ github.event.repository.name }}-${{ steps.get_version.outputs.version }}-zipped-release
-        path: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip
+        name: ${{ github.event.repository.name }}-maxpack
+        path: ${{ github.event.repository.name }}.maxpack
 
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{ github.event.repository.name }}-package-for-max-${{ steps.get_version.outputs.version }}.zip
+        artifacts: ${{ github.event.repository.name }}.maxpack
         body: "Max Package for all supported platforms"
         token: ${{ secrets.GITHUB_TOKEN }}
